@@ -17,10 +17,6 @@ defmodule LiveviewTodosWeb.TodoLive do
     {:noreply, fetch(socket)}
   end
 
-  def handle_event(command, params, socket) do
-    {:noreply, socket}
-  end
-
   defp fetch(socket) do
     assign(socket, todos: Todos.list_todo())
   end
