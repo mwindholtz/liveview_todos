@@ -13,10 +13,20 @@ defmodule LiveviewTodosWeb.TodoLive do
     TodoView.render("todos.html", assigns)
   end
 
+  # --------- LiveView -----------
+
   def handle_event("add", %{"todo" => todo}, socket) do
     {:ok, _todo} = Todos.create_todo(todo)
-    {:noreply, fetch(socket)}
+    {:noreply, socket}
   end
+
+  def handle_event("toggle_done", todo_id, socket) do
+    todo = Todos.get_todo!(todo_id)
+    Todos.update_todo(todo, %{done: !todo.done})
+    {:noreply, socket}
+  end
+
+  #  -------- PubSub ---------------
 
   def handle_info({Todos, [:todo | _], :error, _}, socket) do
     {:noreply, fetch(socket)}
