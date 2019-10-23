@@ -16,7 +16,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   # --------- LiveView -----------
 
   def handle_event("add", %{"todo" => todo}, socket) do
-    {:ok, _todo} = Todos.create_todo(todo)
+    {:ok, _todo} = todos(socket).create_todo(todo)
     {:noreply, socket}
   end
 
@@ -39,4 +39,6 @@ defmodule LiveviewTodosWeb.TodoLive do
   defp fetch(socket) do
     assign(socket, todos: Todos.list_todo())
   end
+
+  def todos(socket), do: socket.assigns.todos
 end
