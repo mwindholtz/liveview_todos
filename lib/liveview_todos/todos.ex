@@ -8,7 +8,7 @@ defmodule LiveviewTodos.Todos do
   alias LiveviewTodos.Todos.Todo
   alias LiveviewTodos.TodoTopic
 
-  @deps %{repo: LiveviewTodos.Repo}
+  @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
   def list_todo(deps \\ @deps) do
     deps.repo.all(Todo)
@@ -20,20 +20,20 @@ defmodule LiveviewTodos.Todos do
     %Todo{}
     |> Todo.changeset(attrs)
     |> deps.repo.insert()
-    |> TodoTopic.broadcast_change([:todo, :created])
+    |> deps.topic.broadcast_change([:todo, :created])
   end
 
   def update_todo(%Todo{} = todo, attrs, deps \\ @deps) do
     todo
     |> Todo.changeset(attrs)
     |> deps.repo.update()
-    |> TodoTopic.broadcast_change([:todo, :updated])
+    |> deps.topic.broadcast_change([:todo, :updated])
   end
 
   def delete_todo(%Todo{} = todo, deps \\ @deps) do
     todo
     |> deps.repo.delete()
-    |> TodoTopic.broadcast_change([:todo, :deleted])
+    |> deps.topic.broadcast_change([:todo, :deleted])
   end
 
   def change_todo(%Todo{} = todo) do
