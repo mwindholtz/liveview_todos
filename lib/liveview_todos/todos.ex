@@ -8,8 +8,10 @@ defmodule LiveviewTodos.Todos do
   alias LiveviewTodos.Todos.Todo
   alias LiveviewTodos.TodoTopic
 
-  def list_todo(repo \\ Repo) do
-    repo.all(Todo)
+  @deps %{repo: LiveviewTodos.Repo}
+
+  def list_todo(deps \\ @deps) do
+    deps.repo.all(Todo)
   end
 
   def get_todo!(id), do: Repo.get!(Todo, id)
