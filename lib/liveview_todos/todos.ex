@@ -6,7 +6,6 @@ defmodule LiveviewTodos.Todos do
   import Ecto.Query, warn: false
   alias LiveviewTodos.Repo
   alias LiveviewTodos.Todos.Todo
-  alias LiveviewTodos.TodoTopic
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
@@ -14,7 +13,9 @@ defmodule LiveviewTodos.Todos do
     deps.repo.all(Todo)
   end
 
-  def get_todo!(id), do: Repo.get!(Todo, id)
+  def get_todo!(id, deps \\ @deps) do
+    deps.repo.get!(Todo, id)
+  end
 
   def create_todo(attrs \\ %{}, deps \\ @deps) do
     %Todo{}
