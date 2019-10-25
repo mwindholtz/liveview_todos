@@ -2,9 +2,10 @@ defmodule LiveviewTodosWeb.TodoLive do
   use Phoenix.LiveView
   alias LiveviewTodos.Todos
   alias LiveviewTodosWeb.TodoView
+  alias LiveviewTodos.TodoTopic
 
   def mount(_session, socket) do
-    Todos.subscribe()
+    TodoTopic.subscribe()
     {:ok, fetch(socket)}
   end
 
