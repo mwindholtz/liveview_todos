@@ -30,9 +30,9 @@ defmodule LiveviewTodos.Todos do
     |> TodoTopic.broadcast_change([:todo, :updated])
   end
 
-  def delete_todo(%Todo{} = todo, repo \\ Repo) do
+  def delete_todo(%Todo{} = todo, deps \\ @deps) do
     todo
-    |> repo.delete()
+    |> deps.repo.delete()
     |> TodoTopic.broadcast_change([:todo, :deleted])
   end
 
