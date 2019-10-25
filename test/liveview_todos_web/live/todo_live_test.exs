@@ -1,6 +1,6 @@
 defmodule LiveviewTodosWeb.TodoLiveTest do
   use LiveviewTodosWeb.ConnCase
-  alias LiveviewTodos.Todos.Todo
+  alias LiveviewTodos.Todo
   alias LiveviewTodosWeb.TodoLive
   alias Phoenix.LiveView
   alias Phoenix.LiveView.Socket

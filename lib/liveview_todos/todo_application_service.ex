@@ -1,11 +1,11 @@
-defmodule LiveviewTodos.Todos do
+defmodule LiveviewTodos.TodoApplicationService do
   @moduledoc """
   The Todos context.
   """
 
   import Ecto.Query, warn: false
   alias LiveviewTodos.Repo
-  alias LiveviewTodos.Todos.Todo
+  alias LiveviewTodos.Todo
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 

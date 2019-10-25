@@ -1,11 +1,10 @@
-defmodule LiveviewTodos.TodosTest do
+defmodule LiveviewTodos.TodoApplicationServiceTest do
   use LiveviewTodos.DataCase
 
-  alias LiveviewTodos.Todos
+  alias LiveviewTodos.TodoApplicationService, as: Service
+  alias LiveviewTodos.Todo
 
   describe "todo" do
-    alias LiveviewTodos.Todos.Todo
-
     @valid_attrs %{done: true, title: "some title"}
     @update_attrs %{done: false, title: "some updated title"}
     @invalid_attrs %{done: nil, title: nil}
@@ -14,53 +13,53 @@ defmodule LiveviewTodos.TodosTest do
       {:ok, todo} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> Todos.create_todo()
+        |> Service.create_todo()
 
       todo
     end
 
     test "list_todo/0 returns all todo" do
       todo = todo_fixture()
-      assert Todos.list_todo() == [todo]
+      assert Service.list_todo() == [todo]
     end
 
     test "get_todo!/1 returns the todo with given id" do
       todo = todo_fixture()
-      assert Todos.get_todo!(todo.id) == todo
+      assert Service.get_todo!(todo.id) == todo
     end
 
     test "create_todo/1 with valid data creates a todo" do
-      assert {:ok, %Todo{} = todo} = Todos.create_todo(@valid_attrs)
+      assert {:ok, %Todo{} = todo} = Service.create_todo(@valid_attrs)
       assert todo.done == true
       assert todo.title == "some title"
     end
 
     test "create_todo/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Todos.create_todo(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Service.create_todo(@invalid_attrs)
     end
 
     test "update_todo/2 with valid data updates the todo" do
       todo = todo_fixture()
-      assert {:ok, %Todo{} = todo} = Todos.update_todo(todo, @update_attrs)
+      assert {:ok, %Todo{} = todo} = Service.update_todo(todo, @update_attrs)
       assert todo.done == false
       assert todo.title == "some updated title"
     end
 
     test "update_todo/2 with invalid data returns error changeset" do
       todo = todo_fixture()
-      assert {:error, %Ecto.Changeset{}} = Todos.update_todo(todo, @invalid_attrs)
-      assert todo == Todos.get_todo!(todo.id)
+      assert {:error, %Ecto.Changeset{}} = Service.update_todo(todo, @invalid_attrs)
+      assert todo == Service.get_todo!(todo.id)
     end
 
     test "delete_todo/1 deletes the todo" do
       todo = todo_fixture()
-      assert {:ok, %Todo{}} = Todos.delete_todo(todo)
-      assert_raise Ecto.NoResultsError, fn -> Todos.get_todo!(todo.id) end
+      assert {:ok, %Todo{}} = Service.delete_todo(todo)
+      assert_raise Ecto.NoResultsError, fn -> Service.get_todo!(todo.id) end
     end
 
     test "change_todo/1 returns a todo changeset" do
       todo = todo_fixture()
-      assert %Ecto.Changeset{} = Todos.change_todo(todo)
+      assert %Ecto.Changeset{} = Service.change_todo(todo)
     end
   end
 end

@@ -1,6 +1,6 @@
 defmodule LiveviewTodosWeb.TodoLive do
   use Phoenix.LiveView
-  alias LiveviewTodos.Todos
+  alias LiveviewTodos.TodoApplicationService, as: Service
   alias LiveviewTodosWeb.TodoView
   alias LiveviewTodos.TodoTopic
 
@@ -22,23 +22,23 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   def handle_event("toggle_done", todo_id, socket) do
-    todo = Todos.get_todo!(todo_id)
-    Todos.update_todo(todo, %{done: !todo.done})
+    todo = Service.get_todo!(todo_id)
+    Service.update_todo(todo, %{done: !todo.done})
     {:noreply, socket}
   end
 
   #  -------- PubSub ---------------
 
-  def handle_info({Todos, [:todo | _], :error, _}, socket) do
+  def handle_info({Service, [:todo | _], :error, _}, socket) do
     {:noreply, fetch(socket)}
   end
 
-  def handle_info({Todos, [:todo | _], _}, socket) do
+  def handle_info({Service, [:todo | _], _}, socket) do
     {:noreply, fetch(socket)}
   end
 
   defp fetch(socket) do
-    assign(socket, todos: Todos.list_todo())
+    assign(socket, todos: Service.list_todo())
   end
 
   def todos(socket), do: socket.assigns.todos
