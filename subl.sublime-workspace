@@ -519,6 +519,31 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "test/liveview_todos_web/live/todo_live_test.exs",
+			"settings":
+			{
+				"buffer_size": 1000,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "lib/liveview_todos_web/live/todo_live.ex",
+			"settings":
+			{
+				"buffer_size": 1012,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "lib/liveview_todos/todos.ex",
+			"settings":
+			{
+				"buffer_size": 1218,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -577,10 +602,20 @@
 	},
 	"expanded_folders":
 	[
-		"/Users/mark/projects/mwindholtz/example_todo_ex/liveview_todos"
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/live",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/test",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/test/liveview_todos_web",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/test/liveview_todos_web/live"
 	],
 	"file_history":
 	[
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/router.ex",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/test/liveview_todos_web/live/load_contexts.ex",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/mix.exs",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/test/liveview_todos_web/load_contexts.ex",
 		"/Users/mark/projects/mwindholtz/cchmc-stp/test/stp/collect/observation_processor_test.exs",
 		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/core/attendance.ex",
 		"/Users/mark/projects/mwindholtz/cchmc-stp/test/stp/core/eod/group_header_test.exs",
@@ -704,11 +739,7 @@
 		"/Users/mark/projects/mwindholtz/cchmc-stp/assets/elm/Session.elm",
 		"/Users/mark/projects/mwindholtz/cchmc-stp/assets/elm/ElmMain.elm",
 		"/Users/mark/projects/mwindholtz/cchmc-stp/assets/elm/ActivityContext.elm",
-		"/Users/mark/projects/mwindholtz/cchmc-stp/test/support/session_child_builder.ex",
-		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/core/supplemental.ex",
-		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/core/interval_repo.ex",
-		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/evt.ex",
-		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/core/session_child.ex"
+		"/Users/mark/projects/mwindholtz/cchmc-stp/test/support/session_child_builder.ex"
 	],
 	"find":
 	{
@@ -727,6 +758,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"LoadContexts",
 			"as"
 		],
 		"highlight": true,
@@ -745,8 +777,103 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "test/liveview_todos_web/live/todo_live_test.exs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1000,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								676,
+								676
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"open_with_edit": true,
+							"syntax": "Packages/Elixir/Syntaxes/Elixir.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "lib/liveview_todos_web/live/todo_live.ex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1012,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								487,
+								487
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Elixir/Syntaxes/Elixir.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 36.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "lib/liveview_todos/todos.ex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1218,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								139,
+								172
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Elixir/Syntaxes/Elixir.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -814,6 +941,14 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"todos",
+				"lib/liveview_todos/todos.ex"
+			],
+			[
+				"route",
+				"lib/liveview_todos_web/router.ex"
+			],
 			[
 				"attreop",
 				"lib/stp/core/attendance_repo.ex"
@@ -1317,14 +1452,6 @@
 			[
 				"obseresoltest",
 				"test/stp/core/observation_resolver_test.exs"
-			],
-			[
-				"config",
-				"lib/stp/core/config.ex"
-			],
-			[
-				"observtype",
-				"lib/stp/core/observation_type.ex"
 			]
 		],
 		"width": 0.0
@@ -1355,7 +1482,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 243.0,
+	"side_bar_width": 344.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
