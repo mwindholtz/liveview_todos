@@ -5,33 +5,32 @@ defmodule LiveviewTodos.Todos do
 
   import Ecto.Query, warn: false
   alias LiveviewTodos.Repo
-
   alias LiveviewTodos.Todos.Todo
   alias LiveviewTodos.TodoTopic
 
-  def list_todo do
-    Repo.all(Todo)
+  def list_todo(repo \\ Repo) do
+    repo.all(Todo)
   end
 
   def get_todo!(id), do: Repo.get!(Todo, id)
 
-  def create_todo(attrs \\ %{}) do
+  def create_todo(attrs \\ %{}, repo \\ Repo) do
     %Todo{}
     |> Todo.changeset(attrs)
-    |> Repo.insert()
+    |> repo.insert()
     |> TodoTopic.broadcast_change([:todo, :created])
   end
 
-  def update_todo(%Todo{} = todo, attrs) do
+  def update_todo(%Todo{} = todo, attrs, repo \\ Repo) do
     todo
     |> Todo.changeset(attrs)
-    |> Repo.update()
+    |> repo.update()
     |> TodoTopic.broadcast_change([:todo, :updated])
   end
 
-  def delete_todo(%Todo{} = todo) do
+  def delete_todo(%Todo{} = todo, repo \\ Repo) do
     todo
-    |> Repo.delete()
+    |> repo.delete()
     |> TodoTopic.broadcast_change([:todo, :deleted])
   end
 
