@@ -16,17 +16,17 @@ defmodule LiveviewTodos.Todos do
 
   def get_todo!(id), do: Repo.get!(Todo, id)
 
-  def create_todo(attrs \\ %{}, repo \\ Repo) do
+  def create_todo(attrs \\ %{}, deps \\ @deps) do
     %Todo{}
     |> Todo.changeset(attrs)
-    |> repo.insert()
+    |> deps.repo.insert()
     |> TodoTopic.broadcast_change([:todo, :created])
   end
 
-  def update_todo(%Todo{} = todo, attrs, repo \\ Repo) do
+  def update_todo(%Todo{} = todo, attrs, deps \\ @deps) do
     todo
     |> Todo.changeset(attrs)
-    |> repo.update()
+    |> deps.repo.update()
     |> TodoTopic.broadcast_change([:todo, :updated])
   end
 
