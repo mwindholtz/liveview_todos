@@ -29,7 +29,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
 
   def socket_with_stub do
     %Socket{}
-    |> LiveView.assign(:todos, TodosStub)
+    |> LiveView.assign(:todo_application_service, TodosStub)
   end
 
   test "TodoLive.handle_event(inc ..." do

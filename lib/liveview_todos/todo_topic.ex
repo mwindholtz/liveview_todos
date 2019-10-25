@@ -3,7 +3,7 @@ defmodule LiveviewTodos.TodoTopic do
   The TodoTopic
   """
 
-  @topic inspect(__MODULE__)
+  @topic inspect(LiveviewTodos.TodoTopic)
 
   def subscribe do
     Phoenix.PubSub.subscribe(LiveviewTodos.PubSub, @topic)

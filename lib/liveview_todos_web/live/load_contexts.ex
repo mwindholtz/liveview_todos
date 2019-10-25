@@ -6,7 +6,7 @@ defmodule LiveviewTodosWeb.LoadContexts do
 
   def call(conn, _opts) do
     conn
-    |> load_context(:command, "DddCounter.Command")
+    |> load_context(:todo_application_service, LiveviewTodos.TodoApplicationService)
   end
 
   # rename to: assign_new(socket, key, func)

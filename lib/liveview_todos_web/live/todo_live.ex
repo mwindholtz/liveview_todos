@@ -4,9 +4,17 @@ defmodule LiveviewTodosWeb.TodoLive do
   alias LiveviewTodosWeb.TodoView
   alias LiveviewTodos.TodoTopic
 
+  @topic LiveviewTodos.TodoTopic
+
   def mount(_session, socket) do
     TodoTopic.subscribe()
-    {:ok, fetch(socket)}
+
+    socket =
+      socket
+      |> assign(todos: Service.list_todo())
+      |> assign_new(:todo_application_service, fn -> Service end)
+
+    {:ok, socket}
   end
 
   def render(assigns) do
@@ -29,17 +37,19 @@ defmodule LiveviewTodosWeb.TodoLive do
 
   #  -------- PubSub ---------------
 
-  def handle_info({Service, [:todo | _], :error, _}, socket) do
-    {:noreply, fetch(socket)}
+  def handle_info({@topic, [:todo | _], :error, _}, socket) do
+    {:noreply, refresh_todos(socket)}
   end
 
-  def handle_info({Service, [:todo | _], _}, socket) do
-    {:noreply, fetch(socket)}
+  def handle_info({@topic, [:todo | _], _}, socket) do
+    {:noreply, refresh_todos(socket)}
   end
 
-  defp fetch(socket) do
+  defp refresh_todos(socket) do
     assign(socket, todos: Service.list_todo())
   end
 
-  def todos(socket), do: socket.assigns.todos
+  def todos(%{assigns: assigns} = _socket) do
+    Map.fetch!(assigns, :todo_application_service)
+  end
 end
