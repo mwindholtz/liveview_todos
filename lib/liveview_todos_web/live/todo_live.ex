@@ -4,7 +4,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   alias LiveviewTodosWeb.TodoView
   alias LiveviewTodos.TodoTopic
 
-  @topic LiveviewTodos.TodoTopic
+  # --------- LiveView -----------
 
   def mount(_session, socket) do
     TodoTopic.subscribe()
@@ -18,11 +18,10 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   def render(assigns) do
-    # ~L"Rendering LiveView"
     TodoView.render("todos.html", assigns)
   end
 
-  # --------- LiveView -----------
+  # --------- LiveView Events -----------
 
   def handle_event("add", %{"todo" => todo}, socket) do
     {:ok, _todo} = todos(socket).create_todo(todo)
@@ -37,6 +36,8 @@ defmodule LiveviewTodosWeb.TodoLive do
 
   #  -------- PubSub ---------------
 
+  @topic LiveviewTodos.TodoTopic
+
   def handle_info({@topic, [:todo | _], :error, _}, socket) do
     {:noreply, refresh_todos(socket)}
   end
@@ -45,7 +46,9 @@ defmodule LiveviewTodosWeb.TodoLive do
     {:noreply, refresh_todos(socket)}
   end
 
-  defp refresh_todos(socket) do
+  # -------  Implementation ---------------
+
+  def refresh_todos(socket) do
     assign(socket, todos: Service.list_todo())
   end
 
