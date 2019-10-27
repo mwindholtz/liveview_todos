@@ -10,6 +10,15 @@ defmodule LiveviewTodos.TodoApplicationService do
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
+  def create_list(name, deps \\ @deps) do
+    %List{}
+    |> List.changeset(%{name: name})
+    |> deps.repo.insert()
+    |> deps.topic.broadcast_change([:lists, :created])
+
+    :ok
+  end
+
   def accept(domain_event, deps \\ @deps)
 
   def accept(%DomainEvent{name: "create-list", attrs: attrs}, deps) do

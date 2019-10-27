@@ -4,7 +4,6 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
   alias LiveviewTodosWeb.TodoLive
   alias Phoenix.LiveView
   alias Phoenix.LiveView.Socket
-  alias LiveviewTodos.DomainEvent
 
   defmodule TodosStub do
     def get_todo!(item_id) do
@@ -14,6 +13,16 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
 
     def accept(event) do
       send(self(), {:accept, event})
+      :ok
+    end
+
+    def create_list(attrs \\ %{}) do
+      send(self(), {:create_list, attrs})
+      :ok
+    end
+
+    def delete_list(attrs \\ %{}) do
+      send(self(), {:delete_list, attrs})
       :ok
     end
 
@@ -45,12 +54,22 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
 
   describe "TodoLive.handle_event" do
     test "create-list" do
-      attrs = %{name: "Home stuff"}
+      name = "Home stuff"
+      attrs = %{name: name}
 
       {:noreply, _mod_socket} =
         TodoLive.handle_event("create-list", %{"list" => attrs}, socket_with_stub())
 
-      assert_receive {:accept, %DomainEvent{name: "create-list", attrs: attrs}}
+      assert_receive {:create_list, name}
+    end
+
+    test "delete-list" do
+      attrs = %{list_id: "99"}
+
+      {:noreply, _mod_socket} =
+        TodoLive.handle_event("delete-list", %{"list" => attrs}, socket_with_stub())
+
+      assert_receive {:delete_list, 99}
     end
 
     test "add" do

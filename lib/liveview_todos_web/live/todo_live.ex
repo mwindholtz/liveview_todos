@@ -24,15 +24,12 @@ defmodule LiveviewTodosWeb.TodoLive do
   # --------- LiveView Events -----------
 
   def handle_event("create-list", %{"list" => attrs}, socket) do
-    domain_event = DomainEvent.new("create-list", attrs)
-    todos(socket).accept(domain_event)
+    todos(socket).create_list(attrs.name)
     {:noreply, socket}
   end
 
-  def handle_event("delete-list", %{"list-id" => list_id}, socket) do
-    IO.inspect(list_id, label: "list-id")
-    domain_event = DomainEvent.new("delete-list", %{list_id: String.to_integer(list_id)})
-    todos(socket).accept(domain_event)
+  def handle_event("delete-list", %{"list" => attrs}, socket) do
+    todos(socket).delete_list(attrs.list_id |> String.to_integer())
     {:noreply, socket}
   end
 
