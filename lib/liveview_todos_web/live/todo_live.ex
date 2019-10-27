@@ -24,7 +24,7 @@ defmodule LiveviewTodosWeb.TodoLive do
 
   # --------- LiveView Events -----------
 
-  def handle_event("list-create", %{"list" => attrs}, socket) do
+  def handle_event("create-list", %{"list" => attrs}, socket) do
     domain_event = DomainEvent.new("create-list", attrs)
     todos(socket).accept(domain_event)
     {:noreply, socket}
