@@ -4,13 +4,25 @@ defmodule LiveviewTodos.TodoApplicationService do
   """
 
   import Ecto.Query, warn: false
-  alias LiveviewTodos.Repo
   alias LiveviewTodos.Todo
+  alias LiveviewTodos.DomainEvent
+  alias LiveviewTodos.List
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
+  def accept(%DomainEvent{name: "list-create", attrs: attrs}, deps \\ @deps) do
+    %List{}
+    |> List.changeset(attrs)
+    |> deps.repo.insert()
+    |> deps.topic.broadcast_change([:list, :created])
+  end
+
   def list_todo(deps \\ @deps) do
     deps.repo.all(Todo)
+  end
+
+  def lists(deps \\ @deps) do
+    deps.repo.all(List)
   end
 
   def get_todo!(id, deps \\ @deps) do

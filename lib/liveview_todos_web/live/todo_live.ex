@@ -12,7 +12,7 @@ defmodule LiveviewTodosWeb.TodoLive do
     socket =
       socket
       |> assign(todos: Service.list_todo())
-      |> assign(lists: [])
+      |> assign(lists: Service.lists())
       |> assign_new(:todo_application_service, fn -> Service end)
 
     {:ok, socket}
@@ -24,7 +24,9 @@ defmodule LiveviewTodosWeb.TodoLive do
 
   # --------- LiveView Events -----------
 
-  def handle_event("list-create", %{"name" => _name}, socket) do
+  def handle_event("list-create", %{"list" => attrs}, socket) do
+    domain_event = LiveviewTodos.DomainEvent.new("list-create", attrs)
+    {:ok, _todo} = todos(socket).accept(domain_event)
     {:noreply, socket}
   end
 
@@ -51,10 +53,27 @@ defmodule LiveviewTodosWeb.TodoLive do
     {:noreply, refresh_todos(socket)}
   end
 
+  def handle_info({@topic, [:list | _], _}, socket) do
+    {:noreply, refresh_lists(socket)}
+  end
+
+  def handle_info({@topic, [:list | _], :error, _}, socket) do
+    {:noreply, refresh_lists(socket)}
+  end
+
+  # def handle_info(tuple, socket) do
+  #   IO.inspect(tuple, label: "unexpected TUPLE ==================== ")
+  #   {:noreply, refresh_lists(socket)}
+  # end
+
   # -------  Implementation ---------------
 
   def refresh_todos(socket) do
     assign(socket, todos: Service.list_todo())
+  end
+
+  def refresh_lists(socket) do
+    assign(socket, lists: Service.lists())
   end
 
   def todos(%{assigns: assigns} = _socket) do
