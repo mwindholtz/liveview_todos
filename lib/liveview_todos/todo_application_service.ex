@@ -22,7 +22,7 @@ defmodule LiveviewTodos.TodoApplicationService do
   end
 
   def accept(%DomainEvent{name: "delete-list", attrs: %{list_id: list_id}}, deps) do
-    list = deps.repo.get!(List, String.to_integer(list_id))
+    list = deps.repo.get!(List, list_id)
 
     case deps.repo.delete(list) do
       {:ok, struct} ->
@@ -40,6 +40,12 @@ defmodule LiveviewTodos.TodoApplicationService do
     |> deps.repo.insert()
     |> deps.topic.broadcast_change([:todo, :created])
 
+    :ok
+  end
+
+  def accept(event, deps) do
+    IO.inspect("UNHANDED DOMAIN EVENT in Service================================= ")
+    IO.inspect(event, label: "event")
     :ok
   end
 

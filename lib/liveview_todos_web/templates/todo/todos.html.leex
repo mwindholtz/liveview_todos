@@ -8,7 +8,7 @@
 <h3>Lists</h3>
 <%= for list <- @lists do %>
   <div>
-    <span phx-click="delete-list" phx-value="<%= list.id %>"><img src="/images/cancel.png">
+    <span phx-click="delete-list" phx-value-list-id="<%= list.id %>"><img src="/images/cancel.png">
     </span>
     <%= list.name %> 
     <form action="#" phx-submit="add">
@@ -19,7 +19,8 @@
   </div>
   <%= for item <- list.items  do %>
     <div>
-      <%= checkbox(:todo, :done, phx_click: "toggle_done", phx_value: item.id, value: item.done) %>
+      <%= checkbox(:todo, :done, phx_click: "toggle_done", 
+      phx_value_item_id: item.id, value: item.done) %>
       <%= item.title %>
     </div>
   <% end %>

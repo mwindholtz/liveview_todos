@@ -11,9 +11,8 @@ defmodule LiveviewTodosWeb.TodoLive do
 
     socket =
       socket
-      |> assign(todos: Service.list_todo())
       |> assign(lists: Service.lists())
-      |> assign_new(:todo_application_service, fn -> Service end)
+      |> assign(:todo_application_service, Service)
 
     {:ok, socket}
   end
@@ -30,27 +29,21 @@ defmodule LiveviewTodosWeb.TodoLive do
     {:noreply, socket}
   end
 
-  def handle_event("delete-list", list_id, socket) do
-    domain_event = DomainEvent.new("delete-list", %{list_id: list_id})
+  def handle_event("delete-list", %{"list-id" => list_id}, socket) do
+    IO.inspect(list_id, label: "list-id")
+    domain_event = DomainEvent.new("delete-list", %{list_id: String.to_integer(list_id)})
     todos(socket).accept(domain_event)
     {:noreply, socket}
   end
 
-  def handle_event("add", %{"todo" => todo}, socket) do
-    {:ok, _todo} = todos(socket).create_todo(todo)
-    {:noreply, socket}
-  end
-
   def handle_event("add", %{"item" => item}, socket) do
-    IO.inspect("create_item ================================= ")
-    IO.inspect(item, label: "item")
     todos(socket).create_item(item)
     {:noreply, socket}
   end
 
-  def handle_event("toggle_done", todo_id, socket) do
-    todo = Service.get_todo!(todo_id)
-    Service.update_todo(todo, %{done: !todo.done})
+  def handle_event("toggle_done", %{"item-id" => item_id}, socket) do
+    item = todos(socket).get_todo!(String.to_integer(item_id))
+    todos(socket).update_todo(item, %{done: !item.done})
     {:noreply, socket}
   end
 

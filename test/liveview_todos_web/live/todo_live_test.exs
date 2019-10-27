@@ -4,9 +4,20 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
   alias LiveviewTodosWeb.TodoLive
   alias Phoenix.LiveView
   alias Phoenix.LiveView.Socket
+  alias LiveviewTodos.DomainEvent
 
   defmodule TodosStub do
-    def create_todo(attrs \\ %{}) do
+    def get_todo!(item_id) do
+      send(self(), {:get_todo, item_id})
+      %Todo{id: item_id}
+    end
+
+    def accept(event) do
+      send(self(), {:accept, event})
+      :ok
+    end
+
+    def create_item(attrs \\ %{}) do
       send(self(), {:create_todo, attrs})
       {:ok, %Todo{}}
     end
@@ -32,10 +43,31 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
     |> LiveView.assign(:todo_application_service, TodosStub)
   end
 
-  test "TodoLive.handle_event(inc ..." do
-    todo = %{title: "Buy milk and eggs"}
-    {:noreply, _mod_socket} = TodoLive.handle_event("add", %{"todo" => todo}, socket_with_stub())
+  describe "TodoLive.handle_event" do
+    test "create-list" do
+      attrs = %{name: "Home stuff"}
 
-    assert_receive {:create_todo, attrs}
+      {:noreply, _mod_socket} =
+        TodoLive.handle_event("create-list", %{"list" => attrs}, socket_with_stub())
+
+      assert_receive {:accept, %DomainEvent{name: "create-list", attrs: attrs}}
+    end
+
+    test "add" do
+      item = %{title: "Buy milk and eggs", list_id: 1}
+
+      {:noreply, _mod_socket} =
+        TodoLive.handle_event("add", %{"item" => item}, socket_with_stub())
+
+      assert_receive {:create_todo, attrs}
+    end
+
+    test "toggle_done" do
+      {:noreply, _mod_socket} =
+        TodoLive.handle_event("toggle_done", %{"item-id" => "99"}, socket_with_stub())
+
+      assert_receive {:get_todo, 99}
+      assert_receive {:update_todo, _todo, _attrs}
+    end
   end
 end
