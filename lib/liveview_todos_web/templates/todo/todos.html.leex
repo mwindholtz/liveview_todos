@@ -20,7 +20,10 @@
   <%= for item <- list.items  do %>
     <div>
       <%= checkbox(:todo, :done, phx_click: "toggle_done", 
-      phx_value_item_id: item.id, value: item.done) %>
+      phx_value_item_title: item.title, 
+      phx_value_item_id: item.id, 
+      phx_value_list_id: list.id, 
+      value: item.done) %>
       <%= item.title %>
     </div>
   <% end %>

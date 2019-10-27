@@ -70,11 +70,11 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
       assert_receive {:delete_list, 99}
     end
 
-    test "add" do
+    test "add-item" do
       item = %{title: "Buy milk and eggs", list_id: 1}
 
       {:noreply, _mod_socket} =
-        TodoLive.handle_event("add", %{"item" => item}, socket_with_stub())
+        TodoLive.handle_event("add-item", %{"item" => item}, socket_with_stub())
 
       assert_receive {:create_todo, attrs}
     end

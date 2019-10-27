@@ -33,7 +33,7 @@ defmodule LiveviewTodosWeb.TodoLive do
     {:noreply, socket}
   end
 
-  def handle_event("add", %{"item" => item}, socket) do
+  def handle_event("add-item", %{"item" => item}, socket) do
     todos(socket).create_item(item)
     {:noreply, socket}
   end
