@@ -41,6 +41,13 @@ defmodule LiveviewTodosWeb.TodoLive do
     {:noreply, socket}
   end
 
+  def handle_event("add", %{"item" => item}, socket) do
+    IO.inspect("create_item ================================= ")
+    IO.inspect(item, label: "item")
+    todos(socket).create_item(item)
+    {:noreply, socket}
+  end
+
   def handle_event("toggle_done", todo_id, socket) do
     todo = Service.get_todo!(todo_id)
     Service.update_todo(todo, %{done: !todo.done})

@@ -43,6 +43,13 @@ defmodule LiveviewTodos.TodoApplicationService do
     :ok
   end
 
+  def create_item(%{"description" => description, "list_id" => list_id}, deps \\ @deps) do
+    %Todo{}
+    |> Todo.changeset(%{title: description})
+    |> deps.repo.insert()
+    |> deps.topic.broadcast_change([:todo, :created])
+  end
+
   def create_todo(attrs \\ %{}, deps \\ @deps) do
     %Todo{}
     |> Todo.changeset(attrs)
