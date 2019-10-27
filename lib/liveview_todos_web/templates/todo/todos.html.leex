@@ -8,10 +8,17 @@
 <h3>Lists</h3>
 <%= for list <- @lists do %>
   <div>
-    <%= list.name %>
+    <span phx-click="delete-list" phx-value="<%= list.id %>"><img src="/images/cancel.png">
+    </span>
+    <%= list.name %> 
   </div>
 <% end %>
 
+<hr/>
+<hr/>
+<hr/>
+<hr/>
+<hr/>
 <h4>Old </h4>
 <form action="#" phx-submit="add">
   <%= text_input :todo, :title, placeholder: "add stuff" %>   

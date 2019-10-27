@@ -10,11 +10,35 @@ defmodule LiveviewTodos.TodoApplicationService do
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
-  def accept(%DomainEvent{name: "list-create", attrs: attrs}, deps \\ @deps) do
+  def accept(domain_event, deps \\ @deps)
+
+  def accept(%DomainEvent{name: "create-list", attrs: attrs}, deps) do
     %List{}
     |> List.changeset(attrs)
     |> deps.repo.insert()
-    |> deps.topic.broadcast_change([:list, :created])
+    |> deps.topic.broadcast_change([:lists, :created])
+
+    :ok
+  end
+
+  def accept(%DomainEvent{name: "delete-list", attrs: %{list_id: list_id}}, deps) do
+    list = deps.repo.get!(List, String.to_integer(list_id))
+
+    case deps.repo.delete(list) do
+      {:ok, struct} ->
+        deps.topic.broadcast_change({:ok, list}, [:lists, :deleted])
+        :ok
+
+      {:error, changeset} ->
+        :error
+    end
+  end
+
+  def accept(%DomainEvent{name: "create-item", attrs: attrs}, deps) do
+    %List{}
+    |> List.changeset(attrs)
+    |> deps.repo.insert()
+    |> deps.topic.broadcast_change([:lists, :created])
 
     :ok
   end

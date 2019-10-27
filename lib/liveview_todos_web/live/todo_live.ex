@@ -30,6 +30,12 @@ defmodule LiveviewTodosWeb.TodoLive do
     {:noreply, socket}
   end
 
+  def handle_event("delete-list", list_id, socket) do
+    domain_event = DomainEvent.new("delete-list", %{list_id: list_id})
+    todos(socket).accept(domain_event)
+    {:noreply, socket}
+  end
+
   def handle_event("add", %{"todo" => todo}, socket) do
     {:ok, _todo} = todos(socket).create_todo(todo)
     {:noreply, socket}
@@ -38,6 +44,13 @@ defmodule LiveviewTodosWeb.TodoLive do
   def handle_event("toggle_done", todo_id, socket) do
     todo = Service.get_todo!(todo_id)
     Service.update_todo(todo, %{done: !todo.done})
+    {:noreply, socket}
+  end
+
+  def handle_event(event, args, socket) do
+    IO.inspect("UNHANDED LIVE EVENT ================================= ")
+    IO.inspect(event, label: "event")
+    IO.inspect(args, label: "args")
     {:noreply, socket}
   end
 
@@ -53,18 +66,18 @@ defmodule LiveviewTodosWeb.TodoLive do
     {:noreply, refresh_todos(socket)}
   end
 
-  def handle_info({@topic, [:list | _], _}, socket) do
+  def handle_info({@topic, [:lists | _], _}, socket) do
     {:noreply, refresh_lists(socket)}
   end
 
-  def handle_info({@topic, [:list | _], :error, _}, socket) do
+  def handle_info({@topic, [:lists | _], :error, _}, socket) do
     {:noreply, refresh_lists(socket)}
   end
 
-  # def handle_info(tuple, socket) do
-  #   IO.inspect(tuple, label: "unexpected TUPLE ==================== ")
-  #   {:noreply, refresh_lists(socket)}
-  # end
+  def handle_info(tuple, socket) do
+    IO.inspect(tuple, label: "unexpected TUPLE ==================== ")
+    {:noreply, refresh_lists(socket)}
+  end
 
   # -------  Implementation ---------------
 
