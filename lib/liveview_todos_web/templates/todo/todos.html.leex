@@ -1,4 +1,17 @@
+<form action="#" phx-submit="list-create">
+  <%= text_input :name, :title, placeholder: "name of list" %>   
+  <%= submit "New", phx_disable_with: "Creating ..." %>
+</form>
 
+
+<h3>Lists</h3>
+<%= for list <- @lists do %>
+  <div>
+    <%= list.name %>
+  </div>
+<% end %>
+
+<h4>Old </h4>
 <form action="#" phx-submit="add">
   <%= text_input :todo, :title, placeholder: "add stuff" %>   
   <%= submit "Add", phx_disable_with: "Adding ..." %>

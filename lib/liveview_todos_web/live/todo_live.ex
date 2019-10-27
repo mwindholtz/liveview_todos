@@ -12,6 +12,7 @@ defmodule LiveviewTodosWeb.TodoLive do
     socket =
       socket
       |> assign(todos: Service.list_todo())
+      |> assign(lists: [])
       |> assign_new(:todo_application_service, fn -> Service end)
 
     {:ok, socket}
@@ -22,6 +23,10 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   # --------- LiveView Events -----------
+
+  def handle_event("list-create", %{"name" => _name}, socket) do
+    {:noreply, socket}
+  end
 
   def handle_event("add", %{"todo" => todo}, socket) do
     {:ok, _todo} = todos(socket).create_todo(todo)
