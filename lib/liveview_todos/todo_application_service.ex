@@ -15,18 +15,8 @@ defmodule LiveviewTodos.TodoApplicationService do
     |> List.changeset(attrs)
     |> deps.repo.insert()
     |> deps.topic.broadcast_change([:list, :created])
-  end
 
-  def list_todo(deps \\ @deps) do
-    deps.repo.all(Todo)
-  end
-
-  def lists(deps \\ @deps) do
-    deps.repo.all(List)
-  end
-
-  def get_todo!(id, deps \\ @deps) do
-    deps.repo.get!(Todo, id)
+    :ok
   end
 
   def create_todo(attrs \\ %{}, deps \\ @deps) do
@@ -51,5 +41,17 @@ defmodule LiveviewTodos.TodoApplicationService do
 
   def change_todo(%Todo{} = todo) do
     Todo.changeset(todo, %{})
+  end
+
+  def list_todo(deps \\ @deps) do
+    deps.repo.all(Todo)
+  end
+
+  def lists(deps \\ @deps) do
+    deps.repo.all(List)
+  end
+
+  def get_todo!(id, deps \\ @deps) do
+    deps.repo.get!(Todo, id)
   end
 end

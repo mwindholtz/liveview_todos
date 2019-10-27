@@ -3,7 +3,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   alias LiveviewTodos.TodoApplicationService, as: Service
   alias LiveviewTodosWeb.TodoView
   alias LiveviewTodos.TodoTopic
-
+  alias LiveviewTodos.DomainEvent
   # --------- LiveView -----------
 
   def mount(_session, socket) do
@@ -25,8 +25,8 @@ defmodule LiveviewTodosWeb.TodoLive do
   # --------- LiveView Events -----------
 
   def handle_event("list-create", %{"list" => attrs}, socket) do
-    domain_event = LiveviewTodos.DomainEvent.new("list-create", attrs)
-    {:ok, _todo} = todos(socket).accept(domain_event)
+    domain_event = DomainEvent.new("create-list", attrs)
+    todos(socket).accept(domain_event)
     {:noreply, socket}
   end
 
