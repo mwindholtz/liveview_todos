@@ -11,7 +11,7 @@
     <span phx-click="delete-list" phx-value-list-id="<%= list.id %>"><img src="/images/cancel.png">
     </span>
     <%= list.name %> 
-    <form action="#" phx-submit="add">
+    <form action="#" phx-submit="add-item">
       <%= text_input :item, :description, placeholder: "item description" %>   
       <%= hidden_input :item, :list_id, [value: list.id] %>   
       <%= submit "Add to #{list.name}", phx_disable_with: "Adding ..." %>
