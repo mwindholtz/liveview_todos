@@ -16,12 +16,12 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
       :ok
     end
 
-    def create_list(attrs \\ %{}) do
+    def create_list(attrs) do
       send(self(), {:create_list, attrs})
       :ok
     end
 
-    def delete_list(attrs \\ %{}) do
+    def delete_list(attrs) do
       send(self(), {:delete_list, attrs})
       :ok
     end
@@ -55,7 +55,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
   describe "TodoLive.handle_event" do
     test "create-list" do
       name = "Home stuff"
-      attrs = %{name: name}
+      attrs = %{"name" => name}
 
       {:noreply, _mod_socket} =
         TodoLive.handle_event("create-list", %{"list" => attrs}, socket_with_stub())
@@ -64,10 +64,8 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
     end
 
     test "delete-list" do
-      attrs = %{list_id: "99"}
-
-      {:noreply, _mod_socket} =
-        TodoLive.handle_event("delete-list", %{"list" => attrs}, socket_with_stub())
+      attrs = %{"list-id" => "99"}
+      {:noreply, _mod_socket} = TodoLive.handle_event("delete-list", attrs, socket_with_stub())
 
       assert_receive {:delete_list, 99}
     end

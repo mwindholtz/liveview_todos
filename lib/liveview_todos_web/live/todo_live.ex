@@ -23,13 +23,13 @@ defmodule LiveviewTodosWeb.TodoLive do
 
   # --------- LiveView Events -----------
 
-  def handle_event("create-list", %{"list" => attrs}, socket) do
-    todos(socket).create_list(attrs.name)
+  def handle_event("create-list", %{"list" => %{"name" => name}}, socket) do
+    todos(socket).create_list(name)
     {:noreply, socket}
   end
 
-  def handle_event("delete-list", %{"list" => attrs}, socket) do
-    todos(socket).delete_list(attrs.list_id |> String.to_integer())
+  def handle_event("delete-list", %{"list-id" => list_id}, socket) do
+    todos(socket).delete_list(list_id |> String.to_integer())
     {:noreply, socket}
   end
 
