@@ -5,6 +5,7 @@ defmodule LiveviewTodos.Todo do
   schema "todo" do
     field :done, :boolean, default: false
     field :title, :string
+    belongs_to(:list, LiveviewTodos.List)
 
     timestamps()
   end
@@ -12,7 +13,7 @@ defmodule LiveviewTodos.Todo do
   @doc false
   def changeset(todo, attrs) do
     todo
-    |> cast(attrs, [:title, :done])
-    |> validate_required([:title, :done])
+    |> cast(attrs, [:title, :done, :list_id])
+    |> validate_required([:title, :done, :list_id])
   end
 end

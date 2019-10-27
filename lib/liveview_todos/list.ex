@@ -4,7 +4,7 @@ defmodule LiveviewTodos.List do
 
   schema "lists" do
     field :name, :string
-
+    has_many(:items, LiveviewTodos.Todo, on_delete: :delete_all)
     timestamps()
   end
 

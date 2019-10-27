@@ -38,14 +38,14 @@ defmodule LiveviewTodos.TodoApplicationService do
     %List{}
     |> List.changeset(attrs)
     |> deps.repo.insert()
-    |> deps.topic.broadcast_change([:lists, :created])
+    |> deps.topic.broadcast_change([:todo, :created])
 
     :ok
   end
 
   def create_item(%{"description" => description, "list_id" => list_id}, deps \\ @deps) do
     %Todo{}
-    |> Todo.changeset(%{title: description})
+    |> Todo.changeset(%{title: description, list_id: list_id})
     |> deps.repo.insert()
     |> deps.topic.broadcast_change([:todo, :created])
   end
@@ -79,7 +79,9 @@ defmodule LiveviewTodos.TodoApplicationService do
   end
 
   def lists(deps \\ @deps) do
-    deps.repo.all(List)
+    List
+    |> deps.repo.all()
+    |> deps.repo.preload(:items)
   end
 
   def get_todo!(id, deps \\ @deps) do

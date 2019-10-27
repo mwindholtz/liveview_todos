@@ -66,11 +66,11 @@ defmodule LiveviewTodosWeb.TodoLive do
   @topic LiveviewTodos.TodoTopic
 
   def handle_info({@topic, [:todo | _], :error, _}, socket) do
-    {:noreply, refresh_todos(socket)}
+    {:noreply, refresh_lists(socket)}
   end
 
   def handle_info({@topic, [:todo | _], _}, socket) do
-    {:noreply, refresh_todos(socket)}
+    {:noreply, refresh_lists(socket)}
   end
 
   def handle_info({@topic, [:lists | _], _}, socket) do

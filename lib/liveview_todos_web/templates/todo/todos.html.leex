@@ -1,7 +1,7 @@
-<h3>New List</h3>
+<h3>Lists</h3>
 <form action="#" phx-submit="create-list">
   <%= text_input :list, :name, placeholder: "name of list" %>   
-  <%= submit "New", phx_disable_with: "Creating ..." %>
+  <%= submit "Create New List", phx_disable_with: "Creating ..." %>
 </form>
 
 
@@ -12,27 +12,17 @@
     </span>
     <%= list.name %> 
     <form action="#" phx-submit="add">
-      <%= text_input :item, :description, placeholder: "add stuff" %>   
+      <%= text_input :item, :description, placeholder: "item description" %>   
       <%= hidden_input :item, :list_id, [value: list.id] %>   
-      <%= submit "Add", phx_disable_with: "Adding ..." %>
+      <%= submit "Add to #{list.name}", phx_disable_with: "Adding ..." %>
     </form>
   </div>
+  <%= for item <- list.items  do %>
+    <div>
+      <%= checkbox(:todo, :done, phx_click: "toggle_done", phx_value: item.id, value: item.done) %>
+      <%= item.title %>
+    </div>
+  <% end %>
+
 <% end %>
 
-<hr/>
-<hr/>
-<hr/>
-<hr/>
-<hr/>
-<h4>Old </h4>
-<form action="#" phx-submit="add">
-  <%= text_input :todo, :title, placeholder: "add stuff" %>   
-  <%= submit "Add", phx_disable_with: "Adding ..." %>
-</form>
-
-<%= for todo <- @todos do %>
-  <div>
-    <%= checkbox(:todo, :done, phx_click: "toggle_done", phx_value: todo.id, value: todo.done) %>
-    <%= todo.title %>
-  </div>
-<% end %>
