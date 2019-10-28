@@ -88,7 +88,7 @@ defmodule LiveviewTodos.TodoApplicationService do
     |> deps.repo.preload(:items)
   end
 
-  def get_todo2!(list_id, text, deps \\ @deps) do
+  def get_item!(list_id, text, deps \\ @deps) do
     query = from(t in Todo, where: [list_id: ^list_id, title: ^text])
     deps.repo.one!(query)
   end

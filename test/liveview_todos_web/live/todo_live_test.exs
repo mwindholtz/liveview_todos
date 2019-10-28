@@ -6,7 +6,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
   alias Phoenix.LiveView.Socket
 
   defmodule TodosStub do
-    def get_todo2!(_list_id, title) do
+    def get_item!(_list_id, title) do
       send(self(), {:get_todo2, title})
       %Todo{title: title}
     end
@@ -37,7 +37,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
     end
 
     def toggle_todo(list_id, item_title) do
-      item = get_todo2!(String.to_integer(list_id), item_title)
+      item = get_item!(String.to_integer(list_id), item_title)
       update_todo(item, %{done: !item.done})
     end
 

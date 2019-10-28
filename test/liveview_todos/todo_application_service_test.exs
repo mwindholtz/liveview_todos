@@ -19,9 +19,9 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
       todo
     end
 
-    test "get_todo2!/2 returns the todo with given id" do
+    test "get_item!/2 returns the todo with given id" do
       todo = todo_fixture()
-      result = Service.get_todo2!(todo.list_id, todo.title)
+      result = Service.get_item!(todo.list_id, todo.title)
       assert result == todo
     end
 
@@ -45,13 +45,13 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
     test "update_todo/2 with invalid data returns error changeset" do
       todo = todo_fixture()
       assert {:error, %Ecto.Changeset{}} = Service.update_todo(todo, @invalid_attrs)
-      assert todo == Service.get_todo2!(todo.list_id, todo.title)
+      assert todo == Service.get_item!(todo.list_id, todo.title)
     end
 
     test "delete_todo/1 deletes the todo" do
       todo = %{todo_fixture() | title: "delete_todo"}
       assert {:ok, %Todo{}} = Service.delete_todo(todo)
-      assert_raise Ecto.NoResultsError, fn -> Service.get_todo2!(todo.list_id, todo.title) end
+      assert_raise Ecto.NoResultsError, fn -> Service.get_item!(todo.list_id, todo.title) end
     end
 
     test "change_todo/1 returns a todo changeset" do
