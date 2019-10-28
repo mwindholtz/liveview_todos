@@ -1,6 +1,11 @@
 defmodule LiveviewTodos.TodoApplicationService do
   @moduledoc """
-  The Todos context.
+  This modeule is in the ApplicationService Layer
+  Application Service Layer is responsible for ... 
+  ... TODO:
+  ... more stuff about Repos and transactions and Workflow ... blah, blah.
+  ...
+  And calling into the Model to the Aggregates 
   """
 
   import Ecto.Query, warn: false
