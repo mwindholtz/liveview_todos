@@ -5,7 +5,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
   alias Phoenix.LiveView
   alias Phoenix.LiveView.Socket
 
-  defmodule TodosStub do
+  defmodule TodoApplicationServiceStub do
     def get_item!(_list_id, title) do
       send(self(), {:get_item, title})
       %Todo{title: title}
@@ -44,7 +44,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
 
   def socket_with_stub do
     %Socket{}
-    |> LiveView.assign(:todo_application_service, TodosStub)
+    |> LiveView.assign(:todo_application_service, TodoApplicationServiceStub)
   end
 
   describe "TodoLive.handle_event" do
