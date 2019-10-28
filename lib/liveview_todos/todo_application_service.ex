@@ -6,6 +6,8 @@ defmodule LiveviewTodos.TodoApplicationService do
   ... more stuff about Repos and transactions and Workflow ... blah, blah.
   ...
   And calling into the Model to the Aggregates 
+  In this app, the Aggregate is the "List"
+  So the TodoApplicationService will only connect to the List
   """
 
   import Ecto.Query, warn: false
