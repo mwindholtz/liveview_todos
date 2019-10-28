@@ -36,6 +36,11 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
       :update_todo
     end
 
+    def toggle_todo(list_id, item_title) do
+      item = get_todo2!(String.to_integer(list_id), item_title)
+      update_todo(item, %{done: !item.done})
+    end
+
     def delete_todo(%Todo{} = todo) do
       send(self(), {:delete_todo, todo})
       :delete_todo

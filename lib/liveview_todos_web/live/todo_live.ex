@@ -39,8 +39,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   def handle_event("toggle_done", %{"list-id" => list_id, "item-title" => item_title}, socket) do
-    item = todos(socket).get_todo2!(String.to_integer(list_id), item_title)
-    todos(socket).update_todo(item, %{done: !item.done})
+    todos(socket).toggle_todo(list_id, item_title)
     {:noreply, socket}
   end
 
