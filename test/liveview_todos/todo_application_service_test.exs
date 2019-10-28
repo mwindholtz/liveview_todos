@@ -9,7 +9,7 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
     @valid_item_attrs %{"description" => "description", "list_id" => "1"}
 
     @update_attrs %{done: false, title: "some updated title", list_id: 1}
-    @invalid_attrs %{done: nil, title: nil}
+    @invalid_attrs %{"description" => nil, "list_id" => nil}
 
     def todo_fixture(attrs \\ %{}) do
       {:ok, todo} =
@@ -19,11 +19,6 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
 
       todo
     end
-
-    # test "list_todo/0 returns all todo" do
-    #   todo = todo_fixture()
-    #   assert Service.list_todo() == [todo]
-    # end
 
     test "get_todo!/1 returns the todo with given id" do
       todo = todo_fixture()
@@ -37,7 +32,7 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
     end
 
     test "create_todo/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Service.create_todo(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Service.create_item(@invalid_attrs)
     end
 
     test "update_todo/2 with valid data updates the todo" do
