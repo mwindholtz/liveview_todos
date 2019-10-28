@@ -27,7 +27,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
     end
 
     def create_item(attrs \\ %{}) do
-      send(self(), {:create_todo, attrs})
+      send(self(), {:create_item, attrs})
       {:ok, %Todo{}}
     end
 
@@ -76,7 +76,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
       {:noreply, _mod_socket} =
         TodoLive.handle_event("add-item", %{"item" => item}, socket_with_stub())
 
-      assert_receive {:create_todo, attrs}
+      assert_receive {:create_item, attrs}
     end
 
     test "toggle_done" do

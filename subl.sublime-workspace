@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"ite",
+				"item_id"
+			],
+			[
+				"list",
+				"list_id"
+			],
+			[
+				"defmo",
+				"defmodule\tdefmodule/2"
+			],
+			[
 				"mul",
 				"multi_batch_id"
 			],
@@ -502,18 +514,6 @@
 			[
 				"ver",
 				"verify_new"
-			],
-			[
-				"club",
-				"club_nodes"
-			],
-			[
-				"In",
-				"Integer\tInteger"
-			],
-			[
-				"mem",
-				"member"
 			]
 		]
 	},
@@ -523,25 +523,8 @@
 			"file": "lib/liveview_todos_web/live/todo_live.ex",
 			"settings":
 			{
-				"buffer_size": 1390,
+				"buffer_size": 2410,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "lib/liveview_todos_web/router.ex",
-			"settings":
-			{
-				"buffer_size": 584,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "lib/liveview_todos_web/controllers/page_controller.ex",
-			"settings":
-			{
-				"buffer_size": 153,
 				"line_ending": "Unix"
 			}
 		},
@@ -549,25 +532,25 @@
 			"file": "test/liveview_todos_web/live/todo_live_test.exs",
 			"settings":
 			{
-				"buffer_size": 1013,
+				"buffer_size": 2144,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "lib/liveview_todos_web/live/load_contexts.ex",
+			"file": "lib/liveview_todos/todo_application_service.ex",
 			"settings":
 			{
-				"buffer_size": 407,
+				"buffer_size": 2216,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "lib/liveview_todos/todo_topic.ex",
+			"file": "lib/liveview_todos_web/templates/todo/todos.html.leex",
 			"settings":
 			{
-				"buffer_size": 553,
+				"buffer_size": 972,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -631,30 +614,48 @@
 	"expanded_folders":
 	[
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/assets",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/assets/css",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/assets/js",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/assets/static",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/config",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/controllers",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/live",
-		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/test",
-		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/test/liveview_todos_web",
-		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/test/liveview_todos_web/live"
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/templates",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/templates/layout",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/templates/page",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/templates/todo",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/views",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/priv",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/priv/repo",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/priv/repo/migrations"
 	],
 	"file_history":
 	[
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/list.ex",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/domain_event.ex",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/assets/js/app.js",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/mix.exs",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/test/liveview_todos/todo_application_service_test.exs",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/todo.ex",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/todo_topic.ex",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/live/todo_live.ex",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/todo_application_service.ex",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/templates/todo/todos.html.leex",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/priv/repo/migrations/20191027161800_add_list_id_to_todos.exs",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/priv/repo/structure.sql",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/priv/repo/migrations/20191027022841_create_lists.exs",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/test/liveview_todos_web/live/todo_live_test.exs",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/router.ex",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/live/load_contexts.ex",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web.ex",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/test/liveview_todos_web/live/load_contexts.ex",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/test/liveview_todos/todos_test.exs",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/todos.ex",
-		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/todo.ex",
-		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/todo_topic.ex",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/todos/todo.ex",
-		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/live/todo_live.ex",
-		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/test/liveview_todos_web/live/todo_live_test.exs",
-		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/todo_application_service.ex",
-		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/router.ex",
-		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/mix.exs",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/test/liveview_todos_web/load_contexts.ex",
 		"/Users/mark/projects/mwindholtz/cchmc-stp/test/stp/collect/observation_processor_test.exs",
 		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/core/attendance.ex",
@@ -761,15 +762,7 @@
 		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/web/web.ex",
 		"/Users/mark/projects/mwindholtz/cchmc-stp/test/support/conn_case.ex",
 		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/web/templates/activity/new.html.eex",
-		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/web/templates/activity/form.html.eex",
-		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/web/controllers/child_report_controller.ex",
-		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/core/config.ex",
-		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/web/load_config_plug.ex",
-		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/web/templates/admin_observation/index.html.eex",
-		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/core/observation_resolver.ex",
-		"/Users/mark/projects/mwindholtz/cchmc-stp/test/support/observations_builder.ex",
-		"/Users/mark/projects/mwindholtz/cchmc-stp/config/test.exs",
-		"/Users/mark/projects/mwindholtz/cchmc-stp/test/stp/core/observation_resolver_test.exs"
+		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/web/templates/activity/form.html.eex"
 	],
 	"find":
 	{
@@ -788,6 +781,13 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"new LiveSocket",
+			"Phoenix.LiveView",
+			"phx-value",
+			"signing_salt",
+			"list_todo",
+			"broadcast_change",
+			"phx_click",
 			"render",
 			"fetch",
 			"todos:",
@@ -825,7 +825,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -834,15 +834,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1390,
+						"buffer_size": 2410,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								362,
-								372
+								1054,
+								1054
 							]
 						],
 						"settings":
@@ -853,27 +853,64 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 228.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
-				},
+				}
+			]
+		},
+		{
+			"selected": 2,
+			"sheets":
+			[
 				{
 					"buffer": 1,
-					"file": "lib/liveview_todos_web/router.ex",
+					"file": "test/liveview_todos_web/live/todo_live_test.exs",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 584,
+						"buffer_size": 2144,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								440,
-								454
+								1439,
+								1439
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Elixir/Syntaxes/Elixir.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 707.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "lib/liveview_todos/todo_application_service.ex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2216,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								700,
+								700
 							]
 						],
 						"settings":
@@ -891,86 +928,26 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "lib/liveview_todos_web/controllers/page_controller.ex",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 153,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								123,
-								127
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Elixir/Syntaxes/Elixir.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
 					"buffer": 3,
-					"file": "test/liveview_todos_web/live/todo_live_test.exs",
+					"file": "lib/liveview_todos_web/templates/todo/todos.html.leex",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1013,
+						"buffer_size": 972,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								782,
-								1008
+								947,
+								947
 							]
 						],
 						"settings":
 						{
 							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Elixir/Syntaxes/Elixir.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 30.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "lib/liveview_todos_web/live/load_contexts.ex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 407,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								148,
-								172
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Elixir/Syntaxes/Elixir.tmLanguage",
+							"syntax": "Packages/Elixir/Syntaxes/HTML (EEx).tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
@@ -979,37 +956,6 @@
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "lib/liveview_todos/todo_topic.ex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 553,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								119,
-								119
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Elixir/Syntaxes/Elixir.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -1032,11 +978,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.455865556707,
 			1.0
 		],
 		"rows":
@@ -1060,7 +1013,7 @@
 	},
 	"output.find_results":
 	{
-		"height": 120.0
+		"height": 181.0
 	},
 	"output.mdpopups":
 	{
@@ -1079,6 +1032,38 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"list",
+				"lib/liveview_todos/list.ex"
+			],
+			[
+				"domain even",
+				"lib/liveview_todos/domain_event.ex"
+			],
+			[
+				"mix",
+				"mix.exs"
+			],
+			[
+				"test/liveview_todos/todo_application_service_test.exs",
+				"test/liveview_todos/todo_application_service_test.exs"
+			],
+			[
+				"leex",
+				"lib/liveview_todos_web/templates/todo/todos.html.leex"
+			],
+			[
+				"service",
+				"lib/liveview_todos/todo_application_service.ex"
+			],
+			[
+				"todo",
+				"lib/liveview_todos/todo.ex"
+			],
+			[
+				"app service",
+				"lib/liveview_todos/todo_application_service.ex"
+			],
 			[
 				"todo_live_test.exs",
 				"test/liveview_todos_web/live/todo_live_test.exs"
@@ -1198,10 +1183,6 @@
 			[
 				"sess show.htl",
 				"lib/stp/web/templates/session/show.html.eex"
-			],
-			[
-				"mix",
-				"mix.exs"
 			],
 			[
 				"chil cont",
@@ -1562,34 +1543,6 @@
 			[
 				"suppltest",
 				"test/stp/core/suplamental_test.exs"
-			],
-			[
-				"supla",
-				"lib/stp/core/supplemental.ex"
-			],
-			[
-				"atten repo",
-				"lib/stp/core/attendance_repo.ex"
-			],
-			[
-				"atend",
-				"lib/stp/core/attendance.ex"
-			],
-			[
-				"observationreo",
-				"lib/stp/core/observation_repo.ex"
-			],
-			[
-				"/api_integration_test.ex",
-				"test/stp/api_integration_test.exs"
-			],
-			[
-				"supple",
-				"lib/stp/core/supplemental.ex"
-			],
-			[
-				"sess chil",
-				"lib/stp/core/session_child.ex"
 			]
 		],
 		"width": 0.0
@@ -1620,7 +1573,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 270.0,
+	"side_bar_width": 188.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
