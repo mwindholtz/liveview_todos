@@ -23,11 +23,11 @@ defmodule LiveviewTodos.TodoApplicationService do
     list = deps.repo.get!(List, list_id)
 
     case deps.repo.delete(list) do
-      {:ok, struct} ->
+      {:ok, _struct} ->
         deps.topic.broadcast_change({:ok, list}, [:lists, :deleted])
         :ok
 
-      {:error, changeset} ->
+      {:error, _changeset} ->
         :error
     end
   end
@@ -41,7 +41,7 @@ defmodule LiveviewTodos.TodoApplicationService do
     :ok
   end
 
-  def accept(event, deps) do
+  def accept(event, _deps) do
     IO.inspect("UNHANDED DOMAIN EVENT in Service================================= ")
     IO.inspect(event, label: "event")
     :ok
@@ -88,12 +88,8 @@ defmodule LiveviewTodos.TodoApplicationService do
     |> deps.repo.preload(:items)
   end
 
-  def get_todo!(id, deps \\ @deps) do
-    deps.repo.get!(Todo, id)
-  end
-
   def get_todo2!(list_id, text, deps \\ @deps) do
     query = from(t in Todo, where: [list_id: ^list_id, title: ^text])
-    deps.repo.one(query)
+    deps.repo.one!(query)
   end
 end
