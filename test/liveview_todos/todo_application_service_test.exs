@@ -6,6 +6,8 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
 
   describe "todo" do
     @valid_attrs %{done: true, title: "some title", list_id: 1}
+    @valid_item_attrs %{"description" => "description", "list_id" => "1"}
+
     @update_attrs %{done: false, title: "some updated title", list_id: 1}
     @invalid_attrs %{done: nil, title: nil}
 
@@ -28,10 +30,10 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
       assert Service.get_todo!(todo.id) == todo
     end
 
-    test "create_todo/1 with valid data creates a todo" do
-      assert {:ok, %Todo{} = todo} = Service.create_todo(@valid_attrs)
-      assert todo.done == true
-      assert todo.title == "some title"
+    test "create_item/1/1 with valid data creates a todo" do
+      assert {:ok, %Todo{} = todo} = Service.create_item(@valid_item_attrs)
+      assert todo.title == "description"
+      assert todo.done == false
     end
 
     test "create_todo/1 with invalid data returns error changeset" do
