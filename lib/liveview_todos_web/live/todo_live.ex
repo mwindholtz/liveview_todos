@@ -3,7 +3,6 @@ defmodule LiveviewTodosWeb.TodoLive do
   alias LiveviewTodos.TodoApplicationService, as: Service
   alias LiveviewTodosWeb.TodoView
   alias LiveviewTodos.TodoTopic
-  alias LiveviewTodos.DomainEvent
   # --------- LiveView -----------
 
   def mount(_session, socket) do
@@ -39,7 +38,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   def handle_event("toggle_done", %{"list-id" => list_id, "item-title" => item_title}, socket) do
-    todos(socket).toggle_todo(list_id, item_title)
+    todos(socket).toggle_item(list_id, item_title)
     {:noreply, socket}
   end
 

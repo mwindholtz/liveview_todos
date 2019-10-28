@@ -36,7 +36,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
       :update_todo
     end
 
-    def toggle_todo(list_id, item_title) do
+    def toggle_item(list_id, item_title) do
       item = get_item!(String.to_integer(list_id), item_title)
       update_todo(item, %{done: !item.done})
     end
