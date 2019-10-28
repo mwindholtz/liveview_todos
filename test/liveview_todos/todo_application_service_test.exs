@@ -5,7 +5,6 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
   alias LiveviewTodos.Todo
 
   describe "todo" do
-    @valid_attrs %{done: true, title: "some title", list_id: 1}
     @valid_item_attrs %{"description" => "description", "list_id" => "1"}
 
     @update_attrs %{done: false, title: "some updated title", list_id: 1}
@@ -14,8 +13,8 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
     def todo_fixture(attrs \\ %{}) do
       {:ok, todo} =
         attrs
-        |> Enum.into(@valid_attrs)
-        |> Service.create_todo()
+        |> Enum.into(@valid_item_attrs)
+        |> Service.create_item()
 
       todo
     end
