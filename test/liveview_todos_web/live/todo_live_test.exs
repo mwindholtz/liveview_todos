@@ -6,9 +6,9 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
   alias Phoenix.LiveView.Socket
 
   defmodule TodosStub do
-    def get_todo!(item_id) do
-      send(self(), {:get_todo, item_id})
-      %Todo{id: item_id}
+    def get_todo2!(_list_id, title) do
+      send(self(), {:get_todo2, title})
+      %Todo{title: title}
     end
 
     def accept(event) do
@@ -81,9 +81,13 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
 
     test "toggle_done" do
       {:noreply, _mod_socket} =
-        TodoLive.handle_event("toggle_done", %{"item-id" => "99"}, socket_with_stub())
+        TodoLive.handle_event(
+          "toggle_done",
+          %{"list-id" => "99", "item-title" => "title"},
+          socket_with_stub()
+        )
 
-      assert_receive {:get_todo, 99}
+      assert_receive {:get_todo2, "title"}
       assert_receive {:update_todo, _todo, _attrs}
     end
   end

@@ -24,6 +24,12 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
       assert Service.get_todo!(todo.id) == todo
     end
 
+    test "get_todo2!/2 returns the todo with given id" do
+      todo = todo_fixture()
+      result = Service.get_todo2!(todo.list_id, todo.title)
+      assert result == todo
+    end
+
     test "create_item/1/1 with valid data creates a todo" do
       assert {:ok, %Todo{} = todo} = Service.create_item(@valid_item_attrs)
       assert todo.title == "description"
