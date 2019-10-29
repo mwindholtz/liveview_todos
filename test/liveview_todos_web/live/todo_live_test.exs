@@ -31,14 +31,9 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
       {:ok, %Todo{}}
     end
 
-    def update_todo(%Todo{} = todo, attrs) do
-      send(self(), {:update_todo, todo, attrs})
-      :update_todo
-    end
-
-    def toggle_item(list_id, item_title) do
-      item = get_item!(String.to_integer(list_id), item_title)
-      update_todo(item, %{done: !item.done})
+    def toggle_item(_list_id, item_title) do
+      send(self(), {:toggle_item, item_title})
+      :ok
     end
   end
 
@@ -82,8 +77,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
           socket_with_stub()
         )
 
-      assert_receive {:get_item, "title"}
-      assert_receive {:update_todo, _todo, _attrs}
+      assert_receive {:toggle_item, "title"}
     end
   end
 end
