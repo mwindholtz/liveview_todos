@@ -10,6 +10,9 @@ defmodule LiveviewTodos.List do
   """
   use Ecto.Schema
   import Ecto.Changeset
+  alias LiveviewTodos.List
+
+  @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
   schema "lists" do
     field :name, :string
@@ -22,5 +25,23 @@ defmodule LiveviewTodos.List do
     todo
     |> cast(attrs, [:name])
     |> validate_required([:name])
+  end
+
+  def delete(list, deps \\ @deps) do
+    case deps.repo.delete(list) do
+      {:ok, _struct} ->
+        deps.topic.broadcast_change({:ok, list}, [:lists, :deleted])
+        :ok
+
+      {:error, _changeset} ->
+        :error
+    end
+  end
+
+  def insert(attrs, deps \\ @deps) do
+    %List{}
+    |> List.changeset(attrs)
+    |> deps.repo.insert()
+    |> deps.topic.broadcast_change([:todo, :created])
   end
 end
