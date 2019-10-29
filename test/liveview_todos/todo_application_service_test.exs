@@ -8,18 +8,17 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
   describe "item" do
     setup do
       {:ok, list} = Service.create_list("Homework")
-      %{list: list}
+      attrs = %{"description" => "description", "list_id" => list.id}
+      %{attrs: attrs}
     end
 
-    test "get_item!/2", %{list: list} do
-      {:ok, todo} = Service.create_item(%{"description" => "description", "list_id" => list.id})
+    test "get_item!/2", %{attrs: attrs} do
+      {:ok, todo} = Service.create_item(attrs)
       result = Service.get_item!(todo.list_id, todo.title)
       assert result == todo
     end
 
-    test "create_item/1", %{list: list} do
-      attrs = %{"description" => "description", "list_id" => list.id}
-
+    test "create_item/1", %{attrs: attrs} do
       assert_repo_changed(Todo, 1, fn ->
         assert {:ok, %Todo{} = todo} = Service.create_item(attrs)
         assert todo.title == "description"
