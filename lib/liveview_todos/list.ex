@@ -62,4 +62,15 @@ defmodule LiveviewTodos.List do
     |> deps.repo.insert()
     |> deps.topic.broadcast_change([:todo, :created])
   end
+
+  def toggle_item(list, item_title, deps \\ @deps) do
+    item =
+      list.items
+      |> Enum.find(fn item -> item.title == item_title end)
+
+    item
+    |> Todo.changeset(%{done: !item.done})
+    |> deps.repo.update()
+    |> deps.topic.broadcast_change([:todo, :created])
+  end
 end

@@ -42,13 +42,7 @@ defmodule LiveviewTodos.TodoApplicationService do
   end
 
   def toggle_item(list_id, item_title, deps \\ @deps) do
-    item =
-      String.to_integer(list_id)
-      |> get_item!(item_title)
-
-    item
-    |> Todo.changeset(%{done: !item.done})
-    |> deps.repo.update()
-    |> deps.topic.broadcast_change([:todo, :created])
+    list = deps.repo.get!(List, list_id)
+    List.toggle_item(list, item_title)
   end
 end
