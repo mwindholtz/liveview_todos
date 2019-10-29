@@ -12,18 +12,18 @@ defmodule LiveviewTodos.TodoApplicationService do
 
   import Ecto.Query, warn: false
   alias LiveviewTodos.Todo
-  alias LiveviewTodos.DomainEvent
   alias LiveviewTodos.List
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
   def create_list(name, deps \\ @deps) do
-    %List{}
-    |> List.changeset(%{name: name})
-    |> deps.repo.insert()
-    |> deps.topic.broadcast_change([:lists, :created])
+    result =
+      %List{}
+      |> List.changeset(%{name: name})
+      |> deps.repo.insert()
+      |> deps.topic.broadcast_change([:lists, :created])
 
-    :ok
+    result
   end
 
   def delete_list(list_id, deps \\ @deps) do
@@ -31,50 +31,11 @@ defmodule LiveviewTodos.TodoApplicationService do
     List.delete(list)
   end
 
-  def accept(%DomainEvent{name: "create-item", attrs: attrs}, _deps) do
-    List.insert(attrs)
-    :ok
-  end
-
-  def accept(event, _deps) do
-    IO.inspect("UNHANDED DOMAIN EVENT in Service================================= ")
-    IO.inspect(event, label: "event")
-    :ok
-  end
-
   def create_item(%{"description" => description, "list_id" => list_id}, deps \\ @deps) do
     %Todo{}
     |> Todo.changeset(%{title: description, list_id: list_id})
     |> deps.repo.insert()
     |> deps.topic.broadcast_change([:todo, :created])
-  end
-
-  def create_todo(attrs \\ %{}, deps \\ @deps) do
-    %Todo{}
-    |> Todo.changeset(attrs)
-    |> deps.repo.insert()
-    |> deps.topic.broadcast_change([:todo, :created])
-  end
-
-  def update_todo(%Todo{} = todo, attrs, deps \\ @deps) do
-    todo
-    |> Todo.changeset(attrs)
-    |> deps.repo.update()
-    |> deps.topic.broadcast_change([:todo, :updated])
-  end
-
-  def delete_todo(%Todo{} = todo, deps \\ @deps) do
-    todo
-    |> deps.repo.delete()
-    |> deps.topic.broadcast_change([:todo, :deleted])
-  end
-
-  def change_todo(%Todo{} = todo) do
-    Todo.changeset(todo, %{})
-  end
-
-  def list_todo(deps \\ @deps) do
-    deps.repo.all(Todo)
   end
 
   def lists(deps \\ @deps) do

@@ -3,12 +3,10 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
 
   alias LiveviewTodos.TodoApplicationService, as: Service
   alias LiveviewTodos.Todo
+  alias LiveviewTodos.List
 
-  describe "todo" do
+  describe "item" do
     @valid_item_attrs %{"description" => "description", "list_id" => "1"}
-
-    @update_attrs %{done: false, title: "some updated title", list_id: 1}
-    @invalid_attrs %{"description" => nil, "list_id" => nil}
 
     def todo_fixture(attrs \\ %{}) do
       {:ok, todo} =
@@ -19,44 +17,44 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
       todo
     end
 
-    test "get_item!/2 returns the todo with given id" do
+    test "get_item!/2" do
       todo = todo_fixture()
       result = Service.get_item!(todo.list_id, todo.title)
       assert result == todo
     end
 
-    test "create_item/1/1 with valid data creates a todo" do
-      assert {:ok, %Todo{} = todo} = Service.create_item(@valid_item_attrs)
-      assert todo.title == "description"
-      assert todo.done == false
+    test "create_item/1" do
+      assert_repo_changed(Todo, 1, fn ->
+        assert {:ok, %Todo{} = todo} = Service.create_item(@valid_item_attrs)
+        assert todo.title == "description"
+        assert todo.done == false
+      end)
+    end
+  end
+
+  describe "list" do
+    setup do
+      name_of_list = "Grocery"
+      {:ok, list} = Service.create_list(name_of_list)
+
+      %{list: list, name_of_list: name_of_list}
     end
 
-    test "create_todo/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Service.create_item(@invalid_attrs)
+    test "create_list/1" do
+      name_of_list = "School"
+
+      assert_repo_changed(List, 1, fn ->
+        result = Service.create_list(name_of_list)
+        assert {:ok, %List{} = list} = result
+        assert list.name == name_of_list
+      end)
     end
 
-    test "update_todo/2 with valid data updates the todo" do
-      todo = todo_fixture()
-      assert {:ok, %Todo{} = todo} = Service.update_todo(todo, @update_attrs)
-      assert todo.done == false
-      assert todo.title == "some updated title"
-    end
-
-    test "update_todo/2 with invalid data returns error changeset" do
-      todo = todo_fixture()
-      assert {:error, %Ecto.Changeset{}} = Service.update_todo(todo, @invalid_attrs)
-      assert todo == Service.get_item!(todo.list_id, todo.title)
-    end
-
-    test "delete_todo/1 deletes the todo" do
-      todo = %{todo_fixture() | title: "delete_todo"}
-      assert {:ok, %Todo{}} = Service.delete_todo(todo)
-      assert_raise Ecto.NoResultsError, fn -> Service.get_item!(todo.list_id, todo.title) end
-    end
-
-    test "change_todo/1 returns a todo changeset" do
-      todo = todo_fixture()
-      assert %Ecto.Changeset{} = Service.change_todo(todo)
+    test "delete_list/1",
+         %{list: list} do
+      assert_repo_changed(List, -1, fn ->
+        Service.delete_list(list.id)
+      end)
     end
   end
 end

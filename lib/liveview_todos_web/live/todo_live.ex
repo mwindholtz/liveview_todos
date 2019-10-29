@@ -76,10 +76,6 @@ defmodule LiveviewTodosWeb.TodoLive do
 
   # -------  Implementation ---------------
 
-  def refresh_todos(socket) do
-    assign(socket, todos: Service.list_todo())
-  end
-
   def refresh_lists(socket) do
     assign(socket, lists: Service.lists())
   end

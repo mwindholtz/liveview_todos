@@ -50,4 +50,12 @@ defmodule LiveviewTodos.DataCase do
       end)
     end)
   end
+
+  def assert_repo_changed(table, delta, function) do
+    alias LiveviewTodos.Repo
+    original_count = Repo.count(table)
+    function.()
+    final_count = Repo.count(table)
+    assert final_count == original_count + delta
+  end
 end
