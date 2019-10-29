@@ -57,10 +57,10 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
       end)
     end
 
-    test "lists()" do
-      result = Service.lists()
-      assert length(result) == 1
-      assert %List{} = Elixir.List.first(result)
+    test "lists()", %{list: list} do
+      [result | _] = Service.lists()
+
+      assert list.name == result.name
     end
   end
 end
