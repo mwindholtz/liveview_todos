@@ -25,8 +25,9 @@ defmodule LiveviewTodos.TodoApplicationService do
     List.delete(list)
   end
 
-  def create_item(%{"description" => description, "list_id" => list_id}) do
-    List.create_item(%{"description" => description, "list_id" => list_id})
+  def create_item(%{"description" => description, "list_id" => list_id}, deps \\ @deps) do
+    list = deps.repo.get!(List, list_id)
+    List.create_item(list, %{"description" => description})
   end
 
   def lists(deps \\ @deps) do

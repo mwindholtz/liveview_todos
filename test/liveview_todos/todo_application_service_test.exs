@@ -6,14 +6,9 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
   alias LiveviewTodos.List
 
   describe "item" do
-    @valid_item_attrs %{"description" => "description", "list_id" => "1"}
-
-    def todo_fixture(attrs \\ %{}) do
-      {:ok, todo} =
-        attrs
-        |> Enum.into(@valid_item_attrs)
-        |> Service.create_item()
-
+    def todo_fixture do
+      {:ok, list} = Service.create_list("Homework")
+      {:ok, todo} = Service.create_item(%{"description" => "description", "list_id" => list.id})
       todo
     end
 
@@ -24,8 +19,11 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
     end
 
     test "create_item/1" do
+      {:ok, list} = Service.create_list("Homework")
+      attrs = %{"description" => "description", "list_id" => list.id}
+
       assert_repo_changed(Todo, 1, fn ->
-        assert {:ok, %Todo{} = todo} = Service.create_item(@valid_item_attrs)
+        assert {:ok, %Todo{} = todo} = Service.create_item(attrs)
         assert todo.title == "description"
         assert todo.done == false
       end)

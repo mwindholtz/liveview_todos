@@ -31,9 +31,9 @@ defmodule LiveviewTodos.List do
     result
   end
 
-  def create_item(%{"description" => description, "list_id" => list_id}, deps \\ @deps) do
+  def create_item(list, %{"description" => description}, deps \\ @deps) do
     %Todo{}
-    |> Todo.changeset(%{title: description, list_id: list_id})
+    |> Todo.changeset(%{title: description, list_id: list.id})
     |> deps.repo.insert()
     |> deps.topic.broadcast_change([:todo, :created])
   end
