@@ -21,12 +21,12 @@ defmodule LiveviewTodos.TodoApplicationService do
   end
 
   def delete_list(list_id, deps \\ @deps) do
-    list = deps.repo.get!(List, list_id)
+    list = list(list_id, deps.repo)
     List.delete(list)
   end
 
   def create_item(%{"description" => description, "list_id" => list_id}, deps \\ @deps) do
-    list = deps.repo.get!(List, list_id)
+    list = list(list_id, deps.repo)
     List.create_item(list, %{"description" => description})
   end
 
@@ -42,7 +42,11 @@ defmodule LiveviewTodos.TodoApplicationService do
   end
 
   def toggle_item(list_id, item_title, deps \\ @deps) do
-    list = deps.repo.get!(List, list_id)
+    list = list(list_id, deps.repo)
     List.toggle_item(list, item_title)
+  end
+
+  def list(list_id, repo) do
+    repo.get!(List, list_id)
   end
 end
