@@ -1,7 +1,7 @@
 defmodule LiveviewTodos.TodoApplicationService do
   @moduledoc """
   This modeule is in the ApplicationService Layer
-  Application Service Layer is responsible for ... 
+  Application Service Layer is responsible for .. 
   ... TODO:
   ... more stuff about Repos and transactions and Workflow ... blah, blah.
   ...
