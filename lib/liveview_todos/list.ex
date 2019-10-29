@@ -11,6 +11,7 @@ defmodule LiveviewTodos.List do
   use Ecto.Schema
   import Ecto.Changeset
   alias LiveviewTodos.List
+  alias LiveviewTodos.Todo
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
@@ -18,6 +19,23 @@ defmodule LiveviewTodos.List do
     field :name, :string
     has_many(:items, LiveviewTodos.Todo, on_delete: :delete_all)
     timestamps()
+  end
+
+  def create_list(name, deps \\ @deps) do
+    result =
+      %List{}
+      |> List.changeset(%{name: name})
+      |> deps.repo.insert()
+      |> deps.topic.broadcast_change([:lists, :created])
+
+    result
+  end
+
+  def create_item(%{"description" => description, "list_id" => list_id}, deps \\ @deps) do
+    %Todo{}
+    |> Todo.changeset(%{title: description, list_id: list_id})
+    |> deps.repo.insert()
+    |> deps.topic.broadcast_change([:todo, :created])
   end
 
   @doc false

@@ -16,14 +16,8 @@ defmodule LiveviewTodos.TodoApplicationService do
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
-  def create_list(name, deps \\ @deps) do
-    result =
-      %List{}
-      |> List.changeset(%{name: name})
-      |> deps.repo.insert()
-      |> deps.topic.broadcast_change([:lists, :created])
-
-    result
+  def create_list(name, _deps \\ @deps) do
+    List.create_list(name)
   end
 
   def delete_list(list_id, deps \\ @deps) do
@@ -31,11 +25,8 @@ defmodule LiveviewTodos.TodoApplicationService do
     List.delete(list)
   end
 
-  def create_item(%{"description" => description, "list_id" => list_id}, deps \\ @deps) do
-    %Todo{}
-    |> Todo.changeset(%{title: description, list_id: list_id})
-    |> deps.repo.insert()
-    |> deps.topic.broadcast_change([:todo, :created])
+  def create_item(%{"description" => description, "list_id" => list_id}) do
+    List.create_item(%{"description" => description, "list_id" => list_id})
   end
 
   def lists(deps \\ @deps) do
