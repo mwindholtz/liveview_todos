@@ -5,7 +5,7 @@ defmodule LiveviewTodos.TodoApplicationService do
   ... TODO:
   ... more stuff about Repos and transactions and Workflow ... blah, blah.
   ...
-  And calling into the Model to the Aggregates 
+  Find or create the Aggregate in the Model, send it a request.  Wait if needed.
   In this app, the Aggregate is the "List"
   So the TodoApplicationService will only connect to the List
   """
