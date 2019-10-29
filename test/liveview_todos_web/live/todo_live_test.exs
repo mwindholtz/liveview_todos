@@ -11,11 +11,6 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
       %Todo{title: title}
     end
 
-    def accept(event) do
-      send(self(), {:accept, event})
-      :ok
-    end
-
     def create_list(attrs) do
       send(self(), {:create_list, attrs})
       :ok
