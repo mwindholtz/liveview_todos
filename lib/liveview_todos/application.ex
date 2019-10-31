@@ -6,14 +6,19 @@ defmodule LiveviewTodos.Application do
   use Application
 
   def start(_type, _args) do
+    import Supervisor.Spec
+
     # List all child processes to be supervised
     children = [
       # Start the Ecto repository
       LiveviewTodos.Repo,
       # Start the endpoint when the application starts
-      LiveviewTodosWeb.Endpoint
+      LiveviewTodosWeb.Endpoint,
       # Starts a worker by calling: LiveviewTodos.Worker.start_link(arg)
       # {LiveviewTodos.Worker, arg},
+      {Registry, keys: :unique, name: LiveviewTodos.ListAggregateRegistry},
+      supervisor(LiveviewTodos.List.Supervisor, []),
+      LiveviewTodos.ListAggregateStarter
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

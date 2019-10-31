@@ -17,7 +17,7 @@ defmodule LiveviewTodos.TodoApplicationService do
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
   def create_list(name, _deps \\ @deps) do
-    List.create_list(name)
+    LiveviewTodos.ListAggregate.create_list(name)
   end
 
   def delete_list(list_id, deps \\ @deps) do
