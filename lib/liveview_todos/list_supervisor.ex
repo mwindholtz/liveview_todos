@@ -12,10 +12,10 @@ defmodule LiveviewTodos.List.Supervisor do
     result
   end
 
-  def start_list_aggregate(%List{id: list_id} = list) do
+  def start_list_aggregate(list_id) when is_integer(list_id) do
     DynamicSupervisor.start_child(
       __MODULE__,
-      {LiveviewTodos.ListAggregate, list}
+      {LiveviewTodos.ListAggregate, list_id}
     )
   end
 end

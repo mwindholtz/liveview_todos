@@ -8,8 +8,8 @@ defmodule LiveviewTodos.ListAggregateStarter do
   end
 
   def init(_args) do
-    Service.lists()
-    |> Enum.each(fn list -> Supervisor.start_list_aggregate(list) end)
+    Service.list_ids()
+    |> Enum.each(fn list -> Supervisor.start_list_aggregate(list.id) end)
 
     # Returning :ignore will cause start_link/3 to return :ignore 
     # and the process will exit normally

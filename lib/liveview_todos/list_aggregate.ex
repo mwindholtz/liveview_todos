@@ -16,8 +16,8 @@ defmodule LiveviewTodos.ListAggregate do
 
   # ---------  Client Interface  -------------
 
-  def start_link(list) do
-    GenServer.start_link(__MODULE__, list, name: via_tuple(list.id))
+  def start_link(list_id) do
+    GenServer.start_link(__MODULE__, list_id, name: via_tuple(list_id))
   end
 
   def create_list(name, deps \\ @deps) do
@@ -32,7 +32,7 @@ defmodule LiveviewTodos.ListAggregate do
   end
 
   defp start_supervised_list_aggregate({:ok, list}) do
-    LiveviewTodos.List.Supervisor.start_list_aggregate(list)
+    LiveviewTodos.List.Supervisor.start_list_aggregate(list.id)
     {:ok, list}
   end
 
@@ -60,10 +60,17 @@ defmodule LiveviewTodos.ListAggregate do
 
   # ---------  Server  -------------
 
-  def init(%List{} = list) do
+  def init(list_id) when is_integer(list_id) do
+    state = %State{list_id: list_id, name: "TBD", deps: @deps}
+    {:ok, state, {:continue, list_id}}
+  end
+
+  def handle_continue(list_id, %State{deps: deps} = state) do
+    list = deps.repo.get_list(list_id)
+
     Logger.info("Loading list #{list.name}")
-    state = %State{list_id: list.id, name: list.name, deps: @deps}
-    {:ok, state}
+    state = %{state | name: list.name}
+    {:noreply, state}
   end
 
   def handle_cast({:toggle_item, item_title}, %State{} = state) do

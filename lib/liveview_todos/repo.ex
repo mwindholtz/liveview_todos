@@ -11,7 +11,7 @@ defmodule LiveviewTodos.Repo do
   end
 
   def get_list(list_id) when is_integer(list_id) do
-    get(List, list_id)
+    get!(List, list_id)
     |> preload(:items)
   end
 
