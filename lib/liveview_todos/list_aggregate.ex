@@ -68,7 +68,6 @@ defmodule LiveviewTodos.ListAggregate do
   def handle_continue(list_id, %State{deps: deps} = state) do
     list = deps.repo.get_list(list_id)
 
-    Logger.info("Loading list #{list.name}")
     state = %{state | name: list.name}
     {:noreply, state}
   end

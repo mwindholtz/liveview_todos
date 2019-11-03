@@ -2,7 +2,12 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
   use LiveviewTodos.DataCase
 
   alias LiveviewTodos.TodoApplicationService, as: Service
-  alias LiveviewTodos.List
+
+  @wait_for_db_to_finish 100
+
+  def wait_for_db_to_finish do
+    Process.sleep(@wait_for_db_to_finish)
+  end
 
   setup do
     LiveviewTodos.TodoTopic.subscribe()
@@ -23,11 +28,13 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
 
       assert_receive {LiveviewTodos.TodoTopic, [:todo, :created], todo}
       assert todo.title == "description"
+      wait_for_db_to_finish()
     end
 
     test "create_item/1", %{attrs: attrs} do
-      assert :ok = Service.create_item(attrs)
+      :ok = Service.create_item(attrs)
       assert_receive {LiveviewTodos.TodoTopic, [:todo, :created], todo}
+      wait_for_db_to_finish()
     end
   end
 
@@ -45,18 +52,21 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
 
       Service.create_list(name_of_list)
       assert_receive {LiveviewTodos.TodoTopic, [:lists, :created], new_list}
+      wait_for_db_to_finish()
     end
 
     test "delete_list/1",
          %{list: list} do
       Service.delete_list(list.id)
       assert_receive {LiveviewTodos.TodoTopic, [:lists, :deleted], new_list}
+      wait_for_db_to_finish()
     end
 
     test "lists()", %{list: list} do
       [result | _] = Service.lists()
 
       assert list.name == result.name
+      wait_for_db_to_finish()
     end
   end
 end
