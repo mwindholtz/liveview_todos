@@ -83,9 +83,20 @@ defmodule LiveviewTodosWeb.TodoLive do
   # -------  Implementation ---------------
 
   def refresh_lists(socket) do
-    list = Service.lists()
-    list_map = Map.new(list, fn list -> {list.id, list} end)
-    assign(socket, lists: list, list_map: list_map)
+    socket =
+      socket
+      |> assign(list_map: %{})
+
+    Service.list_ids()
+    |> Enum.reduce(socket, fn list_id, socket -> refresh_list(socket, list_id) end)
+  end
+
+  def refresh_list(socket, list_id) do
+    list = Service.get_list(list_id)
+    mod_map = Map.put(socket.assigns.list_map, list_id, list)
+
+    socket
+    |> assign(list_map: mod_map)
   end
 
   def todos(%{assigns: assigns} = _socket) do

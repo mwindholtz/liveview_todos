@@ -33,10 +33,18 @@ defmodule LiveviewTodos.TodoApplicationService do
     ListAggregate.create_item(list_id, description)
   end
 
+  def list_ids(deps \\ @deps) do
+    deps.repo.list_ids()
+  end
+
   def lists(deps \\ @deps) do
     List
     |> deps.repo.all()
     |> deps.repo.preload(:items)
+  end
+
+  def get_list(list_id, deps \\ @deps) do
+    deps.repo.get_list(list_id)
   end
 
   def get_item!(list_id, text, deps \\ @deps) do

@@ -1,6 +1,6 @@
 defmodule LiveviewTodos.List do
   @moduledoc """
-  List is the Aggregate in our example app.
+  List is the AggregateRoot in our example app.
   It guarantees invarients.
   (1) When all items are done, the list should be marked as done
   (2) Each list has a WIP (Work in Process) Limit of 5 items, no more may be added

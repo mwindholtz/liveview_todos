@@ -31,6 +31,15 @@ defmodule LiveviewTodos.ListAggregate do
     result
   end
 
+  defp start_supervised_list_aggregate({:ok, list}) do
+    LiveviewTodos.List.Supervisor.start_list_aggregate(list)
+    {:ok, list}
+  end
+
+  defp start_supervised_list_aggregate({:error, message}) do
+    {:error, message}
+  end
+
   def delete_list(list_id) do
     list_id
     |> via_tuple
@@ -47,15 +56,6 @@ defmodule LiveviewTodos.ListAggregate do
     list_id
     |> via_tuple
     |> GenServer.cast({:create_item, description})
-  end
-
-  defp start_supervised_list_aggregate({:ok, list}) do
-    LiveviewTodos.List.Supervisor.start_list_aggregate(list)
-    {:ok, list}
-  end
-
-  defp start_supervised_list_aggregate({:error, message}) do
-    {:error, message}
   end
 
   # ---------  Server  -------------
