@@ -10,9 +10,10 @@ defmodule LiveviewTodosWeb.TodoLive do
 
     socket =
       socket
-      |> assign(lists: Service.lists())
+      |> assign(lists: [])
       |> assign(:todo_application_service, Service)
 
+    send(self(), :load_all)
     {:ok, socket}
   end
 
@@ -52,6 +53,10 @@ defmodule LiveviewTodosWeb.TodoLive do
   #  -------- PubSub ---------------
 
   @topic LiveviewTodos.TodoTopic
+
+  def handle_info(:load_all, socket) do
+    {:noreply, refresh_lists(socket)}
+  end
 
   def handle_info({@topic, [:todo | _], :error, _}, socket) do
     {:noreply, refresh_lists(socket)}
