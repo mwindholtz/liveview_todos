@@ -72,7 +72,7 @@ defmodule LiveviewTodos.ListAggregate do
     {:noreply, state}
   end
 
-  def handle_cast(:delete_list, state) do
+  def handle_cast(:delete_list, %ListAggregate{} = state) do
     list = list(state.list_id)
     List.delete(list)
     {:stop, :normal, state}
@@ -86,7 +86,7 @@ defmodule LiveviewTodos.ListAggregate do
     {:noreply, state}
   end
 
-  def handle_cast(request, state) do
+  def handle_cast(request, %ListAggregate{} = state) do
     Logger.error("UNEXPECTED REQUEST: #{inspect(request)}")
     {:noreply, state}
   end
