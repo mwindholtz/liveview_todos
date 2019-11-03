@@ -6,14 +6,15 @@ defmodule LiveviewTodos.ListAggregate do
 
   use GenServer, restart: :transient
   alias LiveviewTodos.List
-  alias LiveviewTodos.ListAggregate
+  alias LiveviewTodos.ListAggregate.State
   require Logger
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
-  @enforce_keys [:list_id]
-
-  defstruct list_id: :not_set, name: :not_set, deps: @deps
+  defmodule State do
+    @enforce_keys [:list_id, :name, :deps]
+    defstruct [:list_id, :name, :deps]
+  end
 
   # ---------  Client Interface  -------------
 
@@ -63,22 +64,22 @@ defmodule LiveviewTodos.ListAggregate do
 
   def init(%List{} = list) do
     Logger.info("Loading list #{list.name}")
-    state = %ListAggregate{list_id: list.id, name: list.name, deps: @deps}
+    state = %State{list_id: list.id, name: list.name, deps: @deps}
     {:ok, state}
   end
 
-  def handle_cast({:toggle_item, item_title}, %ListAggregate{} = state) do
+  def handle_cast({:toggle_item, item_title}, %State{} = state) do
     do_toggle_item(state.list_id, item_title)
     {:noreply, state}
   end
 
-  def handle_cast(:delete_list, %ListAggregate{} = state) do
+  def handle_cast(:delete_list, %State{} = state) do
     list = list(state.list_id)
     List.delete(list)
     {:stop, :normal, state}
   end
 
-  def handle_cast({:create_item, description}, %ListAggregate{} = state) do
+  def handle_cast({:create_item, description}, %State{} = state) do
     list = list(state.list_id)
 
     {:ok, _todo} = List.create_item(list, %{"description" => description})
@@ -86,7 +87,7 @@ defmodule LiveviewTodos.ListAggregate do
     {:noreply, state}
   end
 
-  def handle_cast(request, %ListAggregate{} = state) do
+  def handle_cast(request, %State{} = state) do
     Logger.error("UNEXPECTED REQUEST: #{inspect(request)}")
     {:noreply, state}
   end
