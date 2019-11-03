@@ -9,10 +9,12 @@ defmodule LiveviewTodos.ListAggregate do
   # alias LiveviewTodos.Todo
   require Logger
 
+  @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
+
   # ---------  Client Interface  -------------
 
   def start_link(list) do
-    GenServer.start_link(__MODULE__, list)
+    GenServer.start_link(__MODULE__, list, name: via_tuple(list.id))
   end
 
   def create_list(name, deps \\ @deps) do
@@ -20,29 +22,56 @@ defmodule LiveviewTodos.ListAggregate do
       %List{}
       |> List.changeset(%{name: name})
       |> deps.repo.insert()
-      |> LiveviewTodos.List.Supervisor.start_list_aggregate()
+      |> start_supervised_list_aggregate()
       |> deps.topic.broadcast_change([:lists, :created])
 
     result
   end
 
+  defp start_supervised_list_aggregate({:ok, list}) do
+    LiveviewTodos.List.Supervisor.start_list_aggregate(list)
+    {:ok, list}
+  end
+
+  defp start_supervised_list_aggregate({:error, message}) do
+    {:error, message}
+  end
+
+  def toggle_item(list_id, item_title) do
+    list_id
+    |> via_tuple
+    |> GenServer.cast({:toggle_item, item_title})
+  end
 
   # ---------  Server  -------------
 
-  def init(list) do
+  def init(%List{} = list) do
     Logger.info("Loading list #{list.name}")
     state = %{list_id: list.id, deps: @deps}
     {:ok, state}
   end
 
-  def handle_cast(_request, state) do
+  def handle_cast({:toggle_item, item_title}, state) do
+    do_toggle_item(state.list_id, item_title)
+    {:noreply, state}
+  end
+
+  def handle_cast(request, state) do
     {:noreply, state}
   end
 
   # ----------  Implementation ------
 
   def via_tuple(list_id) do
-    {:via, Registry, {LiveviewTodos.ListAggregateRegistry, list_id}}
+    {:via, Registry, {LiveviewTodos.ListAggregateRegistry, "#{list_id}"}}
   end
 
+  def list(list_id, deps \\ @deps) do
+    deps.repo.get_list(list_id)
+  end
+
+  def do_toggle_item(list_id, item_title, deps \\ @deps) do
+    list = list(list_id, deps)
+    List.toggle_item(list, item_title)
+  end
 end

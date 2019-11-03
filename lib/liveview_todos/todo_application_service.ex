@@ -13,11 +13,12 @@ defmodule LiveviewTodos.TodoApplicationService do
   import Ecto.Query, warn: false
   alias LiveviewTodos.Todo
   alias LiveviewTodos.List
+  alias LiveviewTodos.ListAggregate
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
   def create_list(name, _deps \\ @deps) do
-    LiveviewTodos.ListAggregate.create_list(name)
+    ListAggregate.create_list(name)
   end
 
   def delete_list(list_id, deps \\ @deps) do
@@ -45,8 +46,8 @@ defmodule LiveviewTodos.TodoApplicationService do
     deps.repo.one!(query)
   end
 
-  def toggle_item(list_id, item_title, deps \\ @deps) do
-    list = list(list_id, deps)
-    List.toggle_item(list, item_title)
+  def toggle_item(list_id, item_title, _deps \\ @deps) do
+    IO.inspect("toggle_item", label: __MODULE__)
+    LiveviewTodos.ListAggregate.toggle_item(list_id, item_title)
   end
 end

@@ -520,6 +520,33 @@
 	"buffers":
 	[
 		{
+			"file": "lib/liveview_todos/application.ex",
+			"settings":
+			{
+				"buffer_size": 1171,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "lib/liveview_todos/list_aggregate.ex",
+			"settings":
+			{
+				"buffer_size": 1071,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "lib/liveview_todos/todo_application_service.ex",
+			"settings":
+			{
+				"buffer_size": 1475,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "lib/liveview_todos/list.ex",
 			"settings":
 			{
@@ -529,37 +556,10 @@
 			}
 		},
 		{
-			"file": "lib/liveview_todos/aggregate_starter.ex",
+			"file": "lib/liveview_todos/list_supervisor.ex",
 			"settings":
 			{
-				"buffer_size": 419,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "lib/liveview_todos/application.ex",
-			"settings":
-			{
-				"buffer_size": 1095,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "lib/liveview_todos/todo_application_service.ex",
-			"settings":
-			{
-				"buffer_size": 1452,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "lib/liveview_todos_web/templates/todo/todos.html.leex",
-			"settings":
-			{
-				"buffer_size": 937,
+				"buffer_size": 592,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -629,6 +629,9 @@
 	],
 	"file_history":
 	[
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/aggregate_starter.ex",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/list.ex",
+		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/templates/todo/todos.html.leex",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/README.md",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/list_supervisor.ex",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/test/liveview_todos/todo_application_service_test.exs",
@@ -638,7 +641,6 @@
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/application.ex",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/test/support/data_case.ex",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/live/todo_live.ex",
-		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/list.ex",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/repo.ex",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/assets/package-lock.json",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/todo.ex",
@@ -648,7 +650,6 @@
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/mix.exs",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/todo_topic.ex",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos/todo_application_service.ex",
-		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/lib/liveview_todos_web/templates/todo/todos.html.leex",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/priv/repo/migrations/20191027161800_add_list_id_to_todos.exs",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/priv/repo/structure.sql",
 		"/Users/mark/projects/mwindholtz/examples/example_ddd_todo/liveview_todos/priv/repo/migrations/20191027022841_create_lists.exs",
@@ -755,8 +756,7 @@
 		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/core/session_child_repo.ex",
 		"/Users/mark/projects/mwindholtz/cchmc-stp/test/stp/core/session_repo_test.exs",
 		"/Users/mark/projects/mwindholtz/cchmc-stp/test/stp/core/point_check_presenter_test.exs",
-		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/core/eod/group_child_row.ex",
-		"/Users/mark/projects/mwindholtz/cchmc-stp/test/stp/core/bonus_amount_test.exs"
+		"/Users/mark/projects/mwindholtz/cchmc-stp/lib/stp/core/eod/group_child_row.ex"
 	],
 	"find":
 	{
@@ -835,24 +835,24 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "lib/liveview_todos/list.ex",
+					"file": "lib/liveview_todos/application.ex",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1963,
+						"buffer_size": 1171,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								756,
-								756
+								172,
+								172
 							]
 						],
 						"settings":
@@ -863,27 +863,64 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 397.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "lib/liveview_todos/aggregate_starter.ex",
+					"file": "lib/liveview_todos/list_aggregate.ex",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 419,
+						"buffer_size": 1071,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								10,
-								44
+								332,
+								332
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Elixir/Syntaxes/Elixir.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 61.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 2,
+					"file": "lib/liveview_todos/todo_application_service.ex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1475,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								640,
+								640
 							]
 						],
 						"settings":
@@ -901,57 +938,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "lib/liveview_todos/application.ex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1095,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								554,
-								554
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Elixir/Syntaxes/Elixir.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
 					"buffer": 3,
-					"file": "lib/liveview_todos/todo_application_service.ex",
+					"file": "lib/liveview_todos/list.ex",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1452,
+						"buffer_size": 1963,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								179,
-								179
+								444,
+								471
 							]
 						],
 						"settings":
@@ -970,25 +970,25 @@
 				},
 				{
 					"buffer": 4,
-					"file": "lib/liveview_todos_web/templates/todo/todos.html.leex",
+					"file": "lib/liveview_todos/list_supervisor.ex",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 937,
+						"buffer_size": 592,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								901,
-								901
+								480,
+								480
 							]
 						],
 						"settings":
 						{
 							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Elixir/Syntaxes/HTML (EEx).tmLanguage",
+							"syntax": "Packages/Elixir/Syntaxes/Elixir.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
@@ -996,7 +996,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -1030,7 +1030,7 @@
 		"cols":
 		[
 			0.0,
-			0.450556367771,
+			0.46198039761,
 			1.0
 		],
 		"rows":
@@ -1074,16 +1074,36 @@
 		"selected_items":
 		[
 			[
+				"starte",
+				"lib/liveview_todos/aggregate_starter.ex"
+			],
+			[
+				"agg sta",
+				"lib/liveview_todos/aggregate_starter.ex"
+			],
+			[
+				"li sup",
+				"lib/liveview_todos/list_supervisor.ex"
+			],
+			[
+				"start",
+				"lib/liveview_todos/aggregate_starter.ex"
+			],
+			[
+				"list",
+				"lib/liveview_todos/list.ex"
+			],
+			[
+				"list agg",
+				"lib/liveview_todos/list_aggregate.ex"
+			],
+			[
 				"appli",
 				"lib/liveview_todos/application.ex"
 			],
 			[
 				"todlive",
 				"lib/liveview_todos_web/live/todo_live.ex"
-			],
-			[
-				"list",
-				"lib/liveview_todos/list.ex"
 			],
 			[
 				"repo",
@@ -1564,26 +1584,6 @@
 			[
 				"reslver",
 				"lib/stp/core/observation_resolver.ex"
-			],
-			[
-				"csv",
-				"lib/stp/web/controllers/csv_controller.ex"
-			],
-			[
-				"obsevrepo",
-				"lib/stp/core/observation_repo.ex"
-			],
-			[
-				"obsertest",
-				"test/stp/core/observation_test.exs"
-			],
-			[
-				"client",
-				"test/support/api_client.ex"
-			],
-			[
-				"obse build",
-				"test/support/observations_builder.ex"
 			]
 		],
 		"width": 0.0
@@ -1606,7 +1606,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},
@@ -1614,7 +1614,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 256.0,
+	"side_bar_width": 200.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
