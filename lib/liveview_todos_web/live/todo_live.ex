@@ -11,6 +11,7 @@ defmodule LiveviewTodosWeb.TodoLive do
     socket =
       socket
       |> assign(lists: [])
+      |> assign(list_map: %{})
       |> assign(:todo_application_service, Service)
 
     send(self(), :load_all)
@@ -82,7 +83,8 @@ defmodule LiveviewTodosWeb.TodoLive do
   # -------  Implementation ---------------
 
   def refresh_lists(socket) do
-    assign(socket, lists: Service.lists())
+    list = Service.lists()
+    assign(socket, lists: last)
   end
 
   def todos(%{assigns: assigns} = _socket) do
