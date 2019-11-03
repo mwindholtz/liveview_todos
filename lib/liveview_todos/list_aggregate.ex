@@ -6,10 +6,14 @@ defmodule LiveviewTodos.ListAggregate do
 
   use GenServer, restart: :transient
   alias LiveviewTodos.List
-  # alias LiveviewTodos.Todo
+  alias LiveviewTodos.ListAggregate
   require Logger
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
+
+  @enforce_keys [:list_id]
+
+  defstruct list_id: :not_set, name: :not_set, deps: @deps
 
   # ---------  Client Interface  -------------
 
@@ -34,6 +38,18 @@ defmodule LiveviewTodos.ListAggregate do
     |> GenServer.cast(:delete_list)
   end
 
+  def toggle_item(list_id, item_title) do
+    list_id
+    |> via_tuple
+    |> GenServer.cast({:toggle_item, item_title})
+  end
+
+  def create_item(list_id, description) do
+    list_id
+    |> via_tuple
+    |> GenServer.cast({:create_item, description})
+  end
+
   defp start_supervised_list_aggregate({:ok, list}) do
     LiveviewTodos.List.Supervisor.start_list_aggregate(list)
     {:ok, list}
@@ -43,21 +59,15 @@ defmodule LiveviewTodos.ListAggregate do
     {:error, message}
   end
 
-  def toggle_item(list_id, item_title) do
-    list_id
-    |> via_tuple
-    |> GenServer.cast({:toggle_item, item_title})
-  end
-
   # ---------  Server  -------------
 
   def init(%List{} = list) do
     Logger.info("Loading list #{list.name}")
-    state = %{list_id: list.id, name: list.name, deps: @deps}
+    state = %ListAggregate{list_id: list.id, name: list.name, deps: @deps}
     {:ok, state}
   end
 
-  def handle_cast({:toggle_item, item_title}, state) do
+  def handle_cast({:toggle_item, item_title}, %ListAggregate{} = state) do
     do_toggle_item(state.list_id, item_title)
     {:noreply, state}
   end
@@ -68,7 +78,16 @@ defmodule LiveviewTodos.ListAggregate do
     {:stop, :normal, state}
   end
 
+  def handle_cast({:create_item, description}, %ListAggregate{} = state) do
+    list = list(state.list_id)
+
+    {:ok, _todo} = List.create_item(list, %{"description" => description})
+
+    {:noreply, state}
+  end
+
   def handle_cast(request, state) do
+    Logger.error("UNEXPECTED REQUEST: #{inspect(request)}")
     {:noreply, state}
   end
 

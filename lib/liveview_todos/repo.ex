@@ -9,8 +9,8 @@ defmodule LiveviewTodos.Repo do
     aggregate(table, :count, :id)
   end
 
-  def get_list(list_id) do
-    get!(List, list_id)
+  def get_list(list_id) when is_integer(list_id) do
+    get(List, list_id)
     |> preload(:items)
   end
 end
