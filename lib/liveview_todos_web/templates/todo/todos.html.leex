@@ -6,14 +6,14 @@
 
 
 <h3>Lists</h3>
-<%= for list <- @lists do %>
+<%= for {list_id, list} <- @list_map do %>
   <div>
     <span phx-click="delete-list" phx-value-list-id="<%= list.id %>"><img src="/images/cancel.png">
     </span>
     <%= list.name %> 
     <form action="#" phx-submit="add-item">
       <%= text_input :item, :description, placeholder: "item description" %>   
-      <%= hidden_input :item, :list_id, [value: list.id] %>   
+      <%= hidden_input :item, :list_id, [value: list_id] %>   
       <%= submit "Add to #{list.name}", phx_disable_with: "Adding ..." %>
     </form>
   </div>
@@ -21,7 +21,7 @@
     <div>
       <%= checkbox(:todo, :done, phx_click: "toggle_done", 
       phx_value_item_title: item.title, 
-      phx_value_list_id: list.id, 
+      phx_value_list_id: list_id, 
       value: item.done) %>
       <%= item.title %>
     </div>

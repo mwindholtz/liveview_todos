@@ -84,7 +84,8 @@ defmodule LiveviewTodosWeb.TodoLive do
 
   def refresh_lists(socket) do
     list = Service.lists()
-    assign(socket, lists: last)
+    list_map = Map.new(list, fn list -> {list.id, list} end)
+    assign(socket, lists: list, list_map: list_map)
   end
 
   def todos(%{assigns: assigns} = _socket) do
