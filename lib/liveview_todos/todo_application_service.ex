@@ -33,10 +33,6 @@ defmodule LiveviewTodos.TodoApplicationService do
     ListAggregate.create_item(list_id, description)
   end
 
-  def list(list_id, deps \\ @deps) do
-    deps.repo.get!(List, list_id)
-  end
-
   def lists(deps \\ @deps) do
     List
     |> deps.repo.all()

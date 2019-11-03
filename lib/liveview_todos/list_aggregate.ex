@@ -9,8 +9,6 @@ defmodule LiveviewTodos.ListAggregate do
   alias LiveviewTodos.ListAggregate.State
   require Logger
 
-  @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
-
   defmodule State do
     @enforce_keys [:list_id, :name, :deps]
     defstruct [:list_id, :name, :deps]
