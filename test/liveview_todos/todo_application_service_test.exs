@@ -49,6 +49,7 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
          %{list: list} do
       assert_repo_changed(List, -1, fn ->
         Service.delete_list(list.id)
+        Process.sleep(200)
       end)
     end
 

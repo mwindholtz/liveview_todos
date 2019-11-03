@@ -28,6 +28,12 @@ defmodule LiveviewTodos.ListAggregate do
     result
   end
 
+  def delete_list(list_id) do
+    list_id
+    |> via_tuple
+    |> GenServer.cast(:delete_list)
+  end
+
   defp start_supervised_list_aggregate({:ok, list}) do
     LiveviewTodos.List.Supervisor.start_list_aggregate(list)
     {:ok, list}
@@ -47,13 +53,19 @@ defmodule LiveviewTodos.ListAggregate do
 
   def init(%List{} = list) do
     Logger.info("Loading list #{list.name}")
-    state = %{list_id: list.id, deps: @deps}
+    state = %{list_id: list.id, name: list.name, deps: @deps}
     {:ok, state}
   end
 
   def handle_cast({:toggle_item, item_title}, state) do
     do_toggle_item(state.list_id, item_title)
     {:noreply, state}
+  end
+
+  def handle_cast(:delete_list, state) do
+    list = list(state.list_id)
+    List.delete(list)
+    {:stop, :normal, state}
   end
 
   def handle_cast(request, state) do

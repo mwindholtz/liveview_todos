@@ -21,9 +21,12 @@ defmodule LiveviewTodos.TodoApplicationService do
     ListAggregate.create_list(name)
   end
 
+  def toggle_item(list_id, item_title, _deps \\ @deps) do
+    ListAggregate.toggle_item(list_id, item_title)
+  end
+
   def delete_list(list_id, deps \\ @deps) do
-    list = list(list_id, deps)
-    List.delete(list)
+    ListAggregate.delete_list(list_id)
   end
 
   def create_item(%{"description" => description, "list_id" => list_id}, deps \\ @deps) do
@@ -44,10 +47,5 @@ defmodule LiveviewTodos.TodoApplicationService do
   def get_item!(list_id, text, deps \\ @deps) do
     query = from(t in Todo, where: [list_id: ^list_id, title: ^text])
     deps.repo.one!(query)
-  end
-
-  def toggle_item(list_id, item_title, _deps \\ @deps) do
-    IO.inspect("toggle_item", label: __MODULE__)
-    LiveviewTodos.ListAggregate.toggle_item(list_id, item_title)
   end
 end
