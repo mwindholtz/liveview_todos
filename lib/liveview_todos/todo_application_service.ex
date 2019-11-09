@@ -14,8 +14,12 @@ defmodule LiveviewTodos.TodoApplicationService do
   alias LiveviewTodos.Todo
   alias LiveviewTodos.List
   alias LiveviewTodos.ListAggregate
+  alias LiveviewTodos.DomainEvent
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
+
+  def accept(%DomainEvent{}) do
+  end
 
   def create_list(name, _deps \\ @deps) do
     ListAggregate.create_list(name)

@@ -1,5 +1,6 @@
 defmodule LiveviewTodosWeb.TodoLiveTest do
   use LiveviewTodosWeb.ConnCase
+  alias LiveviewTodos.DomainEvent
   alias LiveviewTodos.Todo
   alias LiveviewTodosWeb.TodoLive
   alias Phoenix.LiveView
@@ -9,6 +10,11 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
   @topic LiveviewTodosWeb.TodoLive.topic()
 
   defmodule TodoApplicationServiceStub do
+    def accept(%DomainEvent{} = event) do
+      send(self(), {:create_list, event})
+      :ok
+    end
+
     def create_list(attrs) do
       send(self(), {:create_list, attrs})
       :ok

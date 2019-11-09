@@ -1,5 +1,6 @@
 defmodule LiveviewTodosWeb.TodoLive do
   use Phoenix.LiveView
+  alias LiveviewTodos.DomainEvent
   alias LiveviewTodos.TodoApplicationService, as: Service
   alias LiveviewTodos.TodoTopic
   alias LiveviewTodosWeb.TodoView
@@ -32,6 +33,8 @@ defmodule LiveviewTodosWeb.TodoLive do
   # --------- LiveView Events From the User Interface-----------
 
   def handle_event("create-list", %{"list" => %{"name" => name}}, %Socket{} = socket) do
+    event = DomainEvent.new(:create_list, name, __MODULE__)
+    todos(socket).accept(event)
     todos(socket).create_list(name)
     {:noreply, socket}
   end
