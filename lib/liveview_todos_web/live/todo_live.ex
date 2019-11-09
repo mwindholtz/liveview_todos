@@ -75,7 +75,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   def handle_info(tuple, socket) do
-    IO.inspect(tuple, label: "unexpected TUPLE ==================== ")
+    Logger.error("UNHANDED PUBSUB TUPLE: #{tuple}")
     {:noreply, refresh_lists(socket)}
   end
 
