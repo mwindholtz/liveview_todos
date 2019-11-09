@@ -22,7 +22,7 @@ defmodule LiveviewTodosWeb.TodoLive do
     TodoView.render("todos.html", assigns)
   end
 
-  # --------- LiveView Events -----------
+  # --------- LiveView Events From the User Interface-----------
 
   def handle_event("create-list", %{"list" => %{"name" => name}}, socket) do
     todos(socket).create_list(name)
@@ -51,7 +51,7 @@ defmodule LiveviewTodosWeb.TodoLive do
     {:noreply, socket}
   end
 
-  #  -------- PubSub ---------------
+  #  -------- PubSub From the Domain Layer ---------------
 
   @topic LiveviewTodos.TodoTopic
 
@@ -67,11 +67,11 @@ defmodule LiveviewTodosWeb.TodoLive do
     {:noreply, refresh_lists(socket)}
   end
 
-  def handle_info({@topic, [:lists | _], _}, socket) do
+  def handle_info({@topic, [:lists | _], :error, _}, socket) do
     {:noreply, refresh_lists(socket)}
   end
 
-  def handle_info({@topic, [:lists | _], :error, _}, socket) do
+  def handle_info({@topic, [:lists | _], _}, socket) do
     {:noreply, refresh_lists(socket)}
   end
 
