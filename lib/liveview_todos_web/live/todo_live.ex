@@ -5,8 +5,11 @@ defmodule LiveviewTodosWeb.TodoLive do
   alias LiveviewTodosWeb.TodoView
   alias LiveviewTodosWeb.TodoLive.Command
   alias Phoenix.LiveView.Socket
-
   require Logger
+  @topic LiveviewTodos.TodoTopic
+
+  def topic, do: @topic
+
   # --------- LiveView -----------
 
   def mount(_session, %Socket{} = socket) do
@@ -58,8 +61,6 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   #  -------- PubSub From the Domain Layer ---------------
-
-  @topic LiveviewTodos.TodoTopic
 
   def handle_info(:load_all, %Socket{} = socket) do
     {:noreply, command(socket).refresh_lists(socket)}
