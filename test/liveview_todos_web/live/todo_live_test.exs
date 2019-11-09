@@ -126,4 +126,6 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
       assert_receive {:refresh_lists, _socket}
     end
   end
+
+  # WIP, needs test for LiveviewTodosWeb.TodoLive.Command
 end

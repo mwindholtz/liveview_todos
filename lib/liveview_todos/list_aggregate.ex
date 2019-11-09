@@ -1,6 +1,5 @@
 defmodule LiveviewTodos.ListAggregate do
   @moduledoc """
-  Aggregates historical telemetry records
   """
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
