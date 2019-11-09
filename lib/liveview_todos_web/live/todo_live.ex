@@ -3,6 +3,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   alias LiveviewTodos.TodoApplicationService, as: Service
   alias LiveviewTodosWeb.TodoView
   alias LiveviewTodos.TodoTopic
+  require Logger
   # --------- LiveView -----------
 
   def mount(_session, socket) do
@@ -45,9 +46,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   def handle_event(event, args, socket) do
-    IO.inspect("UNHANDED LIVE EVENT ================================= ")
-    IO.inspect(event, label: "event")
-    IO.inspect(args, label: "args")
+    Logger.error("UNHANDED LIVE EVENT: #{event} ===== ARGS: #{args}")
     {:noreply, socket}
   end
 

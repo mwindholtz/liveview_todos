@@ -6,11 +6,6 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
   alias Phoenix.LiveView.Socket
 
   defmodule TodoApplicationServiceStub do
-    def get_item!(_list_id, title) do
-      send(self(), {:get_item, title})
-      %Todo{title: title}
-    end
-
     def create_list(attrs) do
       send(self(), {:create_list, attrs})
       :ok
