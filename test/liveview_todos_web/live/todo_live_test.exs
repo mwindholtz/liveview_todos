@@ -4,6 +4,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
   alias LiveviewTodosWeb.TodoLive
   alias Phoenix.LiveView
   alias Phoenix.LiveView.Socket
+  import ExUnit.CaptureLog
 
   defmodule TodoApplicationServiceStub do
     def create_list(attrs) do
@@ -27,9 +28,17 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
     end
   end
 
+  defmodule CommandStub do
+    def refresh_lists(%Socket{} = socket) do
+      send(self(), {:refresh_lists, socket})
+      :ok
+    end
+  end
+
   def socket_with_stub do
     %Socket{}
     |> LiveView.assign(:todo_application_service, TodoApplicationServiceStub)
+    |> LiveView.assign(:command, CommandStub)
   end
 
   describe "TodoLive.handle_event" do
@@ -68,6 +77,19 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
         )
 
       assert_receive {:toggle_item, "title"}
+    end
+  end
+
+  describe "TodoLive.handle_info" do
+    test "UNHANDED" do
+      expected_log_message = "UNHANDED PUBSUB TUPLE: {:unexpected, 99}"
+      # When 
+      log =
+        capture_log(fn ->
+          TodoLive.handle_info({:unexpected, 99}, socket_with_stub())
+        end)
+
+      assert log =~ expected_log_message
     end
   end
 end

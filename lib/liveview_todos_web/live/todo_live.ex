@@ -82,7 +82,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   def handle_info(tuple, %Socket{} = socket) do
-    Logger.error("UNHANDED PUBSUB TUPLE: #{tuple}")
+    Logger.error("UNHANDED PUBSUB TUPLE: #{inspect(tuple)}")
     {:noreply, command(socket).refresh_lists(socket)}
   end
 
