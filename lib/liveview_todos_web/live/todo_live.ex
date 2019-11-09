@@ -116,9 +116,8 @@ defmodule LiveviewTodosWeb.TodoLive do
       |> assign(list_map: mod_map)
     end
 
-    # injection helper, retrieve the previously injected module 
-    def todos(%Socket{assigns: assigns} = _socket) do
-      Map.fetch!(assigns, :todo_application_service)
+    def todos(%Socket{} = socket) do
+      LiveviewTodosWeb.TodoLive.todos(socket)
     end
   end
 end
