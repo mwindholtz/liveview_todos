@@ -62,32 +62,38 @@ defmodule LiveviewTodosWeb.TodoLive do
   @topic LiveviewTodos.TodoTopic
 
   def handle_info(:load_all, %Socket{} = socket) do
-    {:noreply, Command.refresh_lists(socket)}
+    {:noreply, command(socket).refresh_lists(socket)}
   end
 
   def handle_info({@topic, [:todo | _], :error, _}, %Socket{} = socket) do
-    {:noreply, Command.refresh_lists(socket)}
+    {:noreply, command(socket).refresh_lists(socket)}
   end
 
   def handle_info({@topic, [:todo | _], _}, %Socket{} = socket) do
-    {:noreply, Command.refresh_lists(socket)}
+    {:noreply, command(socket).refresh_lists(socket)}
   end
 
   def handle_info({@topic, [:lists | _], :error, _}, %Socket{} = socket) do
-    {:noreply, Command.refresh_lists(socket)}
+    {:noreply, command(socket).refresh_lists(socket)}
   end
 
   def handle_info({@topic, [:lists | _], _}, %Socket{} = socket) do
-    {:noreply, Command.refresh_lists(socket)}
+    {:noreply, command(socket).refresh_lists(socket)}
   end
 
   def handle_info(tuple, %Socket{} = socket) do
     Logger.error("UNHANDED PUBSUB TUPLE: #{tuple}")
-    {:noreply, Command.refresh_lists(socket)}
+    {:noreply, command(socket).refresh_lists(socket)}
   end
 
+  # injection helper, retrieve the previously injected module 
   def todos(%Socket{assigns: assigns} = _socket) do
     Map.fetch!(assigns, :todo_application_service)
+  end
+
+  # injection helper, retrieve the previously injected module 
+  def command(%Socket{assigns: assigns} = _socket) do
+    Map.get(assigns, :command, Command)
   end
 
   # -------  Implementation ---------------
