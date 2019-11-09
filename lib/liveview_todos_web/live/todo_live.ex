@@ -104,16 +104,21 @@ defmodule LiveviewTodosWeb.TodoLive do
         socket
         |> assign(list_map: %{})
 
-      Service.list_ids()
+      todos(socket).list_ids()
       |> Enum.reduce(socket, fn list_id, socket -> refresh_one_list(socket, list_id) end)
     end
 
     def refresh_one_list(%Socket{} = socket, list_id) do
-      list = Service.get_list(list_id)
+      list = todos(socket).get_list(list_id)
       mod_map = Map.put(socket.assigns.list_map, list_id, list)
 
       socket
       |> assign(list_map: mod_map)
+    end
+
+    # injection helper, retrieve the previously injected module 
+    def todos(%Socket{assigns: assigns} = _socket) do
+      Map.fetch!(assigns, :todo_application_service)
     end
   end
 end
