@@ -22,12 +22,14 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
 
       assert_receive {LiveviewTodos.TodoTopic, [:lists, :created], new_list}
 
-      attrs = %{"description" => "description", "list_id" => list.id}
+      attrs = %{description: "description", list_id: list.id}
       %{attrs: attrs}
     end
 
+    # WIP TODO is this still useful?
     test "get_item!/2", %{attrs: attrs} do
-      :ok = Service.create_item(attrs)
+      DomainEvent.new(:create_item, attrs, __MODULE__)
+      |> Service.accept()
 
       assert_receive {LiveviewTodos.TodoTopic, [:todo, :created], todo}
       assert todo.title == "description"
@@ -35,8 +37,12 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
     end
 
     test "create_item/1", %{attrs: attrs} do
-      :ok = Service.create_item(attrs)
-      assert_receive {LiveviewTodos.TodoTopic, [:todo, :created], todo}
+      # When
+      DomainEvent.new(:create_item, attrs, __MODULE__)
+      |> Service.accept()
+
+      assert_receive {LiveviewTodos.TodoTopic, [:todo, :created], new_list}
+
       wait_for_db_to_finish()
     end
 

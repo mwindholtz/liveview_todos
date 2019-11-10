@@ -48,7 +48,15 @@ defmodule LiveviewTodosWeb.TodoLive do
   def handle_event("add-item", %{"item" => item}, %Socket{} = socket) do
     # WIP TODO
     %{"description" => description, "list_id" => list_id} = item
-    service(socket).create_item(item)
+
+    event =
+      DomainEvent.new(
+        :create_item,
+        %{list_id: list_id |> String.to_integer(), description: description},
+        __MODULE__
+      )
+
+    service(socket).accept(event)
     {:noreply, socket}
   end
 

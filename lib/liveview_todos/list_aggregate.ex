@@ -85,6 +85,17 @@ defmodule LiveviewTodos.ListAggregate do
     {:stop, :normal, state}
   end
 
+  def handle_cast(
+        {:domain_event, %DomainEvent{name: :create_item, attrs: %{description: description}}},
+        %State{} = state
+      ) do
+    list = list(state.list_id)
+
+    {:ok, _todo} = List.create_item(list, %{"description" => description})
+
+    {:noreply, state}
+  end
+
   def handle_cast({:create_item, description}, %State{} = state) do
     list = list(state.list_id)
 
