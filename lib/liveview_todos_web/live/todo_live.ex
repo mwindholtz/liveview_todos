@@ -47,6 +47,7 @@ defmodule LiveviewTodosWeb.TodoLive do
 
   def handle_event("add-item", %{"item" => item}, %Socket{} = socket) do
     # WIP TODO
+    %{"description" => description, "list_id" => list_id} = item
     service(socket).create_item(item)
     {:noreply, socket}
   end
