@@ -2,6 +2,7 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
   use LiveviewTodos.DataCase
 
   alias LiveviewTodos.TodoApplicationService, as: Service
+  alias LiveviewTodos.DomainEvent
 
   @wait_for_db_to_finish 100
 
@@ -16,7 +17,9 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
 
   describe "item" do
     setup do
-      {:ok, list} = Service.create_list("Homework")
+      event = DomainEvent.new(:create_list, "Homework", __MODULE__)
+      {:ok, list} = Service.accept(event)
+
       assert_receive {LiveviewTodos.TodoTopic, [:lists, :created], new_list}
 
       attrs = %{"description" => "description", "list_id" => list.id}
@@ -41,7 +44,9 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
   describe "list" do
     setup do
       name_of_list = "Grocery"
-      {:ok, list} = Service.create_list(name_of_list)
+      event = DomainEvent.new(:create_list, name_of_list, __MODULE__)
+
+      {:ok, list} = Service.accept(event)
       assert_receive {LiveviewTodos.TodoTopic, [:lists, :created], new_list}
 
       %{list: list, name_of_list: name_of_list}
@@ -49,6 +54,8 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
 
     test "create_list/1" do
       name_of_list = "School"
+      event = DomainEvent.new(:create_list, name_of_list, __MODULE__)
+      {:ok, _list} = Service.accept(event)
 
       Service.create_list(name_of_list)
       assert_receive {LiveviewTodos.TodoTopic, [:lists, :created], new_list}

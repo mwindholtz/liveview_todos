@@ -18,11 +18,11 @@ defmodule LiveviewTodos.TodoApplicationService do
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
-  def accept(%DomainEvent{}) do
+  def accept(%DomainEvent{attrs: name}) do
+    ListAggregate.create_list(name)
   end
 
   def create_list(name, _deps \\ @deps) do
-    ListAggregate.create_list(name)
   end
 
   def toggle_item(list_id, item_title, _deps \\ @deps) do
