@@ -6,6 +6,7 @@ defmodule LiveviewTodos.ListAggregate do
   use GenServer, restart: :transient
   alias LiveviewTodos.List
   alias LiveviewTodos.ListAggregate.State
+  alias LiveviewTodos.DomainEvent
   require Logger
 
   defmodule State do
@@ -17,6 +18,10 @@ defmodule LiveviewTodos.ListAggregate do
 
   def start_link(list_id) do
     GenServer.start_link(__MODULE__, list_id, name: via_tuple(list_id))
+  end
+
+  def accept(%DomainEvent{name: :create_list, attrs: name}) do
+    create_list(name)
   end
 
   def create_list(name, deps \\ @deps) do
