@@ -11,7 +11,6 @@ defmodule LiveviewTodos.TodoApplicationService do
   """
 
   import Ecto.Query, warn: false
-  alias LiveviewTodos.Todo
   alias LiveviewTodos.List
   alias LiveviewTodos.ListAggregate
   alias LiveviewTodos.DomainEvent
@@ -36,10 +35,5 @@ defmodule LiveviewTodos.TodoApplicationService do
 
   def get_list(list_id, deps \\ @deps) do
     deps.repo.get_list(list_id)
-  end
-
-  def get_item!(list_id, text, deps \\ @deps) do
-    query = from(t in Todo, where: [list_id: ^list_id, title: ^text])
-    deps.repo.one!(query)
   end
 end

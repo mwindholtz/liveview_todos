@@ -26,16 +26,6 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
       %{attrs: attrs}
     end
 
-    # WIP TODO is this still useful?
-    test "get_item!/2", %{attrs: attrs} do
-      DomainEvent.new(:create_item, attrs)
-      |> Service.accept()
-
-      assert_receive {LiveviewTodos.TodoTopic, [:todo, :created], todo}
-      assert todo.title == "description"
-      wait_for_db_to_finish()
-    end
-
     test "create_item/1", %{attrs: attrs} do
       # When
       DomainEvent.new(:create_item, attrs)
