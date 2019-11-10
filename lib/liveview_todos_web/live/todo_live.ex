@@ -40,6 +40,7 @@ defmodule LiveviewTodosWeb.TodoLive do
 
   def handle_event("delete-list", %{"list-id" => list_id}, %Socket{} = socket) do
     event = DomainEvent.new(:delete_list, %{list_id: list_id |> String.to_integer()}, __MODULE__)
+
     service(socket).accept(event)
     {:noreply, socket}
   end

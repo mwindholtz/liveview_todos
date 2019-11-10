@@ -48,18 +48,6 @@ defmodule LiveviewTodos.ListAggregate do
     {:error, message}
   end
 
-  def delete_list(list_id) do
-    list_id
-    |> via_tuple
-    |> GenServer.cast(:delete_list)
-  end
-
-  def toggle_item(list_id, item_title) do
-    list_id
-    |> via_tuple
-    |> GenServer.cast({:toggle_item, item_title})
-  end
-
   def create_item(list_id, description) do
     list_id
     |> via_tuple
@@ -88,7 +76,10 @@ defmodule LiveviewTodos.ListAggregate do
     {:noreply, state}
   end
 
-  def handle_cast(:delete_list, %State{} = state) do
+  def handle_cast(
+        {:domain_event, %DomainEvent{name: :delete_list}},
+        %State{} = state
+      ) do
     list = list(state.list_id)
     List.delete(list)
     {:stop, :normal, state}

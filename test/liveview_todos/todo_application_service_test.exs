@@ -39,6 +39,8 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
       assert_receive {LiveviewTodos.TodoTopic, [:todo, :created], todo}
       wait_for_db_to_finish()
     end
+
+    # WIP TODO needs toggle
   end
 
   describe "list" do
@@ -61,10 +63,11 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
       wait_for_db_to_finish()
     end
 
-    test "delete_list/1",
-         %{list: list} do
-      Service.delete_list(list.id)
-      assert_receive {LiveviewTodos.TodoTopic, [:lists, :deleted], new_list}
+    test "delete_list/1", %{list: list} do
+      event = DomainEvent.new(:delete_list, %{list_id: list.id}, __MODULE__)
+      Service.accept(event)
+      assert_receive {LiveviewTodos.TodoTopic, [:lists, :deleted], old_list}
+      assert old_list.name == list.name
       wait_for_db_to_finish()
     end
 

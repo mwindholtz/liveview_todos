@@ -22,14 +22,6 @@ defmodule LiveviewTodos.TodoApplicationService do
     ListAggregate.accept(event)
   end
 
-  def toggle_item(list_id, item_title, _deps \\ @deps) do
-    ListAggregate.toggle_item(list_id, item_title)
-  end
-
-  def delete_list(list_id) do
-    ListAggregate.delete_list(list_id)
-  end
-
   def create_item(%{"description" => description, "list_id" => list_id}) do
     ListAggregate.create_item(list_id, description)
   end
