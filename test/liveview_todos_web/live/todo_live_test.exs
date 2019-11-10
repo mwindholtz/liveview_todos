@@ -15,19 +15,9 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
       :ok
     end
 
-    def delete_list(attrs) do
-      send(self(), {:delete_list, attrs})
-      :ok
-    end
-
     def create_item(attrs \\ %{}) do
       send(self(), {:create_item, attrs})
       {:ok, %Todo{}}
-    end
-
-    def toggle_item(_list_id, item_title) do
-      send(self(), {:toggle_item, item_title})
-      :ok
     end
   end
 
