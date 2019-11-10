@@ -33,30 +33,29 @@ defmodule LiveviewTodosWeb.TodoLive do
   # --------- LiveView Events From the User Interface-----------
 
   def handle_event("create-list", %{"list" => %{"name" => name}}, %Socket{} = socket) do
-    event = DomainEvent.new(:create_list, name, __MODULE__)
-    service(socket).accept(event)
+    DomainEvent.new(:create_list, name, __MODULE__)
+    |> service(socket).accept()
+
     {:noreply, socket}
   end
 
   def handle_event("delete-list", %{"list-id" => list_id}, %Socket{} = socket) do
-    event = DomainEvent.new(:delete_list, %{list_id: list_id |> String.to_integer()}, __MODULE__)
+    DomainEvent.new(:delete_list, %{list_id: list_id |> String.to_integer()}, __MODULE__)
+    |> service(socket).accept()
 
-    service(socket).accept(event)
     {:noreply, socket}
   end
 
   def handle_event("add-item", %{"item" => item}, %Socket{} = socket) do
-    # WIP TODO
     %{"description" => description, "list_id" => list_id} = item
 
-    event =
-      DomainEvent.new(
-        :create_item,
-        %{list_id: list_id |> String.to_integer(), description: description},
-        __MODULE__
-      )
+    DomainEvent.new(
+      :create_item,
+      %{list_id: list_id |> String.to_integer(), description: description},
+      __MODULE__
+    )
+    |> service(socket).accept()
 
-    service(socket).accept(event)
     {:noreply, socket}
   end
 
@@ -65,8 +64,9 @@ defmodule LiveviewTodosWeb.TodoLive do
         %{"list-id" => list_id, "item-title" => item_title},
         %Socket{} = socket
       ) do
-    event = DomainEvent.new(:toggle_item, %{list_id: list_id, item_title: item_title}, __MODULE__)
-    service(socket).accept(event)
+    DomainEvent.new(:toggle_item, %{list_id: list_id, item_title: item_title}, __MODULE__)
+    |> service(socket).accept()
+
     {:noreply, socket}
   end
 
