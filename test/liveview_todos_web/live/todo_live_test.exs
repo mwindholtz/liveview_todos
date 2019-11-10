@@ -11,7 +11,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
 
   defmodule TodoApplicationServiceStub do
     def accept(%DomainEvent{} = event) do
-      send(self(), {:create_list, event})
+      send(self(), {event.name, event})
       :ok
     end
 
