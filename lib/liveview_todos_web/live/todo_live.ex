@@ -53,7 +53,8 @@ defmodule LiveviewTodosWeb.TodoLive do
         %{"list-id" => list_id, "item-title" => item_title},
         %Socket{} = socket
       ) do
-    service(socket).toggle_item(list_id, item_title)
+    event = DomainEvent.new(:toggle_item, %{list_id: list_id, item_title: item_title}, __MODULE__)
+    service(socket).accept(event)
     {:noreply, socket}
   end
 

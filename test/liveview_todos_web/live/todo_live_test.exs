@@ -79,7 +79,11 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
           socket_with_stub()
         )
 
-      assert_receive {:toggle_item, "title"}
+      assert_receive {:toggle_item,
+                      %LiveviewTodos.DomainEvent{
+                        attrs: %{item_title: "title", list_id: "99"},
+                        name: :toggle_item
+                      }}
     end
   end
 
