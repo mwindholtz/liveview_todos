@@ -20,11 +20,7 @@ defmodule LiveviewTodos.ListAggregate do
     GenServer.start_link(__MODULE__, list_id, name: via_tuple(list_id))
   end
 
-  def accept(%DomainEvent{name: :create_list, attrs: name}) do
-    create_list(name)
-  end
-
-  def create_list(name, deps \\ @deps) do
+  def accept(%DomainEvent{name: :create_list, attrs: name}, deps \\ @deps) do
     result =
       %List{}
       |> List.changeset(%{name: name})
