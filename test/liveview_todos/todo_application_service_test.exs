@@ -57,7 +57,6 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
       event = DomainEvent.new(:create_list, name_of_list, __MODULE__)
       {:ok, _list} = Service.accept(event)
 
-      Service.create_list(name_of_list)
       assert_receive {LiveviewTodos.TodoTopic, [:lists, :created], new_list}
       wait_for_db_to_finish()
     end

@@ -35,7 +35,6 @@ defmodule LiveviewTodosWeb.TodoLive do
   def handle_event("create-list", %{"list" => %{"name" => name}}, %Socket{} = socket) do
     event = DomainEvent.new(:create_list, name, __MODULE__)
     service(socket).accept(event)
-    service(socket).create_list(name)
     {:noreply, socket}
   end
 

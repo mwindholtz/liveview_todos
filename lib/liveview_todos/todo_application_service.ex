@@ -22,9 +22,6 @@ defmodule LiveviewTodos.TodoApplicationService do
     ListAggregate.create_list(name)
   end
 
-  def create_list(name, _deps \\ @deps) do
-  end
-
   def toggle_item(list_id, item_title, _deps \\ @deps) do
     ListAggregate.toggle_item(list_id, item_title)
   end
