@@ -59,7 +59,11 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
       attrs = %{"list-id" => "99"}
       {:noreply, _mod_socket} = TodoLive.handle_event("delete-list", attrs, socket_with_stub())
 
-      assert_receive {:delete_list, 99}
+      assert_receive {:delete_list,
+                      %LiveviewTodos.DomainEvent{
+                        attrs: %{list_id: 99},
+                        name: :delete_list
+                      }}
     end
 
     test "add-item" do
