@@ -66,12 +66,5 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
       assert old_list.name == list.name
       wait_for_db_to_finish()
     end
-
-    test "lists()", %{list: list} do
-      [result | _] = Service.lists()
-
-      assert list.name == result.name
-      wait_for_db_to_finish()
-    end
   end
 end

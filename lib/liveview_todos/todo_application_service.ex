@@ -26,13 +26,6 @@ defmodule LiveviewTodos.TodoApplicationService do
     deps.repo.list_ids()
   end
 
-  def lists(deps \\ @deps) do
-    # WIP TODO
-    List
-    |> deps.repo.all()
-    |> deps.repo.preload(:items)
-  end
-
   def get_list(list_id, deps \\ @deps) do
     deps.repo.get_list(list_id)
   end
