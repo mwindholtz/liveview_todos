@@ -57,7 +57,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
     end
 
     test "add-item" do
-      item = %{"description" => "Buy milk and eggs", "list_id" => 1}
+      item = %{"description" => "Buy milk and eggs", "list_id" => "1"}
 
       {:noreply, _mod_socket} =
         TodoLive.handle_event("add-item", %{"item" => item}, socket_with_stub())
