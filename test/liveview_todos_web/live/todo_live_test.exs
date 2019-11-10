@@ -75,7 +75,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
 
       assert_receive {:toggle_item,
                       %LiveviewTodos.DomainEvent{
-                        attrs: %{item_title: "title", list_id: "99"},
+                        attrs: %{item_title: "title", list_id: 99},
                         name: :toggle_item
                       }}
     end

@@ -40,7 +40,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   def handle_event("delete-list", %{"list-id" => list_id}, %Socket{} = socket) do
-    DomainEvent.new(:delete_list, %{list_id: list_id |> String.to_integer()}, __MODULE__)
+    DomainEvent.new(:delete_list, %{list_id: to_integer(list_id)}, __MODULE__)
     |> service(socket).accept()
 
     {:noreply, socket}
@@ -51,7 +51,7 @@ defmodule LiveviewTodosWeb.TodoLive do
 
     DomainEvent.new(
       :create_item,
-      %{list_id: list_id |> String.to_integer(), description: description},
+      %{list_id: to_integer(list_id), description: description},
       __MODULE__
     )
     |> service(socket).accept()
@@ -64,7 +64,11 @@ defmodule LiveviewTodosWeb.TodoLive do
         %{"list-id" => list_id, "item-title" => item_title},
         %Socket{} = socket
       ) do
-    DomainEvent.new(:toggle_item, %{list_id: list_id, item_title: item_title}, __MODULE__)
+    DomainEvent.new(
+      :toggle_item,
+      %{list_id: to_integer(list_id), item_title: item_title},
+      __MODULE__
+    )
     |> service(socket).accept()
 
     {:noreply, socket}
@@ -73,6 +77,10 @@ defmodule LiveviewTodosWeb.TodoLive do
   def handle_event(event, args, %Socket{} = socket) do
     Logger.error("UNHANDED LIVE EVENT: #{event} ===== ARGS: #{args}")
     {:noreply, socket}
+  end
+
+  def to_integer(list_id) do
+    list_id |> String.to_integer()
   end
 
   #  -------- PubSub From the Domain Layer ---------------
