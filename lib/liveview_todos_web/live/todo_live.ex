@@ -79,7 +79,7 @@ defmodule LiveviewTodosWeb.TodoLive do
     {:noreply, socket}
   end
 
-  def to_integer(list_id) do
+  defp to_integer(list_id) do
     list_id |> String.to_integer()
   end
 
