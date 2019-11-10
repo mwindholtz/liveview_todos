@@ -34,18 +34,18 @@ defmodule LiveviewTodosWeb.TodoLive do
 
   def handle_event("create-list", %{"list" => %{"name" => name}}, %Socket{} = socket) do
     event = DomainEvent.new(:create_list, name, __MODULE__)
-    todos(socket).accept(event)
-    todos(socket).create_list(name)
+    service(socket).accept(event)
+    service(socket).create_list(name)
     {:noreply, socket}
   end
 
   def handle_event("delete-list", %{"list-id" => list_id}, %Socket{} = socket) do
-    todos(socket).delete_list(list_id |> String.to_integer())
+    service(socket).delete_list(list_id |> String.to_integer())
     {:noreply, socket}
   end
 
   def handle_event("add-item", %{"item" => item}, %Socket{} = socket) do
-    todos(socket).create_item(item)
+    service(socket).create_item(item)
     {:noreply, socket}
   end
 
@@ -54,7 +54,7 @@ defmodule LiveviewTodosWeb.TodoLive do
         %{"list-id" => list_id, "item-title" => item_title},
         %Socket{} = socket
       ) do
-    todos(socket).toggle_item(list_id, item_title)
+    service(socket).toggle_item(list_id, item_title)
     {:noreply, socket}
   end
 
@@ -91,7 +91,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   # injection helper, retrieve the previously injected module 
-  def todos(%Socket{assigns: assigns} = _socket) do
+  def service(%Socket{assigns: assigns} = _socket) do
     Map.fetch!(assigns, :todo_application_service)
   end
 
@@ -108,20 +108,20 @@ defmodule LiveviewTodosWeb.TodoLive do
         socket
         |> assign(list_map: %{})
 
-      todos(socket).list_ids()
+      service(socket).list_ids()
       |> Enum.reduce(socket, fn list_id, socket -> refresh_one_list(socket, list_id) end)
     end
 
     def refresh_one_list(%Socket{} = socket, list_id) do
-      list = todos(socket).get_list(list_id)
+      list = service(socket).get_list(list_id)
       mod_map = Map.put(socket.assigns.list_map, list_id, list)
 
       socket
       |> assign(list_map: mod_map)
     end
 
-    def todos(%Socket{} = socket) do
-      LiveviewTodosWeb.TodoLive.todos(socket)
+    def service(%Socket{} = socket) do
+      LiveviewTodosWeb.TodoLive.service(socket)
     end
   end
 end
