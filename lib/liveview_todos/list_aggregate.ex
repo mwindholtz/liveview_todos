@@ -81,15 +81,10 @@ defmodule LiveviewTodos.ListAggregate do
   end
 
   def handle_cast(
-        {:domain_event, %DomainEvent{attrs: attrs} = event},
+        {:domain_event, %DomainEvent{name: :toggle_item, attrs: attrs}},
         %State{} = state
       ) do
     do_toggle_item(state.list_id, attrs.item_title)
-    {:noreply, state}
-  end
-
-  def handle_cast({:toggle_item, item_title}, %State{} = state) do
-    do_toggle_item(state.list_id, item_title)
     {:noreply, state}
   end
 
