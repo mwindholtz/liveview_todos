@@ -1,8 +1,8 @@
 defmodule LiveviewTodos.DomainEvent do
   @enforce_keys [:name, :attrs]
-  defstruct name: :not_set, attrs: [], source: :not_set
+  defstruct name: :not_set, attrs: []
 
-  def new(name, attrs, source) do
-    %LiveviewTodos.DomainEvent{name: name, attrs: attrs, source: source}
+  def new(name, attrs) do
+    %LiveviewTodos.DomainEvent{name: name, attrs: attrs}
   end
 end

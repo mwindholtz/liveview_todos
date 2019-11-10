@@ -33,14 +33,14 @@ defmodule LiveviewTodosWeb.TodoLive do
   # --------- LiveView Events From the User Interface-----------
 
   def handle_event("create-list", %{"list" => %{"name" => name}}, %Socket{} = socket) do
-    DomainEvent.new(:create_list, name, __MODULE__)
+    DomainEvent.new(:create_list, name)
     |> service(socket).accept()
 
     {:noreply, socket}
   end
 
   def handle_event("delete-list", %{"list-id" => list_id}, %Socket{} = socket) do
-    DomainEvent.new(:delete_list, %{list_id: to_integer(list_id)}, __MODULE__)
+    DomainEvent.new(:delete_list, %{list_id: to_integer(list_id)})
     |> service(socket).accept()
 
     {:noreply, socket}
@@ -51,8 +51,7 @@ defmodule LiveviewTodosWeb.TodoLive do
 
     DomainEvent.new(
       :create_item,
-      %{list_id: to_integer(list_id), description: description},
-      __MODULE__
+      %{list_id: to_integer(list_id), description: description}
     )
     |> service(socket).accept()
 
@@ -66,8 +65,7 @@ defmodule LiveviewTodosWeb.TodoLive do
       ) do
     DomainEvent.new(
       :toggle_item,
-      %{list_id: to_integer(list_id), item_title: item_title},
-      __MODULE__
+      %{list_id: to_integer(list_id), item_title: item_title}
     )
     |> service(socket).accept()
 

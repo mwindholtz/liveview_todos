@@ -17,7 +17,7 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
 
   describe "item" do
     setup do
-      event = DomainEvent.new(:create_list, "Homework", __MODULE__)
+      event = DomainEvent.new(:create_list, "Homework")
       {:ok, list} = Service.accept(event)
 
       assert_receive {LiveviewTodos.TodoTopic, [:lists, :created], new_list}
@@ -28,7 +28,7 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
 
     # WIP TODO is this still useful?
     test "get_item!/2", %{attrs: attrs} do
-      DomainEvent.new(:create_item, attrs, __MODULE__)
+      DomainEvent.new(:create_item, attrs)
       |> Service.accept()
 
       assert_receive {LiveviewTodos.TodoTopic, [:todo, :created], todo}
@@ -38,7 +38,7 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
 
     test "create_item/1", %{attrs: attrs} do
       # When
-      DomainEvent.new(:create_item, attrs, __MODULE__)
+      DomainEvent.new(:create_item, attrs)
       |> Service.accept()
 
       assert_receive {LiveviewTodos.TodoTopic, [:todo, :created], new_list}
@@ -52,7 +52,7 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
   describe "list" do
     setup do
       name_of_list = "Grocery"
-      event = DomainEvent.new(:create_list, name_of_list, __MODULE__)
+      event = DomainEvent.new(:create_list, name_of_list)
 
       {:ok, list} = Service.accept(event)
       assert_receive {LiveviewTodos.TodoTopic, [:lists, :created], new_list}
@@ -62,7 +62,7 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
 
     test "create_list/1" do
       name_of_list = "School"
-      event = DomainEvent.new(:create_list, name_of_list, __MODULE__)
+      event = DomainEvent.new(:create_list, name_of_list)
       {:ok, _list} = Service.accept(event)
 
       assert_receive {LiveviewTodos.TodoTopic, [:lists, :created], new_list}
@@ -70,7 +70,7 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
     end
 
     test "delete_list/1", %{list: list} do
-      event = DomainEvent.new(:delete_list, %{list_id: list.id}, __MODULE__)
+      event = DomainEvent.new(:delete_list, %{list_id: list.id})
       Service.accept(event)
       assert_receive {LiveviewTodos.TodoTopic, [:lists, :deleted], old_list}
       assert old_list.name == list.name

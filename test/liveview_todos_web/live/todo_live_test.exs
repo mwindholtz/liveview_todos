@@ -1,7 +1,6 @@
 defmodule LiveviewTodosWeb.TodoLiveTest do
   use LiveviewTodosWeb.ConnCase
   alias LiveviewTodos.DomainEvent
-  alias LiveviewTodos.Todo
   alias LiveviewTodosWeb.TodoLive
   alias Phoenix.LiveView
   alias Phoenix.LiveView.Socket
@@ -13,11 +12,6 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
     def accept(%DomainEvent{} = event) do
       send(self(), {event.name, event})
       :ok
-    end
-
-    def create_item(attrs \\ %{}) do
-      send(self(), {:create_item, attrs})
-      {:ok, %Todo{}}
     end
   end
 
