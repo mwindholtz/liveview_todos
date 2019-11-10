@@ -23,14 +23,17 @@ defmodule LiveviewTodos.TodoApplicationService do
   end
 
   def create_item(%{"description" => description, "list_id" => list_id}) do
+    # WIP TODO
     ListAggregate.create_item(list_id, description)
   end
 
   def list_ids(deps \\ @deps) do
+    # WIP TODO
     deps.repo.list_ids()
   end
 
   def lists(deps \\ @deps) do
+    # WIP TODO
     List
     |> deps.repo.all()
     |> deps.repo.preload(:items)

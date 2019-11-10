@@ -46,6 +46,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   def handle_event("add-item", %{"item" => item}, %Socket{} = socket) do
+    # WIP TODO
     service(socket).create_item(item)
     {:noreply, socket}
   end
@@ -68,6 +69,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   #  -------- PubSub From the Domain Layer ---------------
 
   def handle_info(:load_all, %Socket{} = socket) do
+    # WIP TODO
     {:noreply, command(socket).refresh_lists(socket)}
   end
 
