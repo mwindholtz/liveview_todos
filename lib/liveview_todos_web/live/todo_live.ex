@@ -125,10 +125,12 @@ defmodule LiveviewTodosWeb.TodoLive do
         |> assign(list_map: %{})
 
       service(socket).list_ids()
-      |> Enum.reduce(socket, fn list_id, socket -> refresh_one_list(socket, list_id) end)
+      |> Enum.reduce(socket, fn list_id, socket ->
+        refresh_one_list(list_id, socket)
+      end)
     end
 
-    def refresh_one_list(%Socket{} = socket, list_id) do
+    def refresh_one_list(list_id, %Socket{} = socket) do
       list = service(socket).get_list(list_id)
       mod_map = Map.put(socket.assigns.list_map, list_id, list)
 
