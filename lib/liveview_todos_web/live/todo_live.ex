@@ -64,8 +64,6 @@ defmodule LiveviewTodosWeb.TodoLive do
       :create_item
       |> domain_event_for_list(list_id, %{description: description})
 
-    # WIP shift to Target
-    service(socket).accept(domain_event)
     TargetedTopic.broadcast(list_id, domain_event)
 
     {:noreply, socket}
@@ -80,8 +78,6 @@ defmodule LiveviewTodosWeb.TodoLive do
       :toggle_item
       |> domain_event_for_list(list_id, %{item_title: item_title})
 
-    # WIP shift to Target
-    service(socket).accept(domain_event)
     TargetedTopic.broadcast(list_id, domain_event)
 
     {:noreply, socket}

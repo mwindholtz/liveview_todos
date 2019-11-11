@@ -82,6 +82,30 @@ defmodule LiveviewTodos.ListAggregate do
     {:noreply, state}
   end
 
+  def handle_info(%{name: :toggle_item, attrs: attrs} = domain_event, %State{} = state) do
+    state
+    |> list()
+    |> List.toggle_item(attrs.item_title)
+
+    {:noreply, state}
+  end
+
+  def handle_info(
+        %{name: :create_item, attrs: %{description: description}},
+        %State{} = state
+      ) do
+    state
+    |> list()
+    |> List.create_item(%{"description" => description})
+
+    {:noreply, state}
+  end
+
+  # def handle_info(domain_event, %State{} = state) do
+  #   IO.inspect(domain_event, label: "UNKNWN ============================")
+  #   {:noreply, state}
+  # end
+
   # ----------  Implementation ------
 
   def via_tuple(list_id) do
