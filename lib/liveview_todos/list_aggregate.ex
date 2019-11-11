@@ -30,10 +30,10 @@ defmodule LiveviewTodos.ListAggregate do
 
   def init(list_id) when is_integer(list_id) do
     state = %State{list_id: list_id, name: "TBD", deps: @deps}
-    {:ok, state, {:continue, list_id}}
+    {:ok, state, {:continue, :ok}}
   end
 
-  def handle_continue(list_id, %State{} = state) do
+  def handle_continue(:ok, %State{} = state) do
     list = list(state)
 
     state = %{state | name: list.name}
