@@ -17,8 +17,7 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
 
   describe "item" do
     setup do
-      event = DomainEvent.new(:create_list, %{name: "Homework"})
-      {:ok, list} = Service.accept(event)
+      {:ok, list} = Service.create_list("Homework")
 
       assert_receive {LiveviewTodos.TodoTopic, [:lists, :created], new_list}
 
@@ -42,9 +41,8 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
   describe "list" do
     setup do
       name_of_list = "Grocery"
-      event = DomainEvent.new(:create_list, %{name: name_of_list})
+      {:ok, list} = Service.create_list(name_of_list)
 
-      {:ok, list} = Service.accept(event)
       assert_receive {LiveviewTodos.TodoTopic, [:lists, :created], new_list}
 
       %{list: list, name_of_list: name_of_list}
@@ -52,8 +50,8 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
 
     test "create_list/1" do
       name_of_list = "School"
-      event = DomainEvent.new(:create_list, %{name: name_of_list})
-      {:ok, _list} = Service.accept(event)
+      # When
+      Service.create_list(name_of_list)
 
       assert_receive {LiveviewTodos.TodoTopic, [:lists, :created], new_list}
       wait_for_db_to_finish()
