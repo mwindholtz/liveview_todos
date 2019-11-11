@@ -3,9 +3,11 @@ defmodule LiveviewTodosWeb.TodoLive do
   alias LiveviewTodos.DomainEvent
   alias LiveviewTodos.TodoApplicationService, as: Service
   alias LiveviewTodos.TodoTopic
+  alias LiveviewTodos.TargetedTopic
   alias LiveviewTodosWeb.TodoView
   alias LiveviewTodosWeb.TodoLive.Command
   alias Phoenix.LiveView.Socket
+
   require Logger
   @topic LiveviewTodos.TodoTopic
 
@@ -45,19 +47,25 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   def handle_event("delete-list", %{"list-id" => list_id}, %Socket{} = socket) do
-    :delete_list
-    |> domain_event_for_list(list_id)
-    |> service(socket).accept()
+    domain_event =
+      :delete_list
+      |> domain_event_for_list(list_id)
 
+    service(socket).accept(domain_event)
+
+    TargetedTopic.broadcast(list_id, domain_event)
     {:noreply, socket}
   end
 
   def handle_event("add-item", %{"item" => item}, %Socket{} = socket) do
     %{"description" => description, "list_id" => list_id} = item
 
-    :create_item
-    |> domain_event_for_list(list_id, %{description: description})
-    |> service(socket).accept()
+    domain_event =
+      :create_item
+      |> domain_event_for_list(list_id, %{description: description})
+
+    service(socket).accept(domain_event)
+    TargetedTopic.broadcast(list_id, domain_event)
 
     {:noreply, socket}
   end
@@ -67,9 +75,12 @@ defmodule LiveviewTodosWeb.TodoLive do
         %{"list-id" => list_id, "item-title" => item_title},
         %Socket{} = socket
       ) do
-    :toggle_item
-    |> domain_event_for_list(list_id, %{item_title: item_title})
-    |> service(socket).accept()
+    domain_event =
+      :toggle_item
+      |> domain_event_for_list(list_id, %{item_title: item_title})
+
+    service(socket).accept(domain_event)
+    TargetedTopic.broadcast(list_id, domain_event)
 
     {:noreply, socket}
   end
