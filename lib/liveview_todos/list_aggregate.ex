@@ -85,7 +85,7 @@ defmodule LiveviewTodos.ListAggregate do
     {:via, Registry, {LiveviewTodos.ListAggregateRegistry, "#{list_id}"}}
   end
 
-  def list(%State{list_id: list_id}, deps \\ @deps) do
+  def list(%State{list_id: list_id, deps: deps}) do
     deps.repo.get_list(list_id)
   end
 end
