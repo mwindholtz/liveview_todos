@@ -9,6 +9,11 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
   @topic LiveviewTodosWeb.TodoLive.topic()
 
   defmodule TodoApplicationServiceStub do
+    def create_list(name) do
+      send(self(), {:create_list, name})
+      :ok
+    end
+
     def accept(%DomainEvent{} = event) do
       send(self(), {event.name, event})
       :ok
@@ -36,7 +41,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
       {:noreply, _mod_socket} =
         TodoLive.handle_event("create-list", %{"list" => attrs}, socket_with_stub())
 
-      assert_receive {:create_list, %{name: name}}
+      assert_receive {:create_list, name}
     end
 
     test "delete-list" do
