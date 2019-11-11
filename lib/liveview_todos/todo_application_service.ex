@@ -17,13 +17,7 @@ defmodule LiveviewTodos.TodoApplicationService do
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
-  def accept(domain_event, deps \\ @deps)
-
-  def accept(%DomainEvent{name: :create_list, attrs: attrs}, deps) do
-    create_list(attrs.name, deps)
-  end
-
-  def accept(%DomainEvent{} = event, _deps) do
+  def accept(%DomainEvent{} = event) do
     ListAggregate.accept(event)
   end
 
