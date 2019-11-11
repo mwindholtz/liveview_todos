@@ -6,6 +6,7 @@ defmodule LiveviewTodos.ListAggregate do
   use GenServer, restart: :transient
   alias LiveviewTodos.List
   alias LiveviewTodos.ListAggregate.State
+  alias LiveviewTodos.TargetedTopic
   alias LiveviewTodos.DomainEvent
   require Logger
 
@@ -36,7 +37,7 @@ defmodule LiveviewTodos.ListAggregate do
 
   def handle_continue(:ok, %State{} = state) do
     list = list(state)
-    LiveviewTodos.TargetedTopic.subscribe(list.id)
+    TargetedTopic.subscribe(list.id)
 
     state = %{state | name: list.name}
     {:noreply, state}
@@ -57,9 +58,9 @@ defmodule LiveviewTodos.ListAggregate do
         {:domain_event, %DomainEvent{name: :delete_list}},
         %State{} = state
       ) do
-    state
-    |> list()
-    |> List.delete()
+    list = list(state)
+    List.delete(list)
+    TargetedTopic.unsubscribe(list.id)
 
     {:stop, :normal, state}
   end
