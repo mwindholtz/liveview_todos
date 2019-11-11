@@ -42,28 +42,34 @@ defmodule LiveviewTodos.ListAggregate do
 
   def handle_cast(
         {:domain_event, %DomainEvent{name: :toggle_item, attrs: attrs}},
-        %State{} = state
+        %State{list_id: list_id} = state
       ) do
-    toggle_item(state.list_id, attrs.item_title)
+    list_id
+    |> list()
+    |> List.toggle_item(attrs.item_title)
+
     {:noreply, state}
   end
 
   def handle_cast(
         {:domain_event, %DomainEvent{name: :delete_list}},
-        %State{} = state
+        %State{list_id: list_id} = state
       ) do
-    list = list(state.list_id)
-    List.delete(list)
+    list_id
+    |> list()
+    |> List.delete()
+
     {:stop, :normal, state}
   end
 
   def handle_cast(
         {:domain_event, %DomainEvent{name: :create_item, attrs: %{description: description}}},
-        %State{} = state
+        %State{list_id: list_id} = state
       ) do
-    list = list(state.list_id)
-
-    {:ok, _todo} = List.create_item(list, %{"description" => description})
+    {:ok, _todo} =
+      list_id
+      |> list()
+      |> List.create_item(%{"description" => description})
 
     {:noreply, state}
   end
@@ -81,10 +87,5 @@ defmodule LiveviewTodos.ListAggregate do
 
   def list(list_id, deps \\ @deps) do
     deps.repo.get_list(list_id)
-  end
-
-  def toggle_item(list_id, item_title, deps \\ @deps) do
-    list = list(list_id, deps)
-    List.toggle_item(list, item_title)
   end
 end
