@@ -10,7 +10,6 @@ defmodule LiveviewTodos.TodoApplicationService do
   So the TodoApplicationService will only connect to the List
   """
 
-  import Ecto.Query, warn: false
   alias LiveviewTodos.List
   alias LiveviewTodos.ListAggregate
 
@@ -42,7 +41,6 @@ defmodule LiveviewTodos.TodoApplicationService do
     {:ok, list}
   end
 
-  # TODO: MOVE TO Service
   defp start_supervised_list_aggregate({:error, message}) do
     {:error, message}
   end
