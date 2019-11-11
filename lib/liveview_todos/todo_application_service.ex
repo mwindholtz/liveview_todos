@@ -17,7 +17,20 @@ defmodule LiveviewTodos.TodoApplicationService do
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
-  def accept(%DomainEvent{} = event) do
+  def accept(domain_event, deps \\ @deps)
+
+  def accept(%DomainEvent{name: :create_list, attrs: name}, deps) do
+    result =
+      %List{}
+      |> List.changeset(%{name: name})
+      |> deps.repo.insert()
+      |> start_supervised_list_aggregate()
+      |> deps.topic.broadcast_change([:lists, :created])
+
+    result
+  end
+
+  def accept(%DomainEvent{} = event, _deps) do
     ListAggregate.accept(event)
   end
 
@@ -28,5 +41,15 @@ defmodule LiveviewTodos.TodoApplicationService do
 
   def get_list(list_id, deps \\ @deps) do
     deps.repo.get_list(list_id)
+  end
+
+  defp start_supervised_list_aggregate({:ok, list}) do
+    LiveviewTodos.List.Supervisor.start_list_aggregate(list.id)
+    {:ok, list}
+  end
+
+  # TODO: MOVE TO Service
+  defp start_supervised_list_aggregate({:error, message}) do
+    {:error, message}
   end
 end

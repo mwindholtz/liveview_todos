@@ -20,32 +20,10 @@ defmodule LiveviewTodos.ListAggregate do
     GenServer.start_link(__MODULE__, list_id, name: via_tuple(list_id))
   end
 
-  def accept(domain_event, deps \\ @deps)
-
-  def accept(%DomainEvent{name: :create_list, attrs: name}, deps) do
-    result =
-      %List{}
-      |> List.changeset(%{name: name})
-      |> deps.repo.insert()
-      |> start_supervised_list_aggregate()
-      |> deps.topic.broadcast_change([:lists, :created])
-
-    result
-  end
-
-  def accept(%DomainEvent{attrs: %{list_id: list_id}} = event, _deps) do
+  def accept(%DomainEvent{attrs: %{list_id: list_id}} = event) do
     list_id
     |> via_tuple
     |> GenServer.cast({:domain_event, event})
-  end
-
-  defp start_supervised_list_aggregate({:ok, list}) do
-    LiveviewTodos.List.Supervisor.start_list_aggregate(list.id)
-    {:ok, list}
-  end
-
-  defp start_supervised_list_aggregate({:error, message}) do
-    {:error, message}
   end
 
   def create_item(list_id, description) do
