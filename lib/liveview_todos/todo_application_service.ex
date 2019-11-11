@@ -13,13 +13,10 @@ defmodule LiveviewTodos.TodoApplicationService do
   import Ecto.Query, warn: false
   alias LiveviewTodos.List
   alias LiveviewTodos.ListAggregate
-  alias LiveviewTodos.DomainEvent
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
-  def accept(%DomainEvent{} = event) do
-    ListAggregate.accept(event)
-  end
+  defdelegate accept(event), to: ListAggregate
 
   def create_list(name, deps \\ @deps) do
     result =
@@ -33,7 +30,6 @@ defmodule LiveviewTodos.TodoApplicationService do
   end
 
   def list_ids(deps \\ @deps) do
-    # WIP TODO
     deps.repo.list_ids()
   end
 
