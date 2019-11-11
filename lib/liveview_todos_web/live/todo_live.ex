@@ -32,6 +32,11 @@ defmodule LiveviewTodosWeb.TodoLive do
 
   # --------- LiveView Events From the User Interface-----------
 
+  def domain_event_for_list(name, list_id, attrs \\ %{}) do
+    attrs_with_list_id = Map.merge(attrs, %{list_id: to_integer(list_id)})
+    DomainEvent.new(name, attrs_with_list_id)
+  end
+
   def handle_event("create-list", %{"list" => %{"name" => name}}, %Socket{} = socket) do
     name
     |> service(socket).create_list()
@@ -41,7 +46,7 @@ defmodule LiveviewTodosWeb.TodoLive do
 
   def handle_event("delete-list", %{"list-id" => list_id}, %Socket{} = socket) do
     :delete_list
-    |> DomainEvent.new(%{list_id: to_integer(list_id)})
+    |> domain_event_for_list(list_id)
     |> service(socket).accept()
 
     {:noreply, socket}
@@ -51,7 +56,7 @@ defmodule LiveviewTodosWeb.TodoLive do
     %{"description" => description, "list_id" => list_id} = item
 
     :create_item
-    |> DomainEvent.new(%{list_id: to_integer(list_id), description: description})
+    |> domain_event_for_list(list_id, %{description: description})
     |> service(socket).accept()
 
     {:noreply, socket}
@@ -63,7 +68,7 @@ defmodule LiveviewTodosWeb.TodoLive do
         %Socket{} = socket
       ) do
     :toggle_item
-    |> DomainEvent.new(%{list_id: to_integer(list_id), item_title: item_title})
+    |> domain_event_for_list(list_id, %{item_title: item_title})
     |> service(socket).accept()
 
     {:noreply, socket}
@@ -125,9 +130,7 @@ defmodule LiveviewTodosWeb.TodoLive do
         |> assign(list_map: %{})
 
       service(socket).list_ids()
-      |> Enum.reduce(socket, fn list_id, socket ->
-        refresh_one_list(list_id, socket)
-      end)
+      |> Enum.reduce(socket, &refresh_one_list/2)
     end
 
     def refresh_one_list(list_id, %Socket{} = socket) do
