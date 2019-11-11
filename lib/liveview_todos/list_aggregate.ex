@@ -33,8 +33,8 @@ defmodule LiveviewTodos.ListAggregate do
     {:ok, state, {:continue, list_id}}
   end
 
-  def handle_continue(list_id, %State{deps: deps} = state) do
-    list = deps.repo.get_list(list_id)
+  def handle_continue(list_id, %State{} = state) do
+    list = list(state)
 
     state = %{state | name: list.name}
     {:noreply, state}
