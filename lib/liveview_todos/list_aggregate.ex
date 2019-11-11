@@ -44,7 +44,7 @@ defmodule LiveviewTodos.ListAggregate do
         {:domain_event, %DomainEvent{name: :toggle_item, attrs: attrs}},
         %State{} = state
       ) do
-    do_toggle_item(state.list_id, attrs.item_title)
+    toggle_item(state.list_id, attrs.item_title)
     {:noreply, state}
   end
 
@@ -91,7 +91,7 @@ defmodule LiveviewTodos.ListAggregate do
     deps.repo.get_list(list_id)
   end
 
-  def do_toggle_item(list_id, item_title, deps \\ @deps) do
+  def toggle_item(list_id, item_title, deps \\ @deps) do
     list = list(list_id, deps)
     List.toggle_item(list, item_title)
   end
