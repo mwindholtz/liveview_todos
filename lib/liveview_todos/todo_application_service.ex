@@ -19,10 +19,10 @@ defmodule LiveviewTodos.TodoApplicationService do
 
   def accept(domain_event, deps \\ @deps)
 
-  def accept(%DomainEvent{name: :create_list, attrs: name}, deps) do
+  def accept(%DomainEvent{name: :create_list, attrs: attrs}, deps) do
     result =
       %List{}
-      |> List.changeset(%{name: name})
+      |> List.changeset(%{name: attrs.name})
       |> deps.repo.insert()
       |> start_supervised_list_aggregate()
       |> deps.topic.broadcast_change([:lists, :created])

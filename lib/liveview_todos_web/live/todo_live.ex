@@ -33,7 +33,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   # --------- LiveView Events From the User Interface-----------
 
   def handle_event("create-list", %{"list" => %{"name" => name}}, %Socket{} = socket) do
-    DomainEvent.new(:create_list, name)
+    DomainEvent.new(:create_list, %{name: name})
     |> service(socket).accept()
 
     {:noreply, socket}

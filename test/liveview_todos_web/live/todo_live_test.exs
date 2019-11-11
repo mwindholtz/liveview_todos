@@ -36,7 +36,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
       {:noreply, _mod_socket} =
         TodoLive.handle_event("create-list", %{"list" => attrs}, socket_with_stub())
 
-      assert_receive {:create_list, name}
+      assert_receive {:create_list, %{name: name}}
     end
 
     test "delete-list" do
