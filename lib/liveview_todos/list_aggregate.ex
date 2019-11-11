@@ -26,12 +26,6 @@ defmodule LiveviewTodos.ListAggregate do
     |> GenServer.cast({:domain_event, event})
   end
 
-  def create_item(list_id, description) do
-    list_id
-    |> via_tuple
-    |> GenServer.cast({:create_item, description})
-  end
-
   # ---------  Server  -------------
 
   def init(list_id) when is_integer(list_id) do
