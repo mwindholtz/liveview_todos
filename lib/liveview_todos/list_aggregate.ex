@@ -42,9 +42,9 @@ defmodule LiveviewTodos.ListAggregate do
 
   def handle_cast(
         {:domain_event, %DomainEvent{name: :toggle_item, attrs: attrs}},
-        %State{list_id: list_id} = state
+        %State{} = state
       ) do
-    list_id
+    state
     |> list()
     |> List.toggle_item(attrs.item_title)
 
@@ -53,9 +53,9 @@ defmodule LiveviewTodos.ListAggregate do
 
   def handle_cast(
         {:domain_event, %DomainEvent{name: :delete_list}},
-        %State{list_id: list_id} = state
+        %State{} = state
       ) do
-    list_id
+    state
     |> list()
     |> List.delete()
 
@@ -64,10 +64,10 @@ defmodule LiveviewTodos.ListAggregate do
 
   def handle_cast(
         {:domain_event, %DomainEvent{name: :create_item, attrs: %{description: description}}},
-        %State{list_id: list_id} = state
+        %State{} = state
       ) do
     {:ok, _todo} =
-      list_id
+      state
       |> list()
       |> List.create_item(%{"description" => description})
 
@@ -85,7 +85,7 @@ defmodule LiveviewTodos.ListAggregate do
     {:via, Registry, {LiveviewTodos.ListAggregateRegistry, "#{list_id}"}}
   end
 
-  def list(list_id, deps \\ @deps) do
+  def list(%State{list_id: list_id}, deps \\ @deps) do
     deps.repo.get_list(list_id)
   end
 end
