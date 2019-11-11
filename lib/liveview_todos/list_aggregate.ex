@@ -68,14 +68,6 @@ defmodule LiveviewTodos.ListAggregate do
     {:noreply, state}
   end
 
-  def handle_cast({:create_item, description}, %State{} = state) do
-    list = list(state.list_id)
-
-    {:ok, _todo} = List.create_item(list, %{"description" => description})
-
-    {:noreply, state}
-  end
-
   def handle_cast(request, %State{} = state) do
     Logger.error("UNEXPECTED REQUEST: #{inspect(request)}")
     {:noreply, state}
