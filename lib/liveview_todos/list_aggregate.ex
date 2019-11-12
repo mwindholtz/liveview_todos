@@ -79,7 +79,7 @@ defmodule LiveviewTodos.ListAggregate do
     {:noreply, state}
   end
 
-  def handle_info(%{name: :toggle_item_requested, attrs: attrs}, state) do
+  def handle_info(%DomainEvent{name: :toggle_item_requested, attrs: attrs}, state) do
     state
     |> list()
     |> List.toggle_item(attrs.item_title)
@@ -87,7 +87,7 @@ defmodule LiveviewTodos.ListAggregate do
     {:noreply, state}
   end
 
-  def handle_info(%{name: :create_item_requested, attrs: attrs}, state) do
+  def handle_info(%DomainEvent{name: :create_item_requested, attrs: attrs}, state) do
     state
     |> list()
     |> List.create_item(%{"description" => attrs.description})
