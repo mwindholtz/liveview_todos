@@ -57,8 +57,8 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
       wait_for_db_to_finish()
     end
 
-    test "delete_list/1", %{list: list} do
-      event = DomainEvent.new(:delete_list, %{list_id: list.id})
+    test "delete_list_request/1", %{list: list} do
+      event = DomainEvent.new(:delete_list_request, %{list_id: list.id})
       Service.accept(event)
       assert_receive {LiveviewTodos.TodoTopic, [:lists, :deleted], old_list}
       assert old_list.name == list.name

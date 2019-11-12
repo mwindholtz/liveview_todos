@@ -41,7 +41,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   def handle_event("delete-list", %{"list-id" => list_id}, %Socket{} = socket) do
-    :delete_list
+    :delete_list_request
     |> domain_event_for_list(list_id)
     |> broadcast(list_id)
 

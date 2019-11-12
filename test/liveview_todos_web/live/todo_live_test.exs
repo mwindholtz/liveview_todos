@@ -56,7 +56,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
 
       assert_receive %LiveviewTodos.DomainEvent{
         attrs: %{list_id: ^list_id},
-        name: :delete_list
+        name: :delete_list_request
       }
     end
 
