@@ -2,7 +2,6 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
   use LiveviewTodos.DataCase
 
   alias LiveviewTodos.TodoApplicationService, as: Service
-  alias LiveviewTodos.DomainEvent
 
   @wait_for_db_to_finish 100
 
