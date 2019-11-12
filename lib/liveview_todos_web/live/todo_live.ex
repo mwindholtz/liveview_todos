@@ -33,14 +33,14 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   # --------- LiveView Events From the User Interface-----------
-  def handle_event("create-list", %{"list" => %{"name" => name}}, %Socket{} = socket) do
+  def handle_event("create-list", %{"list" => %{"name" => name}}, socket) do
     name
     |> service(socket).create_list()
 
     {:noreply, socket}
   end
 
-  def handle_event("delete-list", %{"list-id" => list_id}, %Socket{} = socket) do
+  def handle_event("delete-list", %{"list-id" => list_id}, socket) do
     :delete_list_requested
     |> domain_event_for_list(list_id)
     |> broadcast(list_id)
@@ -48,7 +48,7 @@ defmodule LiveviewTodosWeb.TodoLive do
     {:noreply, socket}
   end
 
-  def handle_event("add-item", %{"item" => item}, %Socket{} = socket) do
+  def handle_event("add-item", %{"item" => item}, socket) do
     %{"description" => description, "list_id" => list_id} = item
 
     :create_item_requested
@@ -70,7 +70,7 @@ defmodule LiveviewTodosWeb.TodoLive do
     {:noreply, socket}
   end
 
-  def handle_event(event, args, %Socket{} = socket) do
+  def handle_event(event, args, socket) do
     Logger.error("UNHANDED LIVE EVENT: #{inspect(event)} ===== ARGS: #{inspect(args)}")
     {:noreply, socket}
   end
@@ -98,27 +98,27 @@ defmodule LiveviewTodosWeb.TodoLive do
     {:noreply, command(socket).refresh_lists(socket)}
   end
 
-  def handle_info({@topic, [:todo | _], :error, _}, %Socket{} = socket) do
+  def handle_info({@topic, [:todo | _], :error, _}, socket) do
     # WIP TODO listen for Target
     {:noreply, command(socket).refresh_lists(socket)}
   end
 
-  def handle_info({@topic, [:todo | _], _}, %Socket{} = socket) do
+  def handle_info({@topic, [:todo | _], _}, socket) do
     # WIP TODO listen for Target
     {:noreply, command(socket).refresh_lists(socket)}
   end
 
-  def handle_info({@topic, [:lists | _], :error, _}, %Socket{} = socket) do
+  def handle_info({@topic, [:lists | _], :error, _}, socket) do
     # WIP TODO listen for Target
     {:noreply, command(socket).refresh_lists(socket)}
   end
 
-  def handle_info({@topic, [:lists | _], _}, %Socket{} = socket) do
+  def handle_info({@topic, [:lists | _], _}, socket) do
     # WIP TODO listen for Target
     {:noreply, command(socket).refresh_lists(socket)}
   end
 
-  def handle_info(tuple, %Socket{} = socket) do
+  def handle_info(tuple, socket) do
     Logger.error("UNHANDED PUBSUB TUPLE: #{inspect(tuple)}")
     {:noreply, command(socket).refresh_lists(socket)}
   end
