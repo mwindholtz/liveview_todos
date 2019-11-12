@@ -21,8 +21,8 @@ defmodule LiveviewTodos.ListAggregate do
     GenServer.start_link(__MODULE__, list_id, name: via_tuple(list_id))
   end
 
-  def accept(%DomainEvent{attrs: %{list_id: list_id}} = event) do
-    list_id
+  def accept(%DomainEvent{attrs: attrs} = event) do
+    attrs.list_id
     |> via_tuple
     |> GenServer.cast({:domain_event, event})
   end
@@ -77,12 +77,12 @@ defmodule LiveviewTodos.ListAggregate do
     {:noreply, state}
   end
 
-  def handle_cast(request, %State{} = state) do
+  def handle_cast(request, state) do
     Logger.error("UNEXPECTED REQUEST: #{inspect(request)}")
     {:noreply, state}
   end
 
-  def handle_info(%{name: :toggle_item_requested, attrs: attrs} = domain_event, %State{} = state) do
+  def handle_info(%{name: :toggle_item_requested, attrs: attrs}, state) do
     state
     |> list()
     |> List.toggle_item(attrs.item_title)
@@ -90,13 +90,10 @@ defmodule LiveviewTodos.ListAggregate do
     {:noreply, state}
   end
 
-  def handle_info(
-        %{name: :create_item_requested, attrs: %{description: description}},
-        %State{} = state
-      ) do
+  def handle_info(%{name: :create_item_requested, attrs: attrs}, state) do
     state
     |> list()
-    |> List.create_item(%{"description" => description})
+    |> List.create_item(%{"description" => attrs.description})
 
     {:noreply, state}
   end
