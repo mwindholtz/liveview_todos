@@ -43,6 +43,7 @@ defmodule LiveviewTodos.ListAggregate do
     {:noreply, state}
   end
 
+  # WIP TODO deprecated 
   def handle_cast(
         {:domain_event, %DomainEvent{name: :toggle_item_requested, attrs: attrs}},
         state
@@ -54,6 +55,8 @@ defmodule LiveviewTodos.ListAggregate do
     {:noreply, state}
   end
 
+  # WIP TODO deprecated 
+
   def handle_cast({:domain_event, %DomainEvent{name: :delete_list_requested}}, state) do
     list = list(state)
     List.delete(list)
@@ -62,6 +65,7 @@ defmodule LiveviewTodos.ListAggregate do
     {:stop, :normal, state}
   end
 
+  # WIP TODO deprecated 
   def handle_cast(
         {:domain_event, %DomainEvent{name: :create_item_requested, attrs: attrs}},
         %State{} = state

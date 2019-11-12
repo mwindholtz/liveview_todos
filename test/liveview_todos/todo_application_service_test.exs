@@ -25,6 +25,7 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
       %{attrs: attrs}
     end
 
+    # WIP TODO deprecated 
     test "create_item/1", %{attrs: attrs} do
       # When
       DomainEvent.new(:create_item_requested, attrs)
