@@ -33,12 +33,6 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   # --------- LiveView Events From the User Interface-----------
-
-  def domain_event_for_list(name, list_id, attrs \\ %{}) do
-    attrs_with_list_id = Map.merge(attrs, %{list_id: to_integer(list_id)})
-    DomainEvent.new(name, attrs_with_list_id)
-  end
-
   def handle_event("create-list", %{"list" => %{"name" => name}}, %Socket{} = socket) do
     name
     |> service(socket).create_list()
@@ -47,23 +41,19 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   def handle_event("delete-list", %{"list-id" => list_id}, %Socket{} = socket) do
-    domain_event =
-      :delete_list
-      |> domain_event_for_list(list_id)
+    :delete_list
+    |> domain_event_for_list(list_id)
+    |> broadcast(list_id)
 
-    TargetedTopic.broadcast(list_id, domain_event)
     {:noreply, socket}
   end
 
   def handle_event("add-item", %{"item" => item}, %Socket{} = socket) do
     %{"description" => description, "list_id" => list_id} = item
 
-    domain_event =
-      :create_item
-      |> domain_event_for_list(list_id, %{description: description})
-
-    # WIP use more of this
-    TargetedTopic.broadcast(list_id, domain_event)
+    :create_item
+    |> domain_event_for_list(list_id, %{description: description})
+    |> broadcast(list_id)
 
     {:noreply, socket}
   end
@@ -73,11 +63,9 @@ defmodule LiveviewTodosWeb.TodoLive do
         %{"list-id" => list_id, "item-title" => item_title},
         %Socket{} = socket
       ) do
-    domain_event =
-      :toggle_item
-      |> domain_event_for_list(list_id, %{item_title: item_title})
-
-    TargetedTopic.broadcast(list_id, domain_event)
+    :toggle_item
+    |> domain_event_for_list(list_id, %{item_title: item_title})
+    |> broadcast(list_id)
 
     {:noreply, socket}
   end
@@ -85,6 +73,17 @@ defmodule LiveviewTodosWeb.TodoLive do
   def handle_event(event, args, %Socket{} = socket) do
     Logger.error("UNHANDED LIVE EVENT: #{event} ===== ARGS: #{args}")
     {:noreply, socket}
+  end
+
+  # --------- Helpers -----------
+
+  defp domain_event_for_list(name, list_id, attrs \\ %{}) do
+    attrs_with_list_id = Map.merge(attrs, %{list_id: to_integer(list_id)})
+    DomainEvent.new(name, attrs_with_list_id)
+  end
+
+  defp broadcast(domain_event, list_id) do
+    TargetedTopic.broadcast(list_id, domain_event)
   end
 
   defp to_integer(list_id) do
