@@ -37,14 +37,6 @@ defmodule LiveviewTodos.ListAggregate do
     {:noreply, state}
   end
 
-  def handle_info(%DomainEvent{name: :delete_list_requested}, state) do
-    list = list(state)
-    List.delete(list)
-    TargetedTopic.unsubscribe(list.id)
-
-    {:stop, :normal, state}
-  end
-
   def handle_info(%DomainEvent{name: :toggle_item_requested, attrs: attrs}, state) do
     state
     |> list()
@@ -61,10 +53,13 @@ defmodule LiveviewTodos.ListAggregate do
     {:noreply, state}
   end
 
-  # def handle_info(domain_event, %State{} = state) do
-  #   IO.inspect(domain_event, label: "UNKNWN ============================")
-  #   {:noreply, state}
-  # end
+  def handle_info(%DomainEvent{name: :delete_list_requested}, state) do
+    list = list(state)
+    List.delete(list)
+    TargetedTopic.unsubscribe(list.id)
+
+    {:stop, :normal, state}
+  end
 
   # ----------  Implementation ------
 
@@ -72,7 +67,7 @@ defmodule LiveviewTodos.ListAggregate do
     {:via, Registry, {LiveviewTodos.ListAggregateRegistry, "#{list_id}"}}
   end
 
-  def list(%State{list_id: list_id, deps: deps}) do
+  defp list(%State{list_id: list_id, deps: deps}) do
     deps.repo.get_list(list_id)
   end
 end
