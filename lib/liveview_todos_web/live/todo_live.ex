@@ -63,7 +63,7 @@ defmodule LiveviewTodosWeb.TodoLive do
         %{"list-id" => list_id, "item-title" => item_title},
         %Socket{} = socket
       ) do
-    :toggle_item
+    :toggle_item_requested
     |> domain_event_for_list(list_id, %{item_title: item_title})
     |> broadcast(list_id)
 
