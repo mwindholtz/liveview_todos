@@ -34,6 +34,12 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
   end
 
   describe "TodoLive.handle_event" do
+    setup do
+      list_id = 1
+      LiveviewTodos.TargetedTopic.subscribe(list_id)
+      %{list_id: list_id}
+    end
+
     test "create-list" do
       name = "Home stuff"
       attrs = %{"name" => name}
@@ -44,21 +50,18 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
       assert_receive {:create_list, name}
     end
 
-    test "delete-list" do
-      attrs = %{"list-id" => "99"}
+    test "delete-list", %{list_id: list_id} do
+      attrs = %{"list-id" => "#{list_id}"}
       {:noreply, _mod_socket} = TodoLive.handle_event("delete-list", attrs, socket_with_stub())
 
-      assert_receive {:delete_list,
-                      %LiveviewTodos.DomainEvent{
-                        attrs: %{list_id: 99},
-                        name: :delete_list
-                      }}
+      assert_receive %LiveviewTodos.DomainEvent{
+        attrs: %{list_id: ^list_id},
+        name: :delete_list
+      }
     end
 
-    test "add-item" do
-      list_id = 1
+    test "add-item", %{list_id: list_id} do
       item = %{"description" => "Buy milk and eggs", "list_id" => "#{list_id}"}
-      LiveviewTodos.TargetedTopic.subscribe(list_id)
 
       {:noreply, _mod_socket} =
         TodoLive.handle_event("add-item", %{"item" => item}, socket_with_stub())
@@ -69,10 +72,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
       }
     end
 
-    test "toggle_done" do
-      list_id = 99
-      LiveviewTodos.TargetedTopic.subscribe(list_id)
-
+    test "toggle_done", %{list_id: list_id} do
       {:noreply, _mod_socket} =
         TodoLive.handle_event(
           "toggle_done",

@@ -51,8 +51,6 @@ defmodule LiveviewTodosWeb.TodoLive do
       :delete_list
       |> domain_event_for_list(list_id)
 
-    # WIP shift to Target
-    service(socket).accept(domain_event)
     TargetedTopic.broadcast(list_id, domain_event)
     {:noreply, socket}
   end
@@ -64,6 +62,7 @@ defmodule LiveviewTodosWeb.TodoLive do
       :create_item
       |> domain_event_for_list(list_id, %{description: description})
 
+    # WIP use more of this
     TargetedTopic.broadcast(list_id, domain_event)
 
     {:noreply, socket}
