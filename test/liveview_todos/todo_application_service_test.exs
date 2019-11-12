@@ -24,19 +24,6 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
       attrs = %{description: "description", list_id: list.id}
       %{attrs: attrs}
     end
-
-    # WIP TODO deprecated 
-    test "create_item/1", %{attrs: attrs} do
-      # When
-      DomainEvent.new(:create_item_requested, attrs)
-      |> Service.accept()
-
-      assert_receive {LiveviewTodos.TodoTopic, [:todo, :created], new_list}
-
-      wait_for_db_to_finish()
-    end
-
-    # WIP TODO needs toggle
   end
 
   describe "list" do
@@ -55,14 +42,6 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
       Service.create_list(name_of_list)
 
       assert_receive {LiveviewTodos.TodoTopic, [:lists, :created], new_list}
-      wait_for_db_to_finish()
-    end
-
-    test "delete_list_request/1", %{list: list} do
-      event = DomainEvent.new(:delete_list_requested, %{list_id: list.id})
-      Service.accept(event)
-      assert_receive {LiveviewTodos.TodoTopic, [:lists, :deleted], old_list}
-      assert old_list.name == list.name
       wait_for_db_to_finish()
     end
   end
