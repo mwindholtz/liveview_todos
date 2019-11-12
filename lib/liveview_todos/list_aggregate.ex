@@ -37,32 +37,12 @@ defmodule LiveviewTodos.ListAggregate do
     {:noreply, state}
   end
 
-  # WIP TODO deprecated 
-
-  def handle_cast({:domain_event, %DomainEvent{name: :delete_list_requested}}, state) do
+  def handle_info(%DomainEvent{name: :delete_list_requested}, state) do
     list = list(state)
     List.delete(list)
     TargetedTopic.unsubscribe(list.id)
 
     {:stop, :normal, state}
-  end
-
-  # WIP TODO deprecated 
-  def handle_cast(
-        {:domain_event, %DomainEvent{name: :create_item_requested, attrs: attrs}},
-        %State{} = state
-      ) do
-    {:ok, _todo} =
-      state
-      |> list()
-      |> List.create_item(%{"description" => attrs.description})
-
-    {:noreply, state}
-  end
-
-  def handle_cast(request, state) do
-    Logger.error("UNEXPECTED REQUEST: #{inspect(request)}")
-    {:noreply, state}
   end
 
   def handle_info(%DomainEvent{name: :toggle_item_requested, attrs: attrs}, state) do
