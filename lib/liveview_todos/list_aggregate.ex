@@ -45,7 +45,7 @@ defmodule LiveviewTodos.ListAggregate do
 
   def handle_cast(
         {:domain_event, %DomainEvent{name: :toggle_item_requested, attrs: attrs}},
-        %State{} = state
+        state
       ) do
     state
     |> list()
@@ -54,10 +54,7 @@ defmodule LiveviewTodos.ListAggregate do
     {:noreply, state}
   end
 
-  def handle_cast(
-        {:domain_event, %DomainEvent{name: :delete_list_requested}},
-        %State{} = state
-      ) do
+  def handle_cast({:domain_event, %DomainEvent{name: :delete_list_requested}}, state) do
     list = list(state)
     List.delete(list)
     TargetedTopic.unsubscribe(list.id)
