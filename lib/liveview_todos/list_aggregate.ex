@@ -21,12 +21,6 @@ defmodule LiveviewTodos.ListAggregate do
     GenServer.start_link(__MODULE__, list_id, name: via_tuple(list_id))
   end
 
-  def accept(%DomainEvent{attrs: attrs} = event) do
-    attrs.list_id
-    |> via_tuple
-    |> GenServer.cast({:domain_event, event})
-  end
-
   # ---------  Server  -------------
 
   def init(list_id) when is_integer(list_id) do
