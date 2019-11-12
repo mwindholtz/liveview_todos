@@ -83,6 +83,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   defp broadcast(domain_event, list_id) do
+    # swap arg ordering to make pipe fit
     TargetedTopic.broadcast(list_id, domain_event)
   end
 
