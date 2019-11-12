@@ -55,7 +55,7 @@ defmodule LiveviewTodos.ListAggregate do
   end
 
   def handle_cast(
-        {:domain_event, %DomainEvent{name: :delete_list_request}},
+        {:domain_event, %DomainEvent{name: :delete_list_requested}},
         %State{} = state
       ) do
     list = list(state)
