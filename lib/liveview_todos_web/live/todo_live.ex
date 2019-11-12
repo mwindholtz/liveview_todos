@@ -20,7 +20,6 @@ defmodule LiveviewTodosWeb.TodoLive do
 
     socket =
       socket
-      |> assign(lists: [])
       |> assign(list_map: %{})
       |> assign(:todo_application_service, Service)
 
