@@ -71,7 +71,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   def handle_event(event, args, %Socket{} = socket) do
-    Logger.error("UNHANDED LIVE EVENT: #{event} ===== ARGS: #{args}")
+    Logger.error("UNHANDED LIVE EVENT: #{inspect(event)} ===== ARGS: #{inspect(args)}")
     {:noreply, socket}
   end
 
