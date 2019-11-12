@@ -68,7 +68,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
 
       assert_receive %LiveviewTodos.DomainEvent{
         attrs: %{description: "Buy milk and eggs", list_id: 1},
-        name: :create_item
+        name: :create_item_requested
       }
     end
 

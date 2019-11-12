@@ -27,7 +27,7 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
 
     test "create_item/1", %{attrs: attrs} do
       # When
-      DomainEvent.new(:create_item, attrs)
+      DomainEvent.new(:create_item_requested, attrs)
       |> Service.accept()
 
       assert_receive {LiveviewTodos.TodoTopic, [:todo, :created], new_list}

@@ -66,7 +66,8 @@ defmodule LiveviewTodos.ListAggregate do
   end
 
   def handle_cast(
-        {:domain_event, %DomainEvent{name: :create_item, attrs: %{description: description}}},
+        {:domain_event,
+         %DomainEvent{name: :create_item_requested, attrs: %{description: description}}},
         %State{} = state
       ) do
     {:ok, _todo} =
@@ -91,7 +92,7 @@ defmodule LiveviewTodos.ListAggregate do
   end
 
   def handle_info(
-        %{name: :create_item, attrs: %{description: description}},
+        %{name: :create_item_requested, attrs: %{description: description}},
         %State{} = state
       ) do
     state

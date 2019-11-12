@@ -51,7 +51,7 @@ defmodule LiveviewTodosWeb.TodoLive do
   def handle_event("add-item", %{"item" => item}, %Socket{} = socket) do
     %{"description" => description, "list_id" => list_id} = item
 
-    :create_item
+    :create_item_requested
     |> domain_event_for_list(list_id, %{description: description})
     |> broadcast(list_id)
 
