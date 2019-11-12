@@ -11,11 +11,8 @@ defmodule LiveviewTodos.TodoApplicationService do
   """
 
   alias LiveviewTodos.List
-  alias LiveviewTodos.ListAggregate
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
-
-  defdelegate accept(event), to: ListAggregate
 
   def create_list(name, deps \\ @deps) do
     result =
