@@ -12,6 +12,8 @@ defmodule LiveviewTodos.List do
   import Ecto.Changeset
   alias LiveviewTodos.List
   alias LiveviewTodos.Todo
+  alias LiveviewTodos.DomainEvent
+  alias LiveviewTodos.TargetedTopic
 
   @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
 
@@ -71,6 +73,8 @@ defmodule LiveviewTodos.List do
     item
     |> Todo.changeset(%{done: !item.done})
     |> deps.repo.update()
-    |> deps.topic.broadcast_change([:todo, :created])
+
+    domain_event = %DomainEvent{name: :list_item_toggled, attrs: %{list_id: list.id}}
+    TargetedTopic.broadcast(list.id, domain_event)
   end
 end

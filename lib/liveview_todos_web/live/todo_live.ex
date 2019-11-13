@@ -91,6 +91,9 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   #  -------- PubSub From the Domain Layer ---------------
+  def handle_info(%DomainEvent{name: :list_item_toggled, attrs: %{list_id: _list_id}}, socket) do
+    {:noreply, command(socket).refresh_lists(socket)}
+  end
 
   def handle_info(:load_all, %Socket{} = socket) do
     # WIP TODO listen for Target
@@ -120,6 +123,11 @@ defmodule LiveviewTodosWeb.TodoLive do
   def handle_info(tuple, socket) do
     Logger.error("UNHANDED PUBSUB TUPLE: #{inspect(tuple)}")
     {:noreply, command(socket).refresh_lists(socket)}
+  end
+
+  # catchall --------------
+  def handle_info(_, state) do
+    {:noreply, state}
   end
 
   # injection helper, retrieve the previously injected module 

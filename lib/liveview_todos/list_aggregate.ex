@@ -61,6 +61,11 @@ defmodule LiveviewTodos.ListAggregate do
     {:stop, :normal, state}
   end
 
+  # catchall --------------
+  def handle_info(%DomainEvent{}, state) do
+    {:noreply, state}
+  end
+
   # ----------  Implementation ------
 
   def via_tuple(list_id) do
