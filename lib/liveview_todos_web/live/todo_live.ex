@@ -95,6 +95,21 @@ defmodule LiveviewTodosWeb.TodoLive do
     {:noreply, command(socket).refresh_lists(socket)}
   end
 
+  def handle_info(%DomainEvent{name: :list_created, attrs: %{list_id: _list_id}}, socket) do
+    {:noreply, command(socket).refresh_lists(socket)}
+  end
+
+  def handle_info(
+        %DomainEvent{name: :todo_created, attrs: %{list_id: _list_id, title: _}},
+        socket
+      ) do
+    {:noreply, command(socket).refresh_lists(socket)}
+  end
+
+  def handle_info(%DomainEvent{name: :list_deleted, attrs: %{list_id: _list_id}}, socket) do
+    {:noreply, command(socket).refresh_lists(socket)}
+  end
+
   def handle_info(:load_all, %Socket{} = socket) do
     # WIP TODO listen for Target
     {:noreply, command(socket).refresh_lists(socket)}
