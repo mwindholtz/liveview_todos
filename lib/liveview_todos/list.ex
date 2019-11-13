@@ -30,6 +30,8 @@ defmodule LiveviewTodos.List do
       |> deps.repo.insert()
       |> deps.topic.broadcast_change([:lists, :created])
 
+    {:ok, list} = result
+    broadcast(:list_created, %{list_id: list.id})
     result
   end
 
@@ -38,6 +40,8 @@ defmodule LiveviewTodos.List do
     |> Todo.changeset(%{title: description, list_id: list.id})
     |> deps.repo.insert()
     |> deps.topic.broadcast_change([:todo, :created])
+
+    broadcast(:todo_created, %{list_id: list.id, title: description})
   end
 
   @doc false
@@ -51,18 +55,12 @@ defmodule LiveviewTodos.List do
     case deps.repo.delete(list) do
       {:ok, _struct} ->
         deps.topic.broadcast_change({:ok, list}, [:lists, :deleted])
+        broadcast(:list_deleted, %{list_id: list.id})
         :ok
 
       {:error, _changeset} ->
         :error
     end
-  end
-
-  def insert(attrs, deps \\ @deps) do
-    %List{}
-    |> List.changeset(attrs)
-    |> deps.repo.insert()
-    |> deps.topic.broadcast_change([:todo, :created])
   end
 
   def toggle_item(list, item_title, deps \\ @deps) do
@@ -74,7 +72,11 @@ defmodule LiveviewTodos.List do
     |> Todo.changeset(%{done: !item.done})
     |> deps.repo.update()
 
-    domain_event = %DomainEvent{name: :list_item_toggled, attrs: %{list_id: list.id}}
-    TargetedTopic.broadcast(list.id, domain_event)
+    broadcast(:list_item_toggled, %{list_id: list.id})
+  end
+
+  defp broadcast(event_name, %{list_id: list_id} = attrs) do
+    domain_event = %DomainEvent{name: event_name, attrs: attrs}
+    TargetedTopic.broadcast(list_id, domain_event)
   end
 end
