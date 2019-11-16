@@ -15,7 +15,7 @@ defmodule LiveviewTodos.List do
   alias LiveviewTodos.DomainEvent
   alias LiveviewTodos.TargetedTopic
 
-  @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
+  @deps %{repo: LiveviewTodos.Repo}
 
   schema "lists" do
     field :name, :string
@@ -28,7 +28,6 @@ defmodule LiveviewTodos.List do
       %List{}
       |> List.changeset(%{name: name})
       |> deps.repo.insert()
-      |> deps.topic.broadcast_change([:lists, :created])
 
     {:ok, list} = result
     broadcast(:list_created, %{list_id: list.id})
@@ -53,7 +52,6 @@ defmodule LiveviewTodos.List do
   def delete(list, deps \\ @deps) do
     case deps.repo.delete(list) do
       {:ok, _struct} ->
-        deps.topic.broadcast_change({:ok, list}, [:lists, :deleted])
         broadcast(:list_deleted, %{list_id: list.id})
         :ok
 
@@ -75,7 +73,10 @@ defmodule LiveviewTodos.List do
   end
 
   defp broadcast(event_name, %{list_id: list_id} = attrs) do
-    domain_event = %DomainEvent{name: event_name, attrs: attrs}
+    domain_event =
+      %DomainEvent{name: event_name, attrs: attrs}
+      |> IO.inspect(label: "broadcast to #{inspect(list_id)}")
+
     TargetedTopic.broadcast(list_id, domain_event)
   end
 end

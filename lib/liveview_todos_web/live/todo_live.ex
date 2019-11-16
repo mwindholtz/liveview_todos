@@ -16,8 +16,6 @@ defmodule LiveviewTodosWeb.TodoLive do
   # --------- LiveView -----------
 
   def mount(_session, %Socket{} = socket) do
-    TodoTopic.subscribe()
-
     socket =
       socket
       |> assign(list_map: %{})
@@ -35,6 +33,8 @@ defmodule LiveviewTodosWeb.TodoLive do
   def handle_event("create-list", %{"list" => %{"name" => name}}, socket) do
     name
     |> service(socket).create_list()
+
+    # WIP: TargetedTopic.subscribe(list_id)
 
     {:noreply, socket}
   end
@@ -107,12 +107,18 @@ defmodule LiveviewTodosWeb.TodoLive do
     {:noreply, command(socket).refresh_lists(socket)}
   end
 
-  def handle_info(%DomainEvent{name: :list_deleted, attrs: %{list_id: _list_id}}, socket) do
+  def handle_info(%DomainEvent{name: :list_deleted, attrs: %{list_id: list_id}}, socket) do
+    TargetedTopic.unsubscribe(list_id)
     {:noreply, command(socket).refresh_lists(socket)}
   end
 
   def handle_info(:load_all, %Socket{} = socket) do
     # WIP TODO listen for Target
+    # subscribe to lists
+
+    service(socket).list_ids()
+    |> Enum.each(&TargetedTopic.subscribe/1)
+
     {:noreply, command(socket).refresh_lists(socket)}
   end
 

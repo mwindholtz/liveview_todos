@@ -38,9 +38,12 @@ defmodule LiveviewTodos.TodoApplicationServiceTest do
     test "create_list/1" do
       name_of_list = "School"
       # When
-      Service.create_list(name_of_list)
+      result = Service.create_list(name_of_list)
 
-      assert_receive {LiveviewTodos.TodoTopic, [:lists, :created], new_list}
+      # Then 
+      assert {:ok, result_list} = result
+      assert_receive {LiveviewTodos.TodoTopic, [:lists, :created], list_from_event}
+      assert result_list == list_from_event
       wait_for_db_to_finish()
     end
   end
