@@ -39,7 +39,6 @@ defmodule LiveviewTodos.List do
     %Todo{}
     |> Todo.changeset(%{title: description, list_id: list.id})
     |> deps.repo.insert()
-    |> deps.topic.broadcast_change([:todo, :created])
 
     broadcast(:todo_created, %{list_id: list.id, title: description})
   end
