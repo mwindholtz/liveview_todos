@@ -6,8 +6,6 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
   alias Phoenix.LiveView.Socket
   import ExUnit.CaptureLog
 
-  @topic LiveviewTodosWeb.TodoLive.topic()
-
   defmodule TodoApplicationServiceStub do
     def create_list(name) do
       send(self(), {:create_list, name})
@@ -99,34 +97,24 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
       assert log =~ expected_log_message
     end
 
-    test "call refresh_lists for lists :ok events" do
+    test "list_create so refresh_lists" do
       # When 
       {:noreply, _mod_socket} =
-        TodoLive.handle_info({@topic, [:lists, nil], :ok}, socket_with_stub())
+        TodoLive.handle_info(
+          %DomainEvent{name: :list_created, attrs: %{list_id: 99}},
+          socket_with_stub()
+        )
 
       assert_receive {:refresh_lists, _socket}
     end
 
-    test "call refresh_lists for lists :error events" do
+    test "list_deleted so refresh_lists" do
       # When 
       {:noreply, _mod_socket} =
-        TodoLive.handle_info({@topic, [:lists, nil], :error}, socket_with_stub())
-
-      assert_receive {:refresh_lists, _socket}
-    end
-
-    test "call refresh_lists for todo :error events" do
-      # When 
-      {:noreply, _mod_socket} =
-        TodoLive.handle_info({@topic, [:todo, nil], :error}, socket_with_stub())
-
-      assert_receive {:refresh_lists, _socket}
-    end
-
-    test "call refresh_lists for todo :ok events" do
-      # When 
-      {:noreply, _mod_socket} =
-        TodoLive.handle_info({@topic, [:todo, nil], :ok}, socket_with_stub())
+        TodoLive.handle_info(
+          %DomainEvent{name: :list_deleted, attrs: %{list_id: 99}},
+          socket_with_stub()
+        )
 
       assert_receive {:refresh_lists, _socket}
     end
