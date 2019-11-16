@@ -91,9 +91,6 @@ defmodule LiveviewTodosWeb.TodoLive do
   end
 
   #  -------- PubSub From the Domain Layer ---------------
-  def handle_info(%DomainEvent{name: :list_item_toggled, attrs: %{list_id: _list_id}}, socket) do
-    {:noreply, command(socket).refresh_lists(socket)}
-  end
 
   def handle_info(%DomainEvent{name: :list_created, attrs: %{list_id: _list_id}}, socket) do
     {:noreply, command(socket).refresh_lists(socket)}
@@ -103,6 +100,10 @@ defmodule LiveviewTodosWeb.TodoLive do
         %DomainEvent{name: :todo_created, attrs: %{list_id: _list_id, title: _}},
         socket
       ) do
+    {:noreply, command(socket).refresh_lists(socket)}
+  end
+
+  def handle_info(%DomainEvent{name: :list_item_toggled, attrs: %{list_id: _list_id}}, socket) do
     {:noreply, command(socket).refresh_lists(socket)}
   end
 

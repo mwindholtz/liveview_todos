@@ -108,6 +108,28 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
       assert_receive {:refresh_lists, _socket}
     end
 
+    test "todo_created so refresh_lists" do
+      # When 
+      {:noreply, _mod_socket} =
+        TodoLive.handle_info(
+          %DomainEvent{name: :todo_created, attrs: %{list_id: 99, title: "Task Name"}},
+          socket_with_stub()
+        )
+
+      assert_receive {:refresh_lists, _socket}
+    end
+
+    test "list_item_toggled so refresh_lists" do
+      # When 
+      {:noreply, _mod_socket} =
+        TodoLive.handle_info(
+          %DomainEvent{name: :list_item_toggled, attrs: %{list_id: 99}},
+          socket_with_stub()
+        )
+
+      assert_receive {:refresh_lists, _socket}
+    end
+
     test "list_deleted so refresh_lists" do
       # When 
       {:noreply, _mod_socket} =
