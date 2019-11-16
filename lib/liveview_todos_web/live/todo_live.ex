@@ -115,6 +115,11 @@ defmodule LiveviewTodosWeb.TodoLive do
     {:noreply, command(socket).refresh_lists(socket)}
   end
 
+  def handle_info({@topic, [:todo | _], _}, socket) do
+    # WIP TODO listen for Target
+    {:noreply, command(socket).refresh_lists(socket)}
+  end
+
   def handle_info({@topic, [:lists | _], :error, _}, socket) do
     # WIP TODO listen for Target
     {:noreply, command(socket).refresh_lists(socket)}
