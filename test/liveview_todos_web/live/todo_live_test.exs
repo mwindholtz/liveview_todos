@@ -7,9 +7,9 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
   import ExUnit.CaptureLog
 
   defmodule TodoApplicationServiceStub do
-    def create_list(name) do
+    def create_list(name, observer_pid) when is_pid(observer_pid) do
       send(self(), {:create_list, name})
-      :ok
+      {:ok, %LiveviewTodos.List{}}
     end
 
     def accept(%DomainEvent{} = event) do
@@ -34,7 +34,7 @@ defmodule LiveviewTodosWeb.TodoLiveTest do
   describe "TodoLive.handle_event" do
     setup do
       list_id = 1
-      LiveviewTodos.TargetedTopic.subscribe(list_id)
+      :ok = LiveviewTodos.TargetedTopic.subscribe(list_id)
       %{list_id: list_id}
     end
 

@@ -73,9 +73,8 @@ defmodule LiveviewTodos.List do
   end
 
   defp broadcast(event_name, %{list_id: list_id} = attrs) do
-    domain_event =
-      %DomainEvent{name: event_name, attrs: attrs}
-      |> IO.inspect(label: "broadcast to #{inspect(list_id)}")
+    domain_event = %DomainEvent{name: event_name, attrs: attrs}
+    # |> IO.inspect(label: "broadcast to #{inspect(list_id)}")
 
     TargetedTopic.broadcast(list_id, domain_event)
   end

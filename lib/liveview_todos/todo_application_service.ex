@@ -11,18 +11,18 @@ defmodule LiveviewTodos.TodoApplicationService do
   """
 
   alias LiveviewTodos.List
+  alias LiveviewTodos.TargetedTopic
 
-  @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
+  @deps %{repo: LiveviewTodos.Repo}
 
-  def create_list(name, deps \\ @deps) do
-    result =
-      %List{}
-      |> List.changeset(%{name: name})
-      |> deps.repo.insert()
+  def create_list(name, observer_pid, deps \\ @deps) when is_pid(observer_pid) do
+    {:ok, list} =
+      List.create_list(name)
       |> start_supervised_list_aggregate()
-      |> deps.topic.broadcast_change([:lists, :created])
 
-    result
+    TargetedTopic.subscribe_for(list.id, observer_pid)
+
+    {:ok, list}
   end
 
   def list_ids(deps \\ @deps) do

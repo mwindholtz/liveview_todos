@@ -1,7 +1,7 @@
 defmodule LiveviewTodos.ListAggregate do
   @moduledoc """
   """
-  @deps %{repo: LiveviewTodos.Repo, topic: LiveviewTodos.TodoTopic}
+  @deps %{repo: LiveviewTodos.Repo}
 
   use GenServer, restart: :transient
   alias LiveviewTodos.List

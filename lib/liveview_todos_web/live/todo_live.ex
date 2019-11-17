@@ -2,16 +2,12 @@ defmodule LiveviewTodosWeb.TodoLive do
   use Phoenix.LiveView
   alias LiveviewTodos.DomainEvent
   alias LiveviewTodos.TodoApplicationService, as: Service
-  alias LiveviewTodos.TodoTopic
   alias LiveviewTodos.TargetedTopic
   alias LiveviewTodosWeb.TodoView
   alias LiveviewTodosWeb.TodoLive.Command
   alias Phoenix.LiveView.Socket
 
   require Logger
-  @topic LiveviewTodos.TodoTopic
-
-  def topic, do: @topic
 
   # --------- LiveView -----------
 
@@ -31,11 +27,7 @@ defmodule LiveviewTodosWeb.TodoLive do
 
   # --------- LiveView Events From the User Interface-----------
   def handle_event("create-list", %{"list" => %{"name" => name}}, socket) do
-    name
-    |> service(socket).create_list()
-
-    # WIP: TargetedTopic.subscribe(list_id)
-
+    {:ok, _list} = service(socket).create_list(name, self())
     {:noreply, socket}
   end
 
@@ -83,6 +75,8 @@ defmodule LiveviewTodosWeb.TodoLive do
 
   defp broadcast(domain_event, list_id) do
     # swap arg ordering to make pipe fit
+    # IO.inspect(domain_event, label: "broadcast from todo_live(#{list_id})")
+
     TargetedTopic.broadcast(list_id, domain_event)
   end
 
