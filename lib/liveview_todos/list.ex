@@ -23,13 +23,15 @@ defmodule LiveviewTodos.List do
     timestamps()
   end
 
-  def create_list(name, deps \\ @deps) do
+  def create_list(name, observer_pid, deps \\ @deps) do
     result =
       %List{}
       |> List.changeset(%{name: name})
       |> deps.repo.insert()
 
     {:ok, list} = result
+    TargetedTopic.subscribe_for(list.id, observer_pid)
+
     broadcast(:list_created, %{list_id: list.id})
     result
   end

@@ -15,12 +15,10 @@ defmodule LiveviewTodos.TodoApplicationService do
 
   @deps %{repo: LiveviewTodos.Repo}
 
-  def create_list(name, observer_pid, deps \\ @deps) when is_pid(observer_pid) do
+  def create_list(name, observer_pid) when is_pid(observer_pid) do
     {:ok, list} =
-      List.create_list(name)
+      List.create_list(name, observer_pid)
       |> start_supervised_list_aggregate()
-
-    TargetedTopic.subscribe_for(list.id, observer_pid)
 
     {:ok, list}
   end
