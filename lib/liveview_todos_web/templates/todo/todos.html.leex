@@ -1,31 +1,47 @@
-<h3>Lists</h3>
+<h3>Lists </h3>
 <form action="#" phx-submit="create-list">
   <%= text_input :list, :name, placeholder: "name of list" %>   
   <%= submit "Create New List", phx_disable_with: "Creating ..." %>
 </form>
 
+<table>
+  <tr>
+    <%= for {list_id, list} <- @list_map do %>
+      <th><%= list.name %>     
+        <span phx-click="delete-list" phx-value-list-id="<%= list.id %>"><img src="/images/cancel.png">
+        </span>
+      </th>
+    <% end %>
+  </tr>
+  <tr>
+    <%= for {list_id, list} <- @list_map do %>
+      <td>
+        <form action="#" phx-submit="add-item">
+          <%= text_input :item, :description, placeholder: "item description" %>   
+          <%= hidden_input :item, :list_id, [value: list_id] %>   
+          <%= submit "Add", phx_disable_with: "Adding ..." %>
+        </form>
+      </td>
+    <% end %>
+  </tr>
 
-<h3>Lists</h3>
-<%= for {list_id, list} <- @list_map do %>
-  <div>
-    <span phx-click="delete-list" phx-value-list-id="<%= list.id %>"><img src="/images/cancel.png">
-    </span>
-    <%= list.name %> 
-    <form action="#" phx-submit="add-item">
-      <%= text_input :item, :description, placeholder: "item description" %>   
-      <%= hidden_input :item, :list_id, [value: list_id] %>   
-      <%= submit "Add to #{list.name}", phx_disable_with: "Adding ..." %>
-    </form>
-  </div>
-  <%= for item <- list.items  do %>
-    <div>
-      <%= checkbox(:todo, :done, phx_click: "toggle_done", 
-      phx_value_item_title: item.title, 
-      phx_value_list_id: list_id, 
-      value: item.done) %>
-      <%= item.title %>
-    </div>
-  <% end %>
+  <tr>
+    <%= for {list_id, list} <- @list_map do %>
+      <td>
+        <ul style="list-style-type:none">
+          <%= for item <- list.items  do %>
+            <li>
+              <%= checkbox(:todo, :done, phx_click: "toggle_done", 
+                phx_value_item_title: item.title, 
+                phx_value_list_id: list_id, 
+                value: item.done) %>
+              <%= item.title %>
+            </li>
+          <% end %>
+        </ul>
+      </td>
+    <% end %>
+  </tr>
+</table>
 
-<% end %>
 
